@@ -1,6 +1,6 @@
 # Evaluating Retrieval Robustness in RAG Systems Under Increasing Distractor Noise
 
-Research study by **Shaik Jouzia Afreen H**.
+Research study by **Shaik Jouzia Afreen H**. 
 
 This repository contains the reproducible research artifacts for evaluating how increasing distractor-document noise affects retrieval stability, answer quality, and latency in Retrieval-Augmented Generation (RAG) systems.
 
