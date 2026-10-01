@@ -1,0 +1,5 @@
+noise_level,mean_token_f1,mean_semantic_similarity,observations,interpretation
+0,0.2716,0.5538,20,exploratory_descriptive_only
+1,0.1878,0.4518,20,exploratory_descriptive_only
+2,0.2339,0.4866,20,exploratory_descriptive_only
+4,0.1843,0.4662,20,exploratory_descriptive_only
