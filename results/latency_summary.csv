@@ -1,0 +1,4 @@
+method,noise_0_seconds,noise_1_seconds,noise_2_seconds,noise_4_seconds,relative_change_noise4_percent
+BM25,0.4628,0.4381,0.4945,0.4871,5.25
+Dense,0.405087,0.4743,0.5096,0.595432,46.99
+Hybrid,0.4248,0.4769,0.5090,0.5219,22.86
