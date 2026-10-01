@@ -1,94 +1,62 @@
 # Evaluating Retrieval Robustness in RAG Systems Under Increasing Distractor Noise
 
-Research study by **Shaik Jouzia Afreen H**. 
+**Author:** Shaik Jouzia Afreen H  
+**Area:** Retrieval-Augmented Generation (RAG), information retrieval, NLP
 
-This repository contains the reproducible research artifacts for evaluating how increasing distractor-document noise affects retrieval stability, answer quality, and latency in Retrieval-Augmented Generation (RAG) systems.
+This repository studies how injected distractor documents affect retrieval stability, answer-quality metrics, and latency for BM25, dense, and hybrid retrieval.
 
-## Research Question
+> **Scope note:** Findings apply only to the tested corpus, implementation, distractor construction, top-k setting, and noise levels. They do not establish universal robustness. See the limitations in the manuscript.
+
+## Research question
 
 **RQ1:** How does increasing distractor-document noise affect retrieval stability, generated-answer quality, and latency in BM25, dense, and hybrid retrieval systems within a RAG pipeline?
 
-## Hypotheses
-
-- **H1:** Increasing distractor noise will reduce retrieval stability.
-- **H2:** Increasing distractor noise will negatively affect generated-answer quality.
-- **H3:** Increasing distractor noise will increase computational latency.
-
-## Experimental Design
+## Primary experiment
 
 | Parameter | Configuration |
 |---|---|
-| Evaluation questions | 20 |
-| Retrieval methods | BM25, Dense, Hybrid |
-| Noise levels | 0, 1, 2, 4 injected distractors |
+| Questions | 20 |
+| Retrieval methods | BM25, dense, hybrid |
+| Distractor levels | 0, 1, 2, 4 |
 | Top-k | 5 |
 | Total observations | 240 |
-| Distractor sampling seed | 42 |
-| Baseline | 0 injected distractors |
-| Statistical test | Paired Wilcoxon signed-rank |
-| Multiple-comparison correction | Holm correction |
+| Sampling seed | 42 |
+| Tests | Paired Wilcoxon signed-rank |
+| Multiple comparisons | Holm correction |
 | Effect size | Rank-biserial correlation |
 
-The study evaluates 20 questions across 3 retrieval methods and 4 noise conditions, producing 240 method-condition observations.
+## Main findings from supplied result artifacts
 
-## Retrieval Stability
+- The supplied primary summary reports zero injected-distractor contamination and baseline top-five preservation of 1.0 in all tested method/noise conditions.
+- No answer-quality comparison remained significant after Holm correction.
+- Dense retrieval at four distractors was the only comparison reported to remain significant after correction: baseline mean 0.405087 s, noisy mean 0.595432 s, change +46.99%, Holm-adjusted p = 0.045628, rank-biserial correlation = 0.761905 (n = 20).
+- A separate hard-semantic-distractor dataset is treated as exploratory and is not pooled with the primary experiment.
 
-Retrieval stability is evaluated using:
+## Repository map
 
-1. **Distractor contamination** — proportion of final top-5 retrieved documents that are injected distractors.
-2. **Baseline top-5 preservation** — proportion of the baseline top-5 document set retained under each noisy condition.
+- [Manuscript](paper/manuscript.md)
+- [Primary latency summary](results/latency_summary.csv)
+- [Primary retrieval stability summary](results/retrieval_stability_summary.csv)
+- [Primary statistical result](results/significant_result.csv)
+- [Exploratory hard-distractor summary](results/hard_noise_summary.csv)
+- [Kaggle notebook](https://www.kaggle.com/code/shaikjouziaafreenh/rag-retrieval-robustness-study)
+- [Citation metadata](CITATION.cff)
+- [License](LICENSE)
 
-These measures avoid treating an earlier implementation artifact as conventional context recall.
+## Reproducibility and artifact status
 
-## Evaluation
+The notebook is the executable source; CSV summaries are derived artifacts. Before journal/conference submission, rerun the notebook from a clean environment and reconcile the generated outputs with the committed result files. Exact model identifiers, corpus provenance, package versions, hardware, and timing boundaries should be documented from the notebook/runtime.
 
-Answer quality is evaluated using:
+The current repository includes a manuscript draft and transparent summary tables. Do not treat a GitHub commit or release as evidence of peer review or publication. No DOI is claimed unless a Zenodo deposit is completed.
 
-- Token-level F1
-- Semantic similarity
+## Citation
 
-Latency is recorded for the retrieval/generation evaluation pipeline used in the experiment.
+See [CITATION.cff](CITATION.cff). Until a DOI is assigned, cite the repository URL and access date.
 
-For statistical testing, each noisy condition is compared with its matched zero-noise baseline for the same question and retrieval method. Multiple comparisons are controlled using Holm correction.
+## References
 
-## Repository Structure
-
-```text
-rag-retrieval-robustness/
-├── README.md
-├── paper/
-│   └── Evaluating_Retrieval_Robustness.pdf
-├── figures/
-│   ├── fig1_contamination.png
-│   ├── fig2_preservation.png
-│   ├── fig3_answer_quality.png
-│   └── fig4_latency.png
-├── results/
-│   ├── experiment_summary.csv
-│   ├── retrieval_summary.csv
-│   └── statistical_analysis.csv
-└── notebook/
-    └── rag-retrieval-robustness-study.ipynb
-```
-
-The binary research artifacts will be added from the verified experimental run. No result values are fabricated or substituted with placeholders.
-
-## Reproducibility
-
-The executable experiment is maintained in Kaggle:
-
-**Kaggle Notebook:** https://www.kaggle.com/code/shaikjouziaafreenh/rag-retrieval-robustness-study
-
-The final repository will contain the paper, generated figures, result tables, and the corresponding notebook so that the research claim can be inspected from both the written report and executable experiment.
-
-## Scientific Scope
-
-The term "robustness" in this study is scoped to the evaluated corpus, retrieval configuration, distractor-generation procedure, and tested noise levels. The experiment is not intended to establish universal robustness of RAG systems.
-
-In particular, distractors are constructed outside the baseline retrieved top-k set. Therefore, if distractors do not enter the final top-k, changes in answer quality cannot be interpreted as evidence that retrieved-context contamination caused those changes.
-
-Future extensions should evaluate larger question sets, higher noise levels, semantically harder or adversarial distractors, and conditions in which distractors directly compete with relevant documents for top-k positions.
-
-## Status
-
-**Research repository — experimental artifacts being finalized.**
+1. Lewis et al. (2020), *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks*, NeurIPS.
+2. Robertson & Zaragoza (2009), *The Probabilistic Relevance Framework: BM25 and Beyond*, FnTIR.
+3. Karpukhin et al. (2020), *Dense Passage Retrieval for Open-Domain Question Answering*, EMNLP.
+4. Wilcoxon (1945), *Individual Comparisons by Ranking Methods*, Biometrics Bulletin.
+5. Holm (1979), *A Simple Sequentially Rejective Multiple Test Procedure*, Scandinavian Journal of Statistics.
