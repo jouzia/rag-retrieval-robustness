@@ -34,14 +34,22 @@ This repository studies how injected distractor documents affect retrieval stabi
 
 ## Repository map
 
-- [Manuscript](paper/manuscript.md)
-- [Primary latency summary](results/latency_summary.csv)
-- [Primary retrieval stability summary](results/retrieval_stability_summary.csv)
-- [Primary statistical result](results/significant_result.csv)
-- [Exploratory hard-distractor summary](results/hard_noise_summary.csv)
-- [Kaggle notebook](https://www.kaggle.com/code/shaikjouziaafreenh/rag-retrieval-robustness-study)
+- [Full manuscript draft](paper/manuscript.md)
+- [Saved Kaggle notebook (.ipynb)](notebook/rag-retrieval-robustness-study.ipynb)
+- [Primary 240-row experiment CSV](results/retrieval_noise_results.csv)
+- [Full primary statistical analysis](results/statistical_analysis.csv)
+- [Descriptive summary](results/descriptive_summary.csv)
+- [Latency summary](results/latency_summary.csv)
+- [Retrieval stability summary](results/retrieval_stability_summary.csv)
+- [Significant comparison](results/significant_result.csv)
+- [Exploratory hard-distractor results (80 rows)](results/hard_noise_results.csv)
+- [Hard-distractor descriptive summary](results/hard_noise_summary.csv)
+- [Random-vs-hard comparison](results/random_vs_hard_comparison.csv)
+- [Kaggle notebook page](https://www.kaggle.com/code/shaikjouziaafreenh/rag-retrieval-robustness-study)
 - [Citation metadata](CITATION.cff)
 - [License](LICENSE)
+
+**Artifact note:** The notebook, manuscript, and CSV artifacts are committed. The generated PNG figures and a typeset PDF are not yet committed in this revision; the Markdown manuscript is the current readable paper source.
 
 ## Reproducibility and artifact status
 
