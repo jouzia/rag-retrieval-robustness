@@ -1,0 +1,2 @@
+method,noise_level,metric,baseline_mean,noisy_mean,absolute_change,relative_change_percent,wilcoxon_statistic,raw_p,holm_adjusted_p,rank_biserial,n
+Dense,4,latency,0.405087,0.595432,0.190345,46.99,25.0,0.001690,0.045628,0.761905,20
