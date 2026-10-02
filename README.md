@@ -32,6 +32,19 @@ This repository studies how injected distractor documents affect retrieval stabi
 - Dense retrieval at four distractors was the only comparison reported to remain significant after correction: baseline mean 0.405087 s, noisy mean 0.595432 s, change +46.99%, Holm-adjusted p = 0.045628, rank-biserial correlation = 0.761905 (n = 20).
 - A separate hard-semantic-distractor dataset is treated as exploratory and is not pooled with the primary experiment.
 
+
+## Primary experiment validation
+
+The frozen 240-row primary CSV has been independently revalidated from the raw observations. The authoritative validation is documented in [VALIDATION.md](VALIDATION.md).
+
+- 240 observations: 20 questions × 3 methods × 4 noise levels.
+- No missing values or duplicate experiment keys.
+- No injected distractor entered the final top-5 in any observation.
+- All noisy top-5 rankings matched their corresponding noise-0 baseline.
+- Across the 36 planned paired comparisons (3 methods × 3 metrics × 3 noise contrasts), only dense-retrieval latency at 4 distractors remained significant after joint Holm correction: 0.405087 s → 0.595432 s, +46.99%, adjusted p = 0.045628, rank-biserial correlation = 0.761905.
+- No token-F1 or semantic-similarity comparison remained significant after Holm correction.
+- No LLM evaluations were rerun during this validation.
+
 ## Repository map
 
 - [Full manuscript draft](paper/manuscript.md)
