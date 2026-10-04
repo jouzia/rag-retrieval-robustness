@@ -22,7 +22,7 @@ This repository studies how injected distractor documents affect retrieval stabi
 | Total observations | 240 |
 | Sampling seed | 42 |
 | Tests | Paired Wilcoxon signed-rank |
-| Multiple comparisons | Holm correction across 27 planned comparisons |
+| Multiple comparisons | Holm correction across 36 planned comparisons |
 | Effect size | Rank-biserial correlation |
 
 ## Main findings from validated result artifacts
@@ -65,7 +65,7 @@ This repository studies how injected distractor documents affect retrieval stabi
 
 ## Reproducibility and artifact status
 
-The raw primary CSV is frozen and validated. The validated Results section, statistical tables, and vector publication figures are committed. The manuscript remains an artifact-reconciled draft and should be synchronized with the validated 27-comparison statistical family before camera-ready submission. A clean notebook rerun is still required for a full computational-reproducibility claim.
+The raw primary CSV is frozen and validated. The validated Results section, statistical tables, and vector publication figures are committed and reconciled with the 36-test statistical family. The manuscript remains an artifact-reconciled draft and should be synchronized with the validated 36-comparison statistical family before camera-ready submission. A clean notebook rerun is still required for a full computational-reproducibility claim.
 
 Exact model identifiers, corpus provenance, package versions, hardware, and timing boundaries should be documented from the notebook/runtime. Do not treat a GitHub commit or release as evidence of peer review or publication. No DOI is claimed unless a Zenodo deposit is completed.
 
