@@ -7,7 +7,7 @@
 
 ## Abstract
 
-Retrieval-Augmented Generation (RAG) systems depend on retrieval to supply evidence to downstream language generation. Irrelevant documents may increase the candidate pool and potentially alter retrieved context, answer quality, or latency. This study evaluates BM25, dense, and hybrid retrieval across 20 questions and four distractor conditions (0, 1, 2, and 4 injected documents), with a fixed top-k of five. The primary experiment contains 240 method-condition observations. Retrieval stability is assessed using distractor contamination and preservation of the baseline top-five set; answer quality is assessed using token-level F1 and semantic similarity; and latency is measured in seconds. Each non-zero noise condition is compared with its matched baseline using paired Wilcoxon signed-rank tests, with Holm correction across 27 comparisons.
+Retrieval-Augmented Generation (RAG) systems depend on retrieval to supply evidence to downstream language generation. Irrelevant documents may increase the candidate pool and potentially alter retrieved context, answer quality, or latency. This study evaluates BM25, dense, and hybrid retrieval across 20 questions and four distractor conditions (0, 1, 2, and 4 injected documents), with a fixed top-k of five. The primary experiment contains 240 method-condition observations. Retrieval stability is assessed using distractor contamination and preservation of the baseline top-five set; answer quality is assessed using token-level F1 and semantic similarity; and latency is measured in seconds. Each non-zero noise condition is compared with its matched baseline using paired Wilcoxon signed-rank tests, with Holm correction across 36 comparisons.
 
 In the supplied primary results, no injected distractor appears in the final top-five results and baseline top-five preservation is reported as 1.0 across tested conditions. The only comparison reported as statistically significant after Holm correction is dense-retrieval latency at four distractors: mean latency rises from 0.405087 s to 0.595432 s (+0.190345 s; +46.99%; Holm-adjusted p = 0.045628; rank-biserial correlation = 0.761905; n = 20). No answer-quality comparison remains significant after correction. These findings are limited to the evaluated corpus, implementation, distractor construction, and noise range. The absence of contamination under this construction should not be interpreted as universal RAG robustness.
 
@@ -61,17 +61,21 @@ The primary experiment injects 0, 1, 2, or 4 distractor documents. Distractors a
 
 ### 3.5 Statistical analysis
 
-Each non-zero noise condition is paired with the zero-noise baseline for the same question and method. The stated analysis uses paired Wilcoxon signed-rank tests, Holm correction for family-wise error across 27 comparisons (3 methods × 3 non-zero noise levels × 3 metrics), and rank-biserial correlation as an effect-size measure. The significance threshold is α = 0.05. The reported adjusted p-value is interpreted after Holm correction.
+Each non-zero noise condition is paired with the zero-noise baseline for the same question and method. The stated analysis uses paired Wilcoxon signed-rank tests, Holm correction for family-wise error across 36 comparisons (3 methods × 3 non-zero noise levels × 3 metrics), and rank-biserial correlation as an effect-size measure. The significance threshold is α = 0.05. The reported adjusted p-value is interpreted after Holm correction.
 
 ## 4. Results
 
 ### 4.1 Retrieval stability
+
+![Retrieval stability under random distractors](../figures/fig_retrieval_stability.svg)
 
 The supplied primary experiment summary reports zero injected-distractor contamination and baseline top-five preservation of 1.0 for all three methods and all tested noise conditions. Thus, within the tested setup, none of the injected distractors entered the final top-five set and the baseline set was preserved.
 
 This is a bounded result: it may reflect the distractor sampling strategy and retrieval configuration. It does not establish that the methods will resist semantically similar, adversarial, duplicated, or higher-volume distractors.
 
 ### 4.2 Latency
+
+![Mean latency by distractor level](../figures/fig_latency.svg)
 
 The supplied summary gives the following mean latency values:
 
@@ -100,6 +104,10 @@ The only comparison reported as surviving Holm correction is dense retrieval at 
 The adjusted p-value is below 0.05, but close to the threshold. The result should be interpreted with the small sample size, multiple-comparison procedure, and environment-dependent timing in mind.
 
 ### 4.3 Answer quality
+
+![Mean Token F1 by distractor level](../figures/fig_answer_quality.svg)
+
+![Mean semantic similarity by distractor level](../figures/fig_semantic_similarity.svg)
 
 The supplied descriptive summary shows non-monotonic answer-quality means across noise levels. No Token F1 or semantic-similarity comparison is reported as significant after Holm correction. The available evidence therefore does not support a systematic degradation claim for answer quality in the primary experiment.
 
@@ -163,7 +171,7 @@ Before submitting to a journal or conference, record and publish:
 - hardware/runtime environment;
 - exact timing boundary and warm-up/caching policy;
 - metric implementation and semantic-similarity model;
-- all 27 paired test outputs and Holm-adjusted p-values;
+- all 36 paired test outputs and Holm-adjusted p-values;
 - clean rerun logs and checksums for committed artifacts.
 
 ## References
