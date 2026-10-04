@@ -1,4 +1,4 @@
-# Results
+# Validated Results
 
 ## Primary experiment
 
@@ -6,21 +6,21 @@ The primary experiment comprised 240 observations generated from 20 questions, t
 
 ### Retrieval stability
 
-Under the tested random-distractor construction, no injected distractor appeared in the final top-5 retrieval set in any of the 240 observations. Consequently, exact top-5 retrieval preservation relative to each question's noise-free baseline was 100% for BM25, dense retrieval, and hybrid retrieval at every tested noise level. This result describes the tested corpus, retrievers, top-k setting, and distractor-generation procedure; it should not be generalized to other distractor distributions or retrieval systems.
+Under the tested random-distractor construction, no injected distractor appeared in the final top-5 retrieval set in any of the 240 observations. Consequently, exact top-5 retrieval preservation relative to each question's noise-free baseline was 100% for BM25, dense retrieval, and hybrid retrieval at every tested noise level. This result is specific to the tested corpus, retrievers, top-k setting, and distractor-generation procedure.
 
 ### Answer quality
 
-Mean Token F1 and semantic-similarity scores varied across noise levels, but none of the 18 method-by-noise comparisons for the two answer-quality metrics remained statistically significant after the planned multiple-comparison correction. The observed changes therefore do not provide evidence of a statistically reliable degradation in answer quality under the tested random-noise conditions.
+Mean Token F1 and semantic-similarity scores varied across noise levels, but none of the 18 answer-quality comparisons (9 Token F1 + 9 semantic similarity) remained statistically significant after the planned multiple-comparison correction. The observed changes therefore do not provide evidence of a statistically reliable degradation in answer quality under the tested random-noise conditions.
 
 ### Latency
 
-Latency showed a different pattern for dense retrieval. At four injected distractors, mean dense-retrieval latency increased from 0.405087 s at baseline to 0.595432 s, an absolute increase of 0.190345 s (46.99%). A paired Wilcoxon signed-rank test gave W = 25, p = 0.001690; after Holm correction across the 27 planned paired comparisons, p = 0.045628. The paired rank-biserial correlation was 0.761905 (n = 20). This was the only comparison that remained significant after correction.
+Dense-retrieval latency showed the only statistically significant corrected comparison. At four injected distractors, mean latency increased from 0.405087 s at baseline to 0.595432 s, an absolute increase of 0.190345 s (46.99%). A paired Wilcoxon signed-rank test gave W = 25, raw p = 0.001690; after Holm correction across all 36 planned paired comparisons, adjusted p = 0.045628. The paired rank-biserial correlation was 0.761905 (n = 20).
 
-Dense-retrieval latency at two distractors also increased descriptively, but it did not remain significant after Holm correction. BM25 and hybrid latency comparisons likewise did not remain significant after correction.
+No other comparison remained significant after Holm correction.
 
 ## Statistical analysis
 
-For each retrieval method, metric, and non-zero noise level, the noisy condition was compared with the same question under noise level 0 using a paired Wilcoxon signed-rank test. The resulting 27 p-values (3 methods × 3 metrics × 3 noise contrasts) were corrected jointly using Holm's step-down procedure with α = 0.05. Effect magnitude was summarized using paired rank-biserial correlation.
+For each retrieval method, metric, and non-zero noise level, the noisy condition was compared with the same question under noise level 0 using a paired Wilcoxon signed-rank test. This produced 36 planned comparisons: 3 retrieval methods × 3 metrics × 3 non-zero noise contrasts. The p-values were corrected jointly using Holm's step-down procedure with alpha = 0.05. Effect magnitude was summarized using paired rank-biserial correlation.
 
 ## Interpretation
 
