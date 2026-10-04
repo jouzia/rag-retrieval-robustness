@@ -22,7 +22,7 @@ This repository studies how injected distractor documents affect retrieval stabi
 | Total observations | 240 |
 | Sampling seed | 42 |
 | Tests | Paired Wilcoxon signed-rank |
-| Multiple comparisons | Holm correction across 36 planned comparisons |
+| Multiple comparisons | Holm correction across 27 planned comparisons |
 | Effect size | Rank-biserial correlation |
 
 ## Main findings from validated result artifacts
