@@ -14,13 +14,13 @@ Mean Token F1 and semantic-similarity scores varied across noise levels, but non
 
 ### Latency
 
-Latency showed a different pattern for dense retrieval. At four injected distractors, mean dense-retrieval latency increased from 0.405087 s at baseline to 0.595432 s, an absolute increase of 0.190345 s (46.99%). A paired Wilcoxon signed-rank test gave W = 25, p = 0.001690; after Holm correction across the 36 planned paired comparisons, p = 0.045628. The paired rank-biserial correlation was 0.761905 (n = 20). This was the only comparison that remained significant after correction.
+Latency showed a different pattern for dense retrieval. At four injected distractors, mean dense-retrieval latency increased from 0.405087 s at baseline to 0.595432 s, an absolute increase of 0.190345 s (46.99%). A paired Wilcoxon signed-rank test gave W = 25, p = 0.001690; after Holm correction across the 27 planned paired comparisons, p = 0.045628. The paired rank-biserial correlation was 0.761905 (n = 20). This was the only comparison that remained significant after correction.
 
 Dense-retrieval latency at two distractors also increased descriptively, but it did not remain significant after Holm correction. BM25 and hybrid latency comparisons likewise did not remain significant after correction.
 
 ## Statistical analysis
 
-For each retrieval method, metric, and non-zero noise level, the noisy condition was compared with the same question under noise level 0 using a paired Wilcoxon signed-rank test. The resulting 36 p-values (3 methods × 3 metrics × 3 noise contrasts) were corrected jointly using Holm's step-down procedure with α = 0.05. Effect magnitude was summarized using paired rank-biserial correlation.
+For each retrieval method, metric, and non-zero noise level, the noisy condition was compared with the same question under noise level 0 using a paired Wilcoxon signed-rank test. The resulting 27 p-values (3 methods × 3 metrics × 3 noise contrasts) were corrected jointly using Holm's step-down procedure with α = 0.05. Effect magnitude was summarized using paired rank-biserial correlation.
 
 ## Interpretation
 
