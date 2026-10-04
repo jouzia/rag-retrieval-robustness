@@ -1,0 +1,2 @@
+retrieval_method,n_noise,metric,baseline_mean,noisy_mean,change,pct_change,wilcoxon_W,p_value,n,rank_biserial,holm_p,significant
+Dense,4,latency_seconds,0.405087423324585,0.5954321622848511,0.1903447389602661,46.988558024855855,25,0.001689910888671875,20,0.7619047619047619,0.045627593994140625,True
