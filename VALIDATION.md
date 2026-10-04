@@ -27,7 +27,7 @@ The recovered CSV is the authoritative raw dataset. No LLM evaluations were reru
 
 For each method, metric, and noise level 1/2/4, the noisy condition was compared with the same question at noise level 0 using a paired Wilcoxon signed-rank test.
 
-The complete family of 36 planned pairwise tests (3 methods × 3 metrics × 3 noise contrasts) was corrected jointly with Holm's step-down procedure. Alpha = 0.05.
+The complete family of 27 planned pairwise tests (3 methods × 3 metrics × 3 noise contrasts) was corrected jointly with Holm's step-down procedure. Alpha = 0.05.
 
 Effect size is paired rank-biserial correlation.
 
