@@ -33,7 +33,7 @@ Effect size is paired rank-biserial correlation.
 
 ## Confirmed primary result
 
-The only comparison remaining significant after the 36-test Holm correction was dense-retrieval latency at 4 distractors:
+The only comparison remaining significant after the 27-test Holm correction was dense-retrieval latency at 4 distractors:
 
 - baseline mean: 0.405087 s
 - noise-4 mean: 0.595432 s
