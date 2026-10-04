@@ -1,0 +1,13 @@
+retrieval_method,n_noise,observations,distractor_intrusion_rate,top5_preservation_rate
+BM25,0,20,0.0,1.0
+BM25,1,20,0.0,1.0
+BM25,2,20,0.0,1.0
+BM25,4,20,0.0,1.0
+Dense,0,20,0.0,1.0
+Dense,1,20,0.0,1.0
+Dense,2,20,0.0,1.0
+Dense,4,20,0.0,1.0
+Hybrid,0,20,0.0,1.0
+Hybrid,1,20,0.0,1.0
+Hybrid,2,20,0.0,1.0
+Hybrid,4,20,0.0,1.0
