@@ -1,0 +1,13 @@
+retrieval_method,n_noise,latency_seconds_mean,token_f1_mean,semantic_similarity_mean
+BM25,0,0.4628,0.0,0.0
+BM25,1,0.4381,0.0,0.0
+BM25,2,0.4945,0.0,0.0
+BM25,4,0.4871,0.0,0.0
+Dense,0,0.4050874233,0.0,0.0
+Dense,1,0.4743,0.0,0.0
+Dense,2,0.5096,0.0,0.0
+Dense,4,0.5954321623,0.0,0.0
+Hybrid,0,0.4248,0.0,0.0
+Hybrid,1,0.4769,0.0,0.0
+Hybrid,2,0.5090,0.0,0.0
+Hybrid,4,0.5219,0.0,0.0
