@@ -5,7 +5,7 @@
 
 This repository studies how injected distractor documents affect retrieval stability, answer-quality metrics, and latency for BM25, dense, and hybrid retrieval.
 
-> **Scope note:** Findings apply only to the tested corpus, implementation, distractor construction, top-k setting, and noise levels. They do not establish universal robustness. See the limitations in the manuscript.
+> **Scope note:** Findings apply only to the tested corpus, implementation, distractor construction, top-k setting, and noise levels. They do not establish universal robustness. See the limitations in the manuscript and validation record.
 
 ## Research question
 
@@ -22,32 +22,33 @@ This repository studies how injected distractor documents affect retrieval stabi
 | Total observations | 240 |
 | Sampling seed | 42 |
 | Tests | Paired Wilcoxon signed-rank |
-| Multiple comparisons | Holm correction |
+| Multiple comparisons | Holm correction across 36 planned comparisons |
 | Effect size | Rank-biserial correlation |
 
-## Main findings from supplied result artifacts
+## Main findings from validated result artifacts
 
-- The supplied primary summary reports zero injected-distractor contamination and baseline top-five preservation of 1.0 in all tested method/noise conditions.
-- No answer-quality comparison remained significant after Holm correction.
-- Dense retrieval at four distractors was the only comparison reported to remain significant after correction: baseline mean 0.405087 s, noisy mean 0.595432 s, change +46.99%, Holm-adjusted p = 0.045628, rank-biserial correlation = 0.761905 (n = 20).
+- The frozen 240-row primary CSV was independently revalidated: no missing values, no duplicate experiment keys, zero distractor intrusion, and 100% exact top-5 preservation relative to the corresponding noise-free baseline.
+- No Token F1 or semantic-similarity comparison remained significant after Holm correction.
+- Dense retrieval at four distractors was the only comparison that remained significant after correction: mean latency increased from 0.405087 s to 0.595432 s (+46.99%), Holm-adjusted p = 0.045628, rank-biserial correlation = 0.761905 (n = 20).
+- No LLM evaluations were rerun during validation.
 - A separate hard-semantic-distractor dataset is treated as exploratory and is not pooled with the primary experiment.
 
+## Validated publication artifacts
 
-## Primary experiment validation
-
-The frozen 240-row primary CSV has been independently revalidated from the raw observations. The authoritative validation is documented in [VALIDATION.md](VALIDATION.md).
-
-- 240 observations: 20 questions × 3 methods × 4 noise levels.
-- No missing values or duplicate experiment keys.
-- No injected distractor entered the final top-5 in any observation.
-- All noisy top-5 rankings matched their corresponding noise-0 baseline.
-- Across the 36 planned paired comparisons (3 methods × 3 metrics × 3 noise contrasts), only dense-retrieval latency at 4 distractors remained significant after joint Holm correction: 0.405087 s → 0.595432 s, +46.99%, adjusted p = 0.045628, rank-biserial correlation = 0.761905.
-- No token-F1 or semantic-similarity comparison remained significant after Holm correction.
-- No LLM evaluations were rerun during this validation.
+- [Validated Results section](paper/RESULTS_validated.md)
+- [Validated statistical analysis](results/statistical_analysis_validated.csv)
+- [Validated descriptive summary](results/descriptive_summary_validated.csv)
+- [Validated retrieval-stability summary](results/retrieval_stability_validated.csv)
+- [Latency figure](figures/fig_latency.svg)
+- [Token F1 figure](figures/fig_answer_quality.svg)
+- [Semantic-similarity figure](figures/fig_semantic_similarity.svg)
+- [Retrieval-stability figure](figures/fig_retrieval_stability.svg)
+- [Validation record](VALIDATION.md)
 
 ## Repository map
 
 - [Full manuscript draft](paper/manuscript.md)
+- [Validated Results source](paper/RESULTS_validated.md)
 - [Saved Kaggle notebook (.ipynb)](notebook/rag-retrieval-robustness-study.ipynb)
 - [Primary 240-row experiment CSV](results/retrieval_noise_results.csv)
 - [Full primary statistical analysis](results/statistical_analysis.csv)
@@ -62,13 +63,11 @@ The frozen 240-row primary CSV has been independently revalidated from the raw o
 - [Citation metadata](CITATION.cff)
 - [License](LICENSE)
 
-**Artifact note:** The notebook, manuscript, and CSV artifacts are committed. The generated PNG figures and a typeset PDF are not yet committed in this revision; the Markdown manuscript is the current readable paper source.
-
 ## Reproducibility and artifact status
 
-The notebook is the executable source; CSV summaries are derived artifacts. Before journal/conference submission, rerun the notebook from a clean environment and reconcile the generated outputs with the committed result files. Exact model identifiers, corpus provenance, package versions, hardware, and timing boundaries should be documented from the notebook/runtime.
+The raw primary CSV is frozen and validated. The validated Results section, statistical tables, and vector publication figures are committed. The manuscript remains an artifact-reconciled draft and should be synchronized with the validated 36-comparison statistical family before camera-ready submission. A clean notebook rerun is still required for a full computational-reproducibility claim.
 
-The current repository includes a manuscript draft and transparent summary tables. Do not treat a GitHub commit or release as evidence of peer review or publication. No DOI is claimed unless a Zenodo deposit is completed.
+Exact model identifiers, corpus provenance, package versions, hardware, and timing boundaries should be documented from the notebook/runtime. Do not treat a GitHub commit or release as evidence of peer review or publication. No DOI is claimed unless a Zenodo deposit is completed.
 
 ## Citation
 
