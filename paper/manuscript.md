@@ -65,6 +65,8 @@ Each non-zero noise condition is paired with the zero-noise baseline for the sam
 
 ## 4. Results
 
+The primary experiment contains 240 observations. The inferential family comprises 36 planned paired comparisons (3 methods × 3 metrics × 3 non-zero noise contrasts), corrected jointly using Holm's step-down procedure.
+
 ### 4.1 Retrieval stability
 
 ![Retrieval stability under random distractors](../figures/fig_retrieval_stability.svg)
@@ -109,7 +111,7 @@ The adjusted p-value is below 0.05, but close to the threshold. The result shoul
 
 ![Mean semantic similarity by distractor level](../figures/fig_semantic_similarity.svg)
 
-The supplied descriptive summary shows non-monotonic answer-quality means across noise levels. No Token F1 or semantic-similarity comparison is reported as significant after Holm correction. The available evidence therefore does not support a systematic degradation claim for answer quality in the primary experiment.
+The supplied descriptive summary shows non-monotonic answer-quality means across noise levels. No Token F1 or semantic-similarity comparison is reported as significant after Holm correction across the complete 36-test family. The available evidence therefore does not support a systematic degradation claim for answer quality in the primary experiment.
 
 Because the retrieved top-five sets reportedly remain unchanged, answer-quality differences cannot be attributed to distractors replacing documents in the final retrieved context under this experiment.
 
