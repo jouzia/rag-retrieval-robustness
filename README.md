@@ -22,14 +22,14 @@ This repository studies how injected distractor documents affect retrieval stabi
 | Total observations | 240 |
 | Sampling seed | 42 |
 | Tests | Paired Wilcoxon signed-rank |
-| Multiple comparisons | Holm correction across 36 planned comparisons |
+| Multiple comparisons | Holm correction across 27 planned comparisons |
 | Effect size | Rank-biserial correlation |
 
 ## Main findings from validated result artifacts
 
-- The frozen 240-row primary CSV was independently revalidated: no missing values, no duplicate experiment keys, zero distractor intrusion, and 100% exact top-5 preservation relative to the corresponding noise-free baseline.
+- The frozen 240-row primary CSV was independently revalidated for integrity. Important design caveat: distractors were appended after top-five retrieval, so zero intrusion and 100% preservation are guaranteed by construction and do not demonstrate retrieval robustness.
 - No Token F1 or semantic-similarity comparison remained significant after Holm correction.
-- Dense retrieval at four distractors was the only comparison that remained significant after correction: mean latency increased from 0.405087 s to 0.595432 s (+46.99%), Holm-adjusted p = 0.045628, rank-biserial correlation = 0.761905 (n = 20).
+- The dense-method context at four appended distractors was the only contrast with significant measured generation-call latency after correction: 0.405087 s to 0.595432 s (+46.99%), Holm-adjusted p = 0.045628, rank-biserial correlation = 0.761905 (n = 20). The timer surrounds answer generation, not isolated retrieval.
 - No LLM evaluations were rerun during validation.
 - A separate hard-semantic-distractor dataset is treated as exploratory and is not pooled with the primary experiment.
 
@@ -65,7 +65,7 @@ This repository studies how injected distractor documents affect retrieval stabi
 
 ## Reproducibility and artifact status
 
-The raw primary CSV is frozen and validated. The validated Results section, statistical tables, vector publication figures, and manuscript are reconciled with the 36-test statistical family. A clean notebook rerun is still required for a full computational-reproducibility claim; until that rerun is completed, the repository should be described as artifact-reconciled rather than fully computationally reproduced.
+The raw primary CSV is frozen and validated for data integrity. The statistical family contains 27 paired comparisons. See AUDIT_FINDINGS_2026-10-08.md for the design limitation: appended distractors do not test retrieval ranking robustness. A clean notebook rerun is still required for a full computational-reproducibility claim; until that rerun is completed, the repository should be described as artifact-reconciled rather than fully computationally reproduced.
 
 Exact model identifiers, corpus provenance, package versions, hardware, and timing boundaries should be documented from the notebook/runtime. Do not treat a GitHub commit or release as evidence of peer review or publication. No DOI is claimed unless a Zenodo deposit is completed.
 
