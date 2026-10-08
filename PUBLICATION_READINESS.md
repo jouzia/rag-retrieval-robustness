@@ -2,7 +2,7 @@
 
 ## Current status
 
-**Artifact-reconciled and publication-draft ready; full computational reproducibility pending.**
+**Not yet publication-ready. Notebook audit found a research-design mismatch and a statistical-family count error. See [audit findings](AUDIT_FINDINGS_2026-10-08.md).**
 
 ### Completed
 
@@ -13,8 +13,8 @@
 - [x] 20 observations per method × noise cell
 - [x] Zero distractor intrusion in final top-5
 - [x] 100% exact top-5 preservation
-- [x] 36 planned paired statistical comparisons
-- [x] Joint Holm correction across the complete test family
+- [x] 27 planned paired statistical comparisons
+- [x] Holm correction across the 27-test family
 - [x] Paired rank-biserial effect sizes
 - [x] Validated primary result reconciled with raw CSV
 - [x] Validated Results section
@@ -77,4 +77,4 @@ Do not claim:
 
 ## Recommended next stage
 
-The highest-value next step is a clean notebook audit and deterministic analysis rerun. If it reproduces the committed statistics and figures, freeze a release and deposit the repository to an archival service such as Zenodo, then update the citation metadata with the minted DOI.
+The highest-value next step is to correct the framing and comparison count, verify the latency timing boundary, and recompute the 27-test analysis from the frozen CSV. The current top-five stability claim is not supported because distractors are appended after retrieval. If the original retrieval-robustness question is retained, a new candidate-pool perturbation experiment is required. Do not prepare a camera-ready release until these issues are resolved.
