@@ -61,7 +61,7 @@ The primary experiment injects 0, 1, 2, or 4 distractor documents. Distractors a
 
 ### 3.5 Statistical analysis
 
-Each non-zero noise condition is paired with the zero-noise baseline for the same question and method. The stated analysis uses paired Wilcoxon signed-rank tests, Holm correction for family-wise error across 36 comparisons (3 methods × 3 non-zero noise levels × 3 metrics), and rank-biserial correlation as an effect-size measure. The significance threshold is α = 0.05. The reported adjusted p-value is interpreted after Holm correction.
+Each non-zero noise condition is paired with the zero-noise baseline for the same question and method. The stated analysis uses paired Wilcoxon signed-rank tests, Holm correction for family-wise error across 27 comparisons (3 methods × 3 non-zero noise levels × 3 metrics), and rank-biserial correlation as an effect-size measure. The significance threshold is α = 0.05. The reported adjusted p-value is interpreted after Holm correction.
 
 ## 4. Results
 
@@ -173,7 +173,7 @@ Before submitting to a journal or conference, record and publish:
 - hardware/runtime environment;
 - exact timing boundary and warm-up/caching policy;
 - metric implementation and semantic-similarity model;
-- all 36 paired test outputs and Holm-adjusted p-values;
+- all 27 paired test outputs and Holm-adjusted p-values;
 - clean rerun logs and checksums for committed artifacts.
 
 ## References
