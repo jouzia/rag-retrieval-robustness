@@ -27,13 +27,13 @@ The recovered CSV is the authoritative raw dataset. No LLM evaluations were reru
 
 For each method, metric, and noise level 1/2/4, the noisy condition was compared with the same question at noise level 0 using a paired Wilcoxon signed-rank test.
 
-The complete family of 36 planned pairwise tests (3 methods × 3 metrics × 3 noise contrasts) was corrected jointly with Holm's step-down procedure. Alpha = 0.05.
+The complete family of 27 planned pairwise tests (3 methods × 3 metrics × 3 noise contrasts) was corrected jointly with Holm's step-down procedure. Alpha = 0.05.
 
 Effect size is paired rank-biserial correlation.
 
 ## Confirmed primary result
 
-The only comparison remaining significant after the 36-test Holm correction was dense-retrieval latency at 4 distractors:
+The only comparison remaining significant after the 27-test Holm correction was dense-retrieval latency at 4 distractors:
 
 - baseline mean: 0.405087 s
 - noise-4 mean: 0.595432 s
@@ -49,11 +49,11 @@ No token-F1 or semantic-similarity comparison remained significant after Holm co
 
 ## Interpretation boundary
 
-The experiment demonstrates stability of the tested top-5 retrieval rankings under the specified random distractors, because no injected distractor entered the final top-5 and all top-5 rankings matched the corresponding noise-0 baseline.
+Important design qualification: the notebook retrieves the original top-five first and appends distractor chunks afterward. Therefore, zero intrusion and 100% preservation are guaranteed by construction and do not demonstrate retrieval robustness. The current experiment evaluates appended context, not perturbed retrieval ranking.
 
 This should not be generalized to arbitrary distractor distributions, corpora, retrievers, top-k values, or RAG pipelines. The answer-quality metrics also do not show a statistically significant degradation under the tested random-noise conditions after multiplicity correction.
 
-The latency finding is an operational effect for the tested dense-retrieval implementation and runtime; it is not evidence that dense retrieval is universally more or less efficient.
+The latency timer surrounds the answer-generation function call, so this should be called generation-call latency, not isolated retrieval latency. It may include external model-service/runtime variability and cannot be attributed solely to retrieval.
 
 ## Version reconciliation
 
