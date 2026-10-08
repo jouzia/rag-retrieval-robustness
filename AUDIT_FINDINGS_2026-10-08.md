@@ -19,7 +19,7 @@ In the saved notebook's experiment-construction cell, each retrieval method firs
 Consequently:
 - Zero distractor intrusion into the original top-five and 100% preservation of that top-five are guaranteed by construction rather than empirical evidence of retriever robustness.
 - These statistics cannot support the manuscript's claim that BM25, dense, and hybrid rankings resisted distractor noise.
-- The existing experiment is better described as RAG answer-quality and runtime behavior under appended context distractors, subject to confirming the timing boundary from the generation cell.
+- The existing experiment is better described as RAG answer-quality and runtime behavior under appended context distractors, The notebook code confirms that the timer starts immediately before and stops immediately after generate_rag_answer, so it measures the answer-generation function call, not isolated retrieval.
 
 ## What remains valid
 
@@ -31,7 +31,7 @@ Consequently:
 
 1. Correct the planned comparison count from 36 to 27 in the manuscript, validated results, README, validation record, and notebook markdown.
 2. Reframe the existing experiment around appended distractor context, not retrieval-ranking robustness.
-3. Inspect the timing code and explicitly name the measured latency (retrieval, generation/API, or end-to-end).
+3. The timing code was inspected: it measures the generate_rag_answer function call. Rename the metric to generation-call latency in prose/figures where feasible; do not call it isolated retrieval latency.
 4. State that top-five contamination/preservation measures are tautological under the current construction; do not present them as a positive empirical result.
 5. If retaining the original retrieval-robustness question, design a new experiment that adds distractors to the candidate corpus before retrieval and then reruns each retriever. This would be a new experiment and should be separately versioned; the frozen LLM dataset need not be rerun merely to correct the existing paper.
 6. Recompute analysis outputs from the frozen CSV using a single canonical script and confirm agreement with committed tables.
