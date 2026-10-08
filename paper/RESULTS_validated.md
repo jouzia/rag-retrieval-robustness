@@ -6,7 +6,7 @@ The primary experiment comprised 240 observations generated from 20 questions, t
 
 ### Retrieval stability
 
-Under the tested random-distractor construction, no injected distractor appeared in the final top-5 retrieval set in any of the 240 observations. Consequently, exact top-5 retrieval preservation relative to each question's noise-free baseline was 100% for BM25, dense retrieval, and hybrid retrieval at every tested noise level. This result is specific to the tested corpus, retrievers, top-k setting, and distractor-generation procedure.
+The notebook retrieves the original top-five first, then appends distractors to the context sent to the answer generator. Therefore, zero distractor intrusion into the original retrieved top-five and 100% top-five preservation are guaranteed by construction, not empirical evidence of retrieval robustness. This experiment does not test whether distractors displace documents during retrieval.
 
 ### Answer quality
 
@@ -14,14 +14,14 @@ Mean Token F1 and semantic-similarity scores varied across noise levels, but non
 
 ### Latency
 
-Dense-retrieval latency showed the only statistically significant corrected comparison. At four injected distractors, mean latency increased from 0.405087 s at baseline to 0.595432 s, an absolute increase of 0.190345 s (46.99%). A paired Wilcoxon signed-rank test gave W = 25, raw p = 0.001690; after Holm correction across all 36 planned paired comparisons, adjusted p = 0.045628. The paired rank-biserial correlation was 0.761905 (n = 20).
+The measured generation-call latency (the timer surrounds the answer-generation call, not isolated retrieval) showed one statistically significant corrected comparison for the dense-method context. At four injected distractors, mean latency increased from 0.405087 s at baseline to 0.595432 s, an absolute increase of 0.190345 s (46.99%). A paired Wilcoxon signed-rank test gave W = 25, raw p = 0.001690; after Holm correction across all 27 planned paired comparisons, adjusted p = 0.045628. The paired rank-biserial correlation was 0.761905 (n = 20).
 
 No other comparison remained significant after Holm correction.
 
 ## Statistical analysis
 
-For each retrieval method, metric, and non-zero noise level, the noisy condition was compared with the same question under noise level 0 using a paired Wilcoxon signed-rank test. This produced 36 planned comparisons: 3 retrieval methods × 3 metrics × 3 non-zero noise contrasts. The p-values were corrected jointly using Holm's step-down procedure with alpha = 0.05. Effect magnitude was summarized using paired rank-biserial correlation.
+For each retrieval method, metric, and non-zero noise level, the noisy condition was compared with the same question under noise level 0 using a paired Wilcoxon signed-rank test. This produced 27 planned comparisons: 3 retrieval methods × 3 metrics × 3 non-zero noise contrasts. The p-values were corrected jointly using Holm's step-down procedure with alpha = 0.05. Effect magnitude was summarized using paired rank-biserial correlation.
 
 ## Interpretation
 
-The primary experiment supports a narrow finding: the tested random distractors did not alter the final top-5 rankings, and they did not produce a statistically significant answer-quality degradation after correction. A statistically significant increase in dense-retrieval latency was observed at the highest tested noise level. These findings characterize the evaluated implementation and experimental conditions rather than establishing universal RAG robustness.
+The primary experiment supports a narrow finding about appended-context distractors: no answer-quality comparison remained significant after correction, while one generation-call latency contrast for the dense-method context was significant. It does not support a retrieval-ranking robustness claim because distractors were added after top-five retrieval. These findings characterize the evaluated implementation and experimental conditions rather than establishing universal RAG robustness.
