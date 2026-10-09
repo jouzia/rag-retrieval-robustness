@@ -50,7 +50,7 @@ The saved dataset records noise ratios of 0.0000, 0.1667, 0.2857, and 0.4444, co
 - **Dense retrieval:** embedding-based semantic retrieval.
 - **Hybrid retrieval:** combination of lexical and semantic retrieval signals.
 
-BM25 uses `rank_bm25` with lowercased whitespace tokenization. Dense retrieval uses FAISS `IndexFlatIP` over the provided corpus embeddings, with `sentence-transformers/all-MiniLM-L6-v2` used to encode query embeddings in the notebook. Hybrid retrieval uses min-max normalized BM25 and dense scores with an alpha-weighted combination (the notebook's default is alpha = 0.5). The corpus and train/test files are loaded from the Kaggle competition input `agent-eval-part-i-grounded-rag-benchmark`. The data's redistribution terms, precise embedding provenance, package versions, and exact hybrid fusion implementation/version still require confirmation before submission.
+BM25 uses `rank_bm25` with lowercased whitespace tokenization. Dense retrieval uses FAISS `IndexFlatIP` over the provided corpus embeddings, with `sentence-transformers/all-MiniLM-L6-v2` used to encode query embeddings in the notebook. Hybrid retrieval uses min-max normalized BM25 and dense scores with an alpha-weighted combination (the notebook's default is alpha = 0.5). The corpus and train/test files are loaded from the [Agent Eval Part I: Grounded RAG Benchmark competition](https://www.kaggle.com/competitions/agent-eval-part-i-grounded-rag-benchmark) [11]. The competition describes `train.csv` as the practice set and `test.csv` as the evaluation set; this study samples from the practice/training split. The data's redistribution terms, precise embedding provenance, package versions, and exact hybrid fusion implementation/version still require confirmation before submission. Do not redistribute source data or derived examples beyond the competition's terms without confirming permission.
 
 ### 3.3 Distractor construction
 
@@ -197,6 +197,8 @@ Before submitting to a journal or conference, record and publish:
 9. Cho, S., Jeong, S., Seo, J., Hwang, T., & Park, J. C. (2024). Typos that Broke the RAG’s Back: Genetic Attack on RAG Pipeline by Simulating Documents in the Wild via Low-level Perturbations. *Findings of EMNLP 2024*, 2826–2844. https://doi.org/10.18653/v1/2024.findings-emnlp.161
 
 10. Amiraz, C., Cuconasu, F., Filice, S., & Karnin, Z. (2025). The Distracting Effect: Understanding Irrelevant Passages in RAG. *Proceedings of ACL 2025*, 18228–18258. https://doi.org/10.18653/v1/2025.acl-long.892
+
+11. Seelam, S. (2026). *Agent Eval Part I: Grounded RAG Benchmark*. Kaggle competition. https://www.kaggle.com/competitions/agent-eval-part-i-grounded-rag-benchmark
 
 ## Data and code availability
 
