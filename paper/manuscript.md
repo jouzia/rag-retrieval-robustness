@@ -7,11 +7,11 @@
 
 ## Abstract
 
-Retrieval-Augmented Generation (RAG) systems depend on retrieval to supply evidence to downstream language generation. Irrelevant documents may increase the candidate pool and potentially alter retrieved context, answer quality, or latency. This study evaluates BM25, dense, and hybrid retrieval across 20 questions and four distractor conditions (0, 1, 2, and 4 injected documents), with a fixed top-k of five. The primary experiment contains 240 method-condition observations. The experiment appends distractor chunks to each method's already-retrieved top-five context; answer quality is assessed using token-level F1 and semantic similarity; and measured latency covers the answer-generation call. Each non-zero noise condition is compared with its matched baseline using paired Wilcoxon signed-rank tests, with Holm correction across 27 comparisons.
+Retrieval-Augmented Generation (RAG) systems depend on retrieval to supply evidence to downstream language generation. Irrelevant text appended to an already-retrieved context may affect downstream answer quality and the measured answer-generation call. This study evaluates BM25, dense, and hybrid retrieval across 20 questions and four distractor conditions (0, 1, 2, and 4 injected documents), with a fixed top-k of five. The primary experiment contains 240 method-condition observations. The experiment appends distractor chunks to each method's already-retrieved top-five context; answer quality is assessed using token-level F1 and semantic similarity; and measured latency covers the answer-generation call. Each non-zero noise condition is compared with its matched baseline using paired Wilcoxon signed-rank tests, with Holm correction across 27 comparisons.
 
 Because distractors are appended after retrieval, unchanged top-five rankings are guaranteed by construction and do not provide evidence of retrieval robustness. The only comparison reported as statistically significant after Holm correction is generation-call latency for the dense method at four appended distractors: mean latency rises from 0.405087 s to 0.595432 s (+46.99%; adjusted p = 0.045628; rank-biserial correlation = 0.761905; n = 20). No answer-quality comparison remains significant after correction. The experiment therefore concerns downstream context augmentation, not whether retrieval rankings resist distractors.
 
-**Keywords:** retrieval-augmented generation, BM25, dense retrieval, hybrid retrieval, distractor noise, retrieval stability, latency, Wilcoxon signed-rank test
+**Keywords:** retrieval-augmented generation, appended context, distractor noise, answer quality, generation-call latency, BM25, dense retrieval, hybrid retrieval, Wilcoxon signed-rank test
 
 ## 1. Introduction
 
@@ -19,17 +19,16 @@ Retrieval-Augmented Generation combines a retrieval component with a language mo
 
 Sparse lexical retrieval such as BM25 ranks documents using term statistics. Dense retrieval ranks representations using embedding-space similarity, while hybrid retrieval combines lexical and semantic signals. These methods may respond differently to an expanded candidate environment. Noise may change the top-k context, affect generated answers, or increase computational work even when the final context remains unchanged.
 
-This study examines these outcomes separately. It evaluates whether injected distractors enter the final top-five results, whether the baseline top-five set is preserved, whether answer-quality metrics change, and whether latency changes as distractor count increases.
+This study evaluates whether appending 0, 1, 2, or 4 distractor chunks after the original top-five retrieval changes answer-quality metrics or measured generation-call latency. Because retrieval is not rerun after injection, top-five contamination and preservation are construction diagnostics, not experimental outcomes.
 
 ## 2. Research question and hypotheses
 
-**RQ1:** How does increasing distractor-document noise affect retrieval stability, generated-answer quality, and latency in BM25, dense, and hybrid retrieval systems within a RAG pipeline?
+**RQ1:** Under a fixed original top-five retrieval result, how does appending increasing numbers of distractor chunks affect generated-answer quality and generation-call latency across BM25-, dense-, and hybrid-retrieval pipelines?
 
-- **H1 — Retrieval stability:** Increasing distractor noise reduces stability of the final top-five results.
-- **H2 — Answer quality:** Increasing distractor noise negatively affects generated-answer quality.
-- **H3 — Latency:** Increasing distractor noise increases retrieval/processing latency.
+- **H1 — Answer quality:** Appended distractor context changes token F1 and/or semantic similarity relative to the matched zero-distractor condition.
+- **H2 — Generation-call latency:** Appended distractor context changes measured answer-generation-call latency relative to the matched zero-distractor condition.
 
-These are empirical hypotheses evaluated within the specific experimental setup, not claims about all RAG systems.
+This design does not test retrieval-ranking robustness or whether a distractor can displace a retrieved document.
 
 ## 3. Methods
 
@@ -37,7 +36,7 @@ These are empirical hypotheses evaluated within the specific experimental setup,
 
 The primary experiment crosses 20 evaluation questions with three retrieval methods (BM25, dense, hybrid) and four noise levels (0, 1, 2, 4 distractors), yielding 20 observations per method-condition cell and 240 observations overall. The top-k retrieval limit is five. Distractor sampling uses seed 42. Each noisy result is paired with the corresponding zero-noise result for the same question and retrieval method.
 
-The stated noise ratios are 0.0000, 0.1667, 0.2857, and 0.4444. These ratios are specific to the experiment's candidate-set construction and should not be generalized to other corpus sizes.
+The saved dataset records noise ratios of 0.0000, 0.1667, 0.2857, and 0.4444. These describe the appended-context construction used in this experiment; they should not be interpreted as perturbation rates of a searchable retrieval corpus.
 
 ### 3.2 Retrieval methods
 
@@ -49,15 +48,15 @@ The manuscript describes these method families. Exact implementation details (mo
 
 ### 3.3 Distractor construction
 
-The primary experiment injects 0, 1, 2, or 4 distractor documents. Distractors are sampled from documents outside the baseline top-five set. The final retrieved context is limited to five documents. Consequently, the experiment tests whether these injected documents displace baseline top-five documents under this construction; it does not fully test adversarial or semantically confusable distractors.
+The pipeline first retrieves five documents from the original corpus. It then samples 0, 1, 2, or 4 distractor chunks outside that baseline top-five set and appends them to the context passed to the answer generator. Retrieval is not rerun on a perturbed candidate corpus. Thus, this experiment does not test document displacement, retrieval-ranking stability, or retriever robustness. Distractor difficulty is also limited by the sampling procedure and is not a dedicated adversarial/semantically-confusable condition.
 
 ### 3.4 Outcomes
 
-- **Distractor contamination:** fraction of documents in the final top-five result that are injected distractors.
-- **Baseline top-five preservation:** fraction of the baseline top-five document set retained under noise.
 - **Token F1:** token-level overlap between generated and reference answers.
 - **Semantic similarity:** semantic correspondence between generated and reference answers, as implemented in the notebook.
-- **Latency:** elapsed time recorded by the experimental pipeline, in seconds. The exact timing boundary should be confirmed from notebook code before external publication.
+- **Generation-call latency:** elapsed time measured around the `generate_rag_answer` function call. It is not isolated retrieval latency and may include model-service and runtime variability.
+
+Top-five contamination and preservation are reported only as construction diagnostics: because distractors are appended after retrieval, zero intrusion and 100% preservation are guaranteed by design.
 
 ### 3.5 Statistical analysis
 
@@ -69,11 +68,11 @@ The primary experiment contains 240 observations. The inferential family compris
 
 ### 4.1 Retrieval-set accounting limitation
 
-![Retrieval stability under random distractors](../figures/fig_retrieval_stability.svg)
+![Construction diagnostic: unchanged original top-five by design](../figures/fig_retrieval_stability.svg)
 
 The notebook retrieves the original top-five first and then appends sampled distractor chunks to the context passed to the generator. Thus, zero distractor intrusion into the original retrieved top-five and 100% preservation are consequences of the construction, not empirical outcomes of a perturbed retrieval step. These quantities must not be interpreted as evidence that the retrievers are robust to distractor documents.
 
-This is a bounded result: it may reflect the distractor sampling strategy and retrieval configuration. It does not establish that the methods will resist semantically similar, adversarial, duplicated, or higher-volume distractors.
+The figure is retained only to make this construction property transparent. It is not evidence for or against retrieval-ranking robustness; that question requires adding distractors to the candidate corpus before rerunning each retriever.
 
 ### 4.2 Generation-call latency
 
@@ -89,7 +88,7 @@ The supplied summary gives the following mean latency values:
 
 Relative changes are calculated from the displayed rounded means, so they may differ slightly from calculations using unrounded observations.
 
-The only comparison reported as surviving Holm correction is dense retrieval at four distractors:
+The only comparison reported as surviving Holm correction is the dense-method pipeline's generation-call latency at four appended distractors:
 
 | Statistic | Value |
 |---|---:|
@@ -113,13 +112,12 @@ The adjusted p-value is below 0.05, but close to the threshold. The result shoul
 
 The supplied descriptive summary shows non-monotonic answer-quality means across noise levels. No Token F1 or semantic-similarity comparison is reported as significant after Holm correction across the complete 27-test family. The available evidence therefore does not support a systematic degradation claim for answer quality in the primary experiment.
 
-Because the retrieved top-five sets reportedly remain unchanged, answer-quality differences cannot be attributed to distractors replacing documents in the final retrieved context under this experiment.
+Because distractors were appended after retrieval, any answer-quality differences cannot be attributed to distractors replacing documents during retrieval. They reflect the downstream appended-context condition and other pipeline variability.
 
 ### 4.4 Hypothesis assessment
 
-- **H1:** Not supported in the tested conditions; no top-five contamination or loss of baseline documents was reported.
-- **H2:** Not supported by the corrected inferential results; no answer-quality comparison remained significant after Holm correction.
-- **H3:** Partially supported. Mean latency at four distractors was higher for all three methods, but only the dense-retrieval comparison was reported as significant after correction.
+- **H1 — Answer quality:** Not supported by the corrected inferential results; no Token F1 or semantic-similarity comparison remained significant after Holm correction. This is a failure to detect a corrected effect, not proof that the conditions are equivalent.
+- **H2 — Generation-call latency:** Partially supported. The mean at four appended distractors was higher for all three pipelines, but only the dense-method contrast remained significant after correction. This result requires replication because the adjusted p-value is close to 0.05.
 
 ## 5. Separate exploratory hard-distractor experiment
 
@@ -138,7 +136,7 @@ These descriptive values suggest lower means in noisy conditions than at baselin
 
 The primary experiment's clearest reported result is an increase in measured generation-call latency for the dense-method context at the highest appended-distractor level. The unchanged retrieved top-five set is a construction artifact, and answer-quality comparisons did not survive multiple-comparison correction. The latency measurement includes the downstream generation call and may be affected by external API/runtime variability; it cannot be attributed solely to retrieval or to context length without additional controls.
 
-The result is not evidence that dense retrieval is generally more sensitive than BM25 or hybrid retrieval; the analysis tests within-method changes against each method's baseline, not direct between-method differences. Further, latency is implementation- and environment-dependent. The measured increase may reflect candidate processing, embedding/search implementation, caching, or other pipeline details; attribution requires profiling and precise timing boundaries.
+The result is not evidence that dense retrieval is generally more sensitive than BM25 or hybrid retrieval; the analysis tests within-method changes against each method's baseline, not direct between-method differences. Further, latency is implementation- and environment-dependent. The measured increase cannot be attributed to retrieval computation: the timer surrounds `generate_rag_answer`, not the retriever. It may reflect the answer-generation request, service variability, context length, caching, or other runtime factors; isolating causes requires controlled timing and profiling.
 
 The hard-distractor experiment is potentially useful as a follow-up because it changes the distractor difficulty. It should remain a separately documented experiment until its notebook cells, data construction, and inferential analysis are validated.
 
@@ -153,7 +151,7 @@ The hard-distractor experiment is potentially useful as a follow-up because it c
 7. **Multiple testing:** Holm correction controls family-wise error for the stated family, but the single significant result is near α = 0.05 and should be replicated.
 8. **No between-method test:** the study does not establish that one retrieval method is better than another.
 9. **Hard-noise extension:** the exploratory file requires a separate, fully documented analysis.
-10. **Artifact reconciliation:** this manuscript uses the supplied corrected statistical summary; the notebook should be rerun in a clean environment and its outputs compared with committed CSVs before claiming full computational reproducibility.
+10. **Artifact reconciliation:** this manuscript uses the frozen CSV and corrected summary; the analysis should be reproduced from the frozen CSV with a canonical script, and the non-LLM notebook path should be audited in a clean environment before claiming full computational reproducibility.
 
 ## 8. Conclusion
 
@@ -171,7 +169,7 @@ Before submitting to a journal or conference, record and publish:
 - distractor selection algorithm and random seed;
 - package and runtime versions;
 - hardware/runtime environment;
-- exact timing boundary and warm-up/caching policy;
+- timing boundary (confirmed in the saved code to surround `generate_rag_answer`), plus warm-up/caching policy and any runtime controls;
 - metric implementation and semantic-similarity model;
 - all 27 paired test outputs and Holm-adjusted p-values;
 - clean rerun logs and checksums for committed artifacts.
