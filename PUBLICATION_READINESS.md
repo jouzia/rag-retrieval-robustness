@@ -11,8 +11,7 @@
 - [x] No missing values
 - [x] No duplicate experiment keys
 - [x] 20 observations per method × noise cell
-- [x] Zero distractor intrusion in final top-5
-- [x] 100% exact top-5 preservation
+- [x] Confirmed zero intrusion / 100% preservation are construction artifacts and documented them as such (not evidence of robustness)
 - [x] 27 planned paired statistical comparisons
 - [x] Holm correction across the 27-test family
 - [x] Paired rank-biserial effect sizes
@@ -20,16 +19,16 @@
 - [x] Validated Results section
 - [x] Statistical CSV artifacts
 - [x] Publication vector figures
-- [x] Manuscript synchronized with validated statistics
+- [x] Manuscript reframed around appended-context effects and synchronized with validated statistics
 - [x] Exploratory hard-distractor experiment kept separate
 - [x] Reproducibility limitations explicitly documented
 - [x] Citation metadata present
 - [x] License present
-- [x] Publication manuscript PDF generated locally
+- [ ] Regenerate current PDF from the revised manuscript and inspect pagination/figures
 
 ## Confirmed primary finding
 
-Dense-retrieval latency at four distractors is the only comparison that remains significant after Holm correction:
+Generation-call latency for the dense-method pipeline at four appended distractors is the only comparison that remains significant after Holm correction:
 
 - 0 distractors: 0.405087 s
 - 4 distractors: 0.595432 s
@@ -43,9 +42,14 @@ Dense-retrieval latency at four distractors is the only comparison that remains 
 
 No answer-quality comparison remains significant after correction.
 
-## Remaining blocker before a full reproducibility claim
+## Remaining blockers before a submission-ready package
 
-Run the saved notebook in a clean environment and compare its deterministic/non-LLM outputs against the committed validated artifacts.
+1. Recompute all 27 statistical comparisons from the frozen CSV with a committed canonical analysis script and compare all rows against the validated CSV.
+2. Audit notebook execution/output consistency without rerunning the 240 LLM calls.
+3. Finish manuscript and README terminology consistency, including figures and citation metadata.
+4. Generate and inspect a fresh PDF from the revised manuscript.
+
+A clean environment run is still required before claiming full computational reproducibility.
 
 The clean rerun should document:
 
@@ -77,4 +81,4 @@ Do not claim:
 
 ## Recommended next stage
 
-The highest-value next step is to correct the framing and comparison count, verify the latency timing boundary, and recompute the 27-test analysis from the frozen CSV. The current top-five stability claim is not supported because distractors are appended after retrieval. If the original retrieval-robustness question is retained, a new candidate-pool perturbation experiment is required. Do not prepare a camera-ready release until these issues are resolved.
+The framing, 27-test family count, and timing terminology have now been corrected in the core manuscript and documentation. The next steps are a reproducible statistical-output check, a non-LLM notebook audit, figure/metadata cleanup, and a fresh PDF build. A candidate-pool perturbation experiment is a separate optional study if the original retrieval-robustness question is still a goal; it is not needed to honestly submit this narrower appended-context study.
