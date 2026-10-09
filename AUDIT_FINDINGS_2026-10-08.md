@@ -1,12 +1,12 @@
 # Reproducibility and Design Audit — Research 1
 
-Audit date: 2026-10-08  
+Audit updated: 2026-10-09  
 Repository: https://github.com/jouzia/rag-retrieval-robustness  
 Scope: saved notebook, frozen 240-row CSV, validated statistics, manuscript claims.
 
 ## Executive finding
 
-**The core manuscript and notebook wording have now been corrected to describe the actual appended-context experiment.** The frozen data and statistical recomputation are available, but publication preparation is still blocked by clean non-LLM notebook verification, incomplete method/provenance reporting, a final literature audit, and the need for a fresh inspected PDF.
+**The core manuscript and notebook wording have now been corrected to describe the actual appended-context experiment.** The frozen data and statistical recomputation are available, but publication preparation is still blocked by clean non-LLM notebook verification, incomplete method/provenance reporting, a final literature audit, and final literature review.
 
 ## Finding 1 — Statistical family is 27 comparisons, not 36
 
@@ -49,9 +49,9 @@ Consequently:
 2. Run `python scripts/audit_notebook_static.py` in a local clone and record its output. Static inspection confirms the notebook JSON parses and the corrected narrative contains no stale primary-result figures, but a clean runtime execution is not yet certified. Do not rerun the 240 LLM evaluations.
 3. Complete the methods record: exact retriever and hybrid-fusion implementation, package/runtime versions, embedding and semantic-similarity model details, and timing controls. The Kaggle data page lists CC BY 4.0; verify that separately bundled artifacts are covered and preserve attribution. The notebook samples 20 questions from the training split, not the held-out test set.
 4. Verify the related-work section against the cited primary papers and expand the literature review as needed. A preliminary set of directly relevant 2024–2025 papers has now been added.
-5. Generate a fresh PDF from the revised manuscript and inspect figures, references, page breaks, and metadata.
+5. [x] Generate and visually inspect a revised five-page PDF draft, including the latency chart, tables, references, and page breaks. Regenerate it if further manuscript edits are made.
 6. Optionally, if the original retrieval-ranking robustness question remains a goal, design a separate candidate-pool perturbation experiment. It is not required to describe the existing experiment honestly and must not be conflated with these frozen results.
 
 ## Publication status
 
-**Not yet publication-ready.** The original framing/count errors have been corrected in the core artifacts, and the statistical artifacts have been reconciled. Submission remains blocked by a clean non-LLM runtime audit, complete methods/provenance, final literature review, and a fresh inspected PDF. The current result must not be submitted as evidence that the retrievers themselves are robust to distractors. No claim of peer review, acceptance, or DOI is warranted.
+**Not yet publication-ready.** The original framing/count errors have been corrected in the core artifacts, and the statistical artifacts have been reconciled. Submission remains blocked by a clean non-LLM runtime audit, complete methods/provenance, and final literature review. The current PDF is an inspected draft, not a final submission package. The current result must not be submitted as evidence that the retrievers themselves are robust to distractors. No claim of peer review, acceptance, or DOI is warranted.
