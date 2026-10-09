@@ -38,10 +38,12 @@ Consequently:
 - [x] Updated the citation title and figure labels.
 - [x] Added `scripts/recompute_primary_statistics.py`, which verifies the frozen CSV checksum and recomputes the 27 paired tests without LLM/API calls.
 - [x] Executed the canonical script against the frozen CSV: 240 rows validated, 27 tests produced, one comparison remained significant after Holm correction.
+- [x] Cross-checked all 27 rows for baseline/noisy means, absolute changes, Wilcoxon statistics, and rank-biserial effects; no mismatches found.
+- [x] Recomputed Holm-adjusted p-values from the stored 27 raw p-values; all 27 adjusted values and significance flags match the validated artifact.
 
 ### Still required before submission
 
-1. Compare every row of the recomputed statistical CSV with `results/statistical_analysis_validated.csv` and reconcile any rounding or ordering differences.
+1. Complete a final raw p-value row-by-row comparison between the canonical script output and `results/statistical_analysis_validated.csv`. All other checked numerical fields and the Holm correction match.
 2. Run a clean, non-LLM notebook audit; do not rerun the 240 LLM evaluations.
 3. Complete the methods record: corpus/question provenance and license, exact retriever and hybrid-fusion implementation, package/runtime versions, embedding and semantic-similarity model details, and timing controls.
 4. Expand the literature review with directly relevant work on RAG context noise, distractors, and evaluation methodology.
