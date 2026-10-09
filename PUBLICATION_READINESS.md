@@ -18,6 +18,8 @@
 - [x] Validated primary result reconciled with raw CSV
 - [x] Canonical Python script added to recompute all 27 tests without LLM/API calls
 - [x] Canonical script executed against frozen CSV: 240 rows, 27 tests, one Holm-significant comparison
+- [x] Added a static notebook audit script to identify Groq/API and package-install cells without executing them
+- [x] Notebook JSON parses; final summary text is consistent with the appended-context scope
 - [x] Validated Results section
 - [x] Statistical CSV artifacts
 - [x] Publication vector figures
@@ -52,12 +54,12 @@ No answer-quality comparison remains significant after correction.
 ## Remaining blockers before a submission-ready package
 
 1. [x] Compare all 27 raw p-values and Holm-adjusted p-values against the committed validated CSV; no mismatches. The 27-row count, descriptive means, absolute changes, Wilcoxon statistics, effect sizes, Holm-adjusted values, and significance flags have been checked without mismatches.
-2. Perform a clean, non-LLM notebook audit and confirm the analysis path is consistent with the canonical script; do not rerun LLM cells.
+2. [ ] Run `python scripts/audit_notebook_static.py` in a local clone and record its output. A clean non-LLM notebook runtime check remains separate; do not rerun LLM cells.
 3. [x] Confirm the Kaggle benchmark data page lists CC BY 4.0. Before release, verify any separately bundled artifacts and preserve attribution. The 20 questions came from the training split, not a held-out test set.
 4. Finish exact package/runtime and metric-model documentation; review the newly added related-work section against the primary sources.
 5. Generate and inspect a fresh PDF from the revised manuscript.
 
-A clean environment run is still required before claiming full computational reproducibility.
+A clean environment run is still required before claiming full computational reproducibility. The static audit script is a guardrail only; it does not execute or certify the notebook.
 
 The clean rerun should document:
 
