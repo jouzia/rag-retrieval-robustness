@@ -2,7 +2,7 @@
 
 ## Current status
 
-**Not yet publication-ready.** The original scope/count errors have been corrected and the statistical tables reconciled. Remaining blockers are clean non-LLM reproducibility verification, complete methods/provenance, final literature review, and a fresh inspected PDF. See [audit findings](AUDIT_FINDINGS_2026-10-08.md).
+**Not yet publication-ready.** The original scope/count errors have been corrected and the statistical tables reconciled. Remaining blockers are clean non-LLM reproducibility verification, complete methods/provenance, and final literature review against the primary sources. See [audit findings](AUDIT_FINDINGS_2026-10-08.md).
 
 ### Completed
 
@@ -29,7 +29,7 @@
 - [x] Citation metadata present
 - [x] Repository license present
 - [x] Confirm Kaggle benchmark dataset page lists CC BY 4.0; verify separate bundled artifacts and attribution before release
-- [ ] Regenerate current PDF from the revised manuscript and inspect pagination/figures
+- [x] Generate a revised 5-page PDF draft and visually inspect pagination, chart, tables, and page breaks (local export; not yet committed to the repository)
 
 ## Contribution and publication-strength assessment
 
@@ -57,7 +57,7 @@ No answer-quality comparison remains significant after correction.
 2. [ ] Run `python scripts/audit_notebook_static.py` in a local clone and record its output. A clean non-LLM notebook runtime check remains separate; do not rerun LLM cells.
 3. [x] Confirm the Kaggle benchmark data page lists CC BY 4.0. Before release, verify any separately bundled artifacts and preserve attribution. The 20 questions came from the training split, not a held-out test set.
 4. Finish exact package/runtime and metric-model documentation; review the newly added related-work section against the primary sources.
-5. Generate and inspect a fresh PDF from the revised manuscript.
+5. [x] Generate and visually inspect the revised PDF draft; regenerate after any further manuscript edits.
 
 A clean environment run is still required before claiming full computational reproducibility. The static audit script is a guardrail only; it does not execute or certify the notebook.
 
@@ -91,4 +91,4 @@ Do not claim:
 
 ## Recommended next stage
 
-The framing, 27-test family count, and timing terminology have now been corrected in the core manuscript and documentation. The current study remains an exploratory appended-context evaluation, not evidence of retriever robustness. A canonical script has been run against the frozen CSV (240 rows, 27 tests, one Holm-significant result). Cross-artifact checks found no mismatches in baseline/noisy means, absolute changes, Wilcoxon statistics, rank-biserial effects, or the Holm correction applied to the stored p-values. The remaining steps are a clean non-LLM notebook/runtime audit, final verification of bundled-artifact license coverage, completion of methods/provenance details, final review of related-work coverage, and a fresh PDF build. A candidate-pool perturbation experiment is a separate optional study if the original retrieval-robustness question is still a goal; it is not needed to honestly submit this narrower appended-context study.
+The framing, 27-test family count, and timing terminology have now been corrected in the core manuscript and documentation. The current study remains an exploratory appended-context evaluation, not evidence of retriever robustness. A canonical script has been run against the frozen CSV (240 rows, 27 tests, one Holm-significant result). Cross-artifact checks found no mismatches in baseline/noisy means, absolute changes, Wilcoxon statistics, rank-biserial effects, or the Holm correction applied to the stored p-values. The remaining steps are a clean non-LLM notebook/runtime audit, final verification of bundled-artifact license coverage, completion of methods/provenance details, and final review of related-work coverage. The current PDF draft was generated and visually inspected, but should be regenerated after any manuscript edits. A candidate-pool perturbation experiment is a separate optional study if the original retrieval-robustness question is still a goal; it is not needed to honestly submit this narrower appended-context study.
