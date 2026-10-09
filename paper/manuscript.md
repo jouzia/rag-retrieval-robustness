@@ -40,9 +40,9 @@ This design does not test retrieval-ranking robustness or whether a distractor c
 
 ### 3.1 Design
 
-The primary experiment crosses 20 evaluation questions with three retrieval methods (BM25, dense, hybrid) and four noise levels (0, 1, 2, 4 distractors), yielding 20 observations per method-condition cell and 240 observations overall. The top-k retrieval limit is five. Distractor sampling uses seed 42. Each noisy result is paired with the corresponding zero-noise result for the same question and retrieval method.
+The primary experiment crosses 20 questions sampled from the benchmark's training split (`train.sample(20, random_state=42)`) with three retrieval methods (BM25, dense, hybrid) and four appended-distractor levels (0, 1, 2, 4), yielding 20 observations per method-condition cell and 240 observations overall. These are not a held-out test set. The top-k retrieval limit is five. Distractor sampling uses seed 42. Each noisy result is paired with the corresponding zero-noise result for the same question and retrieval method.
 
-The saved dataset records noise ratios of 0.0000, 0.1667, 0.2857, and 0.4444. These describe the appended-context construction used in this experiment; they should not be interpreted as perturbation rates of a searchable retrieval corpus.
+The saved dataset records noise ratios of 0.0000, 0.1667, 0.2857, and 0.4444, corresponding to appended-distractor counts divided by the total context chunk count (5 + distractors), for total context sizes of 5, 6, 7, and 9 chunks. These describe appended-context expansion, not perturbation rates of a searchable retrieval corpus.
 
 ### 3.2 Retrieval methods
 
@@ -148,7 +148,7 @@ The hard-distractor experiment is potentially useful as a follow-up because it c
 
 ## 7. Limitations and validity threats
 
-1. **Small question set:** 20 questions may not represent broader query distributions.
+1. **Small, non-held-out question set:** only 20 questions were sampled from the benchmark training split, not an independent test set; this limits generalization and may introduce selection optimism.
 2. **Limited noise range:** only 0, 1, 2, and 4 distractors were evaluated.
 3. **Distractor difficulty:** sampling outside the baseline top-five set may yield distractors that are not sufficiently competitive.
 4. **Fixed top-k:** results may differ for other context budgets.
