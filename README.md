@@ -15,7 +15,7 @@ This repository evaluates how distractor chunks appended after original top-five
 
 | Parameter | Configuration |
 |---|---|
-| Questions | 20 |
+| Questions | 20 sampled from the benchmark training split (not held out) |
 | Retrieval methods | BM25, dense, hybrid |
 | Distractor levels | 0, 1, 2, 4 |
 | Top-k | 5 |
@@ -27,7 +27,7 @@ This repository evaluates how distractor chunks appended after original top-five
 
 ## Main findings from validated result artifacts
 
-- The frozen 240-row primary CSV was independently revalidated for integrity. Important design caveat: distractors were appended after top-five retrieval, so zero intrusion and 100% preservation are guaranteed by construction and do not demonstrate retrieval robustness.
+- The frozen 240-row primary CSV was independently revalidated for integrity. The 20 questions were sampled from the benchmark training split with seed 42; this is not a held-out evaluation. Important design caveat: distractors were appended after top-five retrieval, so zero intrusion and 100% preservation are guaranteed by construction and do not demonstrate retrieval robustness.
 - No Token F1 or semantic-similarity comparison remained significant after Holm correction.
 - The dense-method context at four appended distractors was the only contrast with significant measured generation-call latency after correction: 0.405087 s to 0.595432 s (+46.99%), Holm-adjusted p = 0.045628, rank-biserial correlation = 0.761905 (n = 20). The timer surrounds answer generation, not isolated retrieval.
 - No LLM evaluations were rerun during validation.
