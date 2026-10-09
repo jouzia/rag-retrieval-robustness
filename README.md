@@ -39,6 +39,7 @@ This repository evaluates how distractor chunks appended after original top-five
 
 - [Validated Results section](paper/RESULTS_validated.md)
 - [Canonical 27-test recomputation script](scripts/recompute_primary_statistics.py)
+- [Static notebook safety audit](scripts/audit_notebook_static.py)
 - [Validated statistical analysis](results/statistical_analysis_validated.csv)
 - [Validated descriptive summary](results/descriptive_summary_validated.csv)
 - [Validated retrieval-stability summary](results/retrieval_stability_validated.csv)
