@@ -36,6 +36,7 @@ This repository evaluates how distractor chunks appended after original top-five
 ## Validated publication artifacts
 
 - [Validated Results section](paper/RESULTS_validated.md)
+- [Canonical 27-test recomputation script](scripts/recompute_primary_statistics.py)
 - [Validated statistical analysis](results/statistical_analysis_validated.csv)
 - [Validated descriptive summary](results/descriptive_summary_validated.csv)
 - [Validated retrieval-stability summary](results/retrieval_stability_validated.csv)
@@ -65,9 +66,9 @@ This repository evaluates how distractor chunks appended after original top-five
 
 ## Reproducibility and artifact status
 
-The raw primary CSV is frozen and validated for data integrity. The statistical family contains 27 paired comparisons. See AUDIT_FINDINGS_2026-10-08.md for the design limitation: appended distractors do not test retrieval ranking robustness. A clean notebook rerun is still required for a full computational-reproducibility claim; until that rerun is completed, the repository should be described as artifact-reconciled rather than fully computationally reproduced.
+The raw primary CSV is frozen and validated for data integrity. The statistical family contains 27 paired comparisons. The canonical script verifies the frozen CSV SHA-256, recomputes the paired Wilcoxon tests and Holm correction without LLM/API calls, and writes a fresh statistical CSV: See AUDIT_FINDINGS_2026-10-08.md for the design limitation: appended distractors do not test retrieval ranking robustness. A clean notebook rerun is still required for a full computational-reproducibility claim; until that rerun is completed, the repository should be described as artifact-reconciled rather than fully computationally reproduced.
 
-Exact model identifiers, corpus provenance, package versions, hardware, and timing controls should be documented from the notebook/runtime. The saved timer surrounds `generate_rag_answer`; do not label the metric isolated retrieval latency. Do not treat a GitHub commit or release as evidence of peer review or publication. No DOI is claimed unless a Zenodo deposit is completed.
+Example from the repository root: `python scripts/recompute_primary_statistics.py results/retrieval_noise_results.csv --output results/statistical_analysis_recomputed.csv`. Exact model identifiers, corpus provenance, package versions, hardware, and timing controls should be documented from the notebook/runtime. The saved timer surrounds `generate_rag_answer`; do not label the metric isolated retrieval latency. Do not treat a GitHub commit or release as evidence of peer review or publication. No DOI is claimed unless a Zenodo deposit is completed.
 
 ## Citation
 
