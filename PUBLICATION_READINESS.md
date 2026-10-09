@@ -29,6 +29,10 @@
 - [ ] Confirm source benchmark data redistribution terms
 - [ ] Regenerate current PDF from the revised manuscript and inspect pagination/figures
 
+## Contribution and publication-strength assessment
+
+The current dataset is best positioned as an **exploratory technical report/pilot**, not yet a strong peer-reviewed contribution. The 20 questions were sampled from the benchmark training split, the sample is small, the answer-quality findings are null after correction, and directly related work on distracting/noisy RAG context already exists. A credible paper targeting retrieval robustness needs a separately versioned candidate-pool perturbation experiment with a held-out query set, explicit distractor construction, retrieval-ranking metrics, and a clearly articulated contribution beyond prior noisy-context evaluations.
+
 ## Confirmed primary finding
 
 Generation-call latency for the dense-method pipeline at four appended distractors is the only comparison that remains significant after Holm correction:
@@ -85,4 +89,4 @@ Do not claim:
 
 ## Recommended next stage
 
-The framing, 27-test family count, and timing terminology have now been corrected in the core manuscript and documentation. A canonical script has been run against the frozen CSV (240 rows, 27 tests, one Holm-significant result). Cross-artifact checks found no mismatches in baseline/noisy means, absolute changes, Wilcoxon statistics, rank-biserial effects, or the Holm correction applied to the stored p-values. The remaining steps are a clean non-LLM notebook/runtime audit, confirmation of data-use terms, completion of methods/provenance details, final review of related-work coverage, and a fresh PDF build. A candidate-pool perturbation experiment is a separate optional study if the original retrieval-robustness question is still a goal; it is not needed to honestly submit this narrower appended-context study.
+The framing, 27-test family count, and timing terminology have now been corrected in the core manuscript and documentation. The current study remains an exploratory appended-context evaluation, not evidence of retriever robustness. A canonical script has been run against the frozen CSV (240 rows, 27 tests, one Holm-significant result). Cross-artifact checks found no mismatches in baseline/noisy means, absolute changes, Wilcoxon statistics, rank-biserial effects, or the Holm correction applied to the stored p-values. The remaining steps are a clean non-LLM notebook/runtime audit, confirmation of data-use terms, completion of methods/provenance details, final review of related-work coverage, and a fresh PDF build. A candidate-pool perturbation experiment is a separate optional study if the original retrieval-robustness question is still a goal; it is not needed to honestly submit this narrower appended-context study.
