@@ -43,7 +43,7 @@ This repository evaluates how distractor chunks appended after original top-five
 - [Latency figure](figures/fig_latency.svg)
 - [Token F1 figure](figures/fig_answer_quality.svg)
 - [Semantic-similarity figure](figures/fig_semantic_similarity.svg)
-- [Retrieval-stability figure](figures/fig_retrieval_stability.svg)
+- [Top-five construction diagnostic figure](figures/fig_retrieval_stability.svg)
 - [Validation record](VALIDATION.md)
 
 ## Repository map
