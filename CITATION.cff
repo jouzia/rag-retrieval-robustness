@@ -3,7 +3,7 @@ message: "If you use this research, please cite it as below."
 authors:
   - family-names: "Afreen H"
     given-names: "Shaik Jouzia"
-title: "Evaluating Retrieval Robustness in RAG Systems Under Increasing Distractor Noise"
+title: "Effects of Appended Distractor Context on RAG Answer Quality and Generation Latency"
 version: "1.0.0"
 date-released: "2026-10-01"
 url: "https://github.com/jouzia/rag-retrieval-robustness"
