@@ -2,7 +2,7 @@
 
 ## Current status
 
-**Not yet publication-ready.** The original scope/count errors have been corrected in the core manuscript and notebook text. Remaining blockers are source-data terms, final raw p-value comparison, clean non-LLM reproducibility verification, and a fresh inspected PDF. See [audit findings](AUDIT_FINDINGS_2026-10-08.md).
+**Not yet publication-ready.** The original scope/count errors have been corrected and the statistical tables reconciled. Remaining blockers are clean non-LLM reproducibility verification, complete methods/provenance, final literature review, and a fresh inspected PDF. See [audit findings](AUDIT_FINDINGS_2026-10-08.md).
 
 ### Completed
 
