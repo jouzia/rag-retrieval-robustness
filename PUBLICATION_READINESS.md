@@ -26,7 +26,7 @@
 - [x] Reproducibility limitations explicitly documented
 - [x] Citation metadata present
 - [x] Repository license present
-- [ ] Confirm source benchmark data redistribution terms
+- [x] Confirm Kaggle benchmark dataset page lists CC BY 4.0; verify separate bundled artifacts and attribution before release
 - [ ] Regenerate current PDF from the revised manuscript and inspect pagination/figures
 
 ## Contribution and publication-strength assessment
@@ -53,7 +53,7 @@ No answer-quality comparison remains significant after correction.
 
 1. [x] Compare all 27 raw p-values and Holm-adjusted p-values against the committed validated CSV; no mismatches. The 27-row count, descriptive means, absolute changes, Wilcoxon statistics, effect sizes, Holm-adjusted values, and significance flags have been checked without mismatches.
 2. Perform a clean, non-LLM notebook audit and confirm the analysis path is consistent with the canonical script; do not rerun LLM cells.
-3. Confirm the Kaggle benchmark's data-use/redistribution terms and document the fact that the 20 questions came from the training split, not a held-out test set.
+3. [x] Confirm the Kaggle benchmark data page lists CC BY 4.0. Before release, verify any separately bundled artifacts and preserve attribution. The 20 questions came from the training split, not a held-out test set.
 4. Finish exact package/runtime and metric-model documentation; review the newly added related-work section against the primary sources.
 5. Generate and inspect a fresh PDF from the revised manuscript.
 
@@ -65,7 +65,7 @@ The clean rerun should document:
 2. Package versions.
 3. Hardware/runtime environment.
 4. Exact embedding model identifier/version.
-5. Corpus provenance and license (source dataset terms are still unconfirmed).
+5. Corpus provenance and license (Kaggle dataset page lists CC BY 4.0; confirm any separate bundled artifacts and attribution).
 6. Question/reference-answer provenance.
 7. BM25, dense, and hybrid implementation details.
 8. Hybrid fusion method and parameters.
@@ -89,4 +89,4 @@ Do not claim:
 
 ## Recommended next stage
 
-The framing, 27-test family count, and timing terminology have now been corrected in the core manuscript and documentation. The current study remains an exploratory appended-context evaluation, not evidence of retriever robustness. A canonical script has been run against the frozen CSV (240 rows, 27 tests, one Holm-significant result). Cross-artifact checks found no mismatches in baseline/noisy means, absolute changes, Wilcoxon statistics, rank-biserial effects, or the Holm correction applied to the stored p-values. The remaining steps are a clean non-LLM notebook/runtime audit, confirmation of data-use terms, completion of methods/provenance details, final review of related-work coverage, and a fresh PDF build. A candidate-pool perturbation experiment is a separate optional study if the original retrieval-robustness question is still a goal; it is not needed to honestly submit this narrower appended-context study.
+The framing, 27-test family count, and timing terminology have now been corrected in the core manuscript and documentation. The current study remains an exploratory appended-context evaluation, not evidence of retriever robustness. A canonical script has been run against the frozen CSV (240 rows, 27 tests, one Holm-significant result). Cross-artifact checks found no mismatches in baseline/noisy means, absolute changes, Wilcoxon statistics, rank-biserial effects, or the Holm correction applied to the stored p-values. The remaining steps are a clean non-LLM notebook/runtime audit, final verification of bundled-artifact license coverage, completion of methods/provenance details, final review of related-work coverage, and a fresh PDF build. A candidate-pool perturbation experiment is a separate optional study if the original retrieval-robustness question is still a goal; it is not needed to honestly submit this narrower appended-context study.
