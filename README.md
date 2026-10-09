@@ -1,15 +1,15 @@
-# Evaluating Retrieval Robustness in RAG Systems Under Increasing Distractor Noise
+# Effects of Appended Distractor Context on RAG Answer Quality and Generation Latency
 
 **Author:** Shaik Jouzia Afreen H  
 **Area:** Retrieval-Augmented Generation (RAG), information retrieval, NLP
 
-This repository studies how injected distractor documents affect retrieval stability, answer-quality metrics, and latency for BM25, dense, and hybrid retrieval.
+This repository evaluates how distractor chunks appended after original top-five retrieval affect answer-quality metrics and measured generation-call latency in BM25-, dense-, and hybrid-retrieval pipelines.
 
 > **Scope note:** Findings apply only to the tested corpus, implementation, distractor construction, top-k setting, and noise levels. They do not establish universal robustness. See the limitations in the manuscript and validation record.
 
 ## Research question
 
-**RQ1:** How does increasing distractor-document noise affect retrieval stability, generated-answer quality, and latency in BM25, dense, and hybrid retrieval systems within a RAG pipeline?
+**RQ1:** Under a fixed original top-five retrieval result, how does appending distractor chunks affect generated-answer quality and generation-call latency across BM25-, dense-, and hybrid-retrieval pipelines?
 
 ## Primary experiment
 
@@ -67,7 +67,7 @@ This repository studies how injected distractor documents affect retrieval stabi
 
 The raw primary CSV is frozen and validated for data integrity. The statistical family contains 27 paired comparisons. See AUDIT_FINDINGS_2026-10-08.md for the design limitation: appended distractors do not test retrieval ranking robustness. A clean notebook rerun is still required for a full computational-reproducibility claim; until that rerun is completed, the repository should be described as artifact-reconciled rather than fully computationally reproduced.
 
-Exact model identifiers, corpus provenance, package versions, hardware, and timing boundaries should be documented from the notebook/runtime. Do not treat a GitHub commit or release as evidence of peer review or publication. No DOI is claimed unless a Zenodo deposit is completed.
+Exact model identifiers, corpus provenance, package versions, hardware, and timing controls should be documented from the notebook/runtime. The saved timer surrounds `generate_rag_answer`; do not label the metric isolated retrieval latency. Do not treat a GitHub commit or release as evidence of peer review or publication. No DOI is claimed unless a Zenodo deposit is completed.
 
 ## Citation
 
