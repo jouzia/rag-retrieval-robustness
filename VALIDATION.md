@@ -33,7 +33,7 @@ Effect size is paired rank-biserial correlation.
 
 ## Confirmed primary result
 
-The only comparison remaining significant after the 27-test Holm correction was dense-retrieval latency at 4 distractors:
+The only comparison remaining significant after the 27-test Holm correction was generation-call latency for the dense-method pipeline at 4 appended distractors:
 
 - baseline mean: 0.405087 s
 - noise-4 mean: 0.595432 s
@@ -53,7 +53,7 @@ Important design qualification: the notebook retrieves the original top-five fir
 
 This should not be generalized to arbitrary distractor distributions, corpora, retrievers, top-k values, or RAG pipelines. The answer-quality metrics also do not show a statistically significant degradation under the tested random-noise conditions after multiplicity correction.
 
-The latency timer surrounds the answer-generation function call, so this should be called generation-call latency, not isolated retrieval latency. It may include external model-service/runtime variability and cannot be attributed solely to retrieval.
+The timer was verified in notebook code to surround `generate_rag_answer`, so this is generation-call latency, not isolated retrieval latency. It may include external model-service/runtime variability and cannot be attributed solely to retrieval.
 
 ## Version reconciliation
 
