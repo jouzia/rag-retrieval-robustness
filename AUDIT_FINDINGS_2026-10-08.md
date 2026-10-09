@@ -25,16 +25,16 @@ Consequently:
 
 - The frozen CSV has 240 rows; previous integrity checks report no missing values or duplicate experiment keys.
 - Paired descriptive and inferential calculations can be reported for the 27-test family, provided the analysis script and outputs are reconciled.
-- The dense latency contrast in the frozen artifact is 0.405087 s versus 0.595432 s (+46.99%), raw p = 0.0016899, Holm-adjusted p = 0.0456276, rank-biserial correlation = 0.761905, n = 20. **Do not label this retrieval latency until the timer boundaries are verified.** If the timer surrounds the LLM request, it is generation/API latency and may reflect model-service variability.
+- The dense latency contrast in the frozen artifact is 0.405087 s versus 0.595432 s (+46.99%), raw p = 0.0016899, Holm-adjusted p = 0.0456276, rank-biserial correlation = 0.761905, n = 20. The timer was subsequently verified to surround `generate_rag_answer`; therefore this is generation-call latency, not isolated retrieval latency, and it may reflect model-service variability.
 
 ## Required corrective work before submission
 
 1. Correct the planned comparison count from 36 to 27 in the manuscript, validated results, README, validation record, and notebook markdown.
 2. Reframe the existing experiment around appended distractor context, not retrieval-ranking robustness.
 3. The timing code was inspected: it measures the generate_rag_answer function call. Rename the metric to generation-call latency in prose/figures where feasible; do not call it isolated retrieval latency.
-4. State that top-five contamination/preservation measures are tautological under the current construction; do not present them as a positive empirical result.
-5. If retaining the original retrieval-robustness question, design a new experiment that adds distractors to the candidate corpus before retrieval and then reruns each retriever. This would be a new experiment and should be separately versioned; the frozen LLM dataset need not be rerun merely to correct the existing paper.
-6. Recompute analysis outputs from the frozen CSV using a single canonical script and confirm agreement with committed tables.
+4. State that top-five contamination/preservation measures are construction diagnostics, not positive empirical results. This correction has been applied to the manuscript and results text.
+5. If retaining the original retrieval-robustness question, design a separate experiment that adds distractors to the candidate corpus before retrieval and reruns each retriever. This is optional new research and must not be conflated with the frozen appended-context experiment.
+6. Recompute analysis outputs from the frozen CSV using a canonical script and confirm agreement with committed tables.
 7. After these corrections, run a clean, non-LLM notebook analysis audit and prepare the submission package.
 
 ## Publication status
