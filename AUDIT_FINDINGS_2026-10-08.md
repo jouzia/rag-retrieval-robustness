@@ -40,11 +40,13 @@ Consequently:
 - [x] Executed the canonical script against the frozen CSV: 240 rows validated, 27 tests produced, one comparison remained significant after Holm correction.
 - [x] Cross-checked all 27 rows for baseline/noisy means, absolute changes, Wilcoxon statistics, and rank-biserial effects; no mismatches found.
 - [x] Recomputed Holm-adjusted p-values from the stored 27 raw p-values; all 27 adjusted values and significance flags match the validated artifact.
+- [x] Added `scripts/audit_notebook_static.py` to flag notebook cells that may install packages or call external APIs without executing them.
+- [x] Notebook JSON parses; updated final summary cells no longer have stale saved outputs.
 
 ### Still required before submission
 
 1. [x] Compare all 27 raw p-values and Holm-adjusted p-values between the canonical recomputation and `results/statistical_analysis_validated.csv`; no mismatches. All other checked numerical fields also match.
-2. Run a clean, non-LLM notebook/runtime audit; do not rerun the 240 LLM evaluations. Static inspection confirms the notebook JSON parses and the corrected narrative contains no stale primary-result figures, but a clean runtime execution is not yet certified.
+2. Run `python scripts/audit_notebook_static.py` in a local clone and record its output. Static inspection confirms the notebook JSON parses and the corrected narrative contains no stale primary-result figures, but a clean runtime execution is not yet certified. Do not rerun the 240 LLM evaluations.
 3. Complete the methods record: exact retriever and hybrid-fusion implementation, package/runtime versions, embedding and semantic-similarity model details, and timing controls. The Kaggle data page lists CC BY 4.0; verify that separately bundled artifacts are covered and preserve attribution. The notebook samples 20 questions from the training split, not the held-out test set.
 4. Verify the related-work section against the cited primary papers and expand the literature review as needed. A preliminary set of directly relevant 2024–2025 papers has now been added.
 5. Generate a fresh PDF from the revised manuscript and inspect figures, references, page breaks, and metadata.
