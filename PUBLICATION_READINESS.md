@@ -47,7 +47,7 @@ No answer-quality comparison remains significant after correction.
 
 ## Remaining blockers before a submission-ready package
 
-1. Finish a raw p-value row-by-row comparison against the committed validated CSV. The 27-row count, descriptive means, absolute changes, Wilcoxon statistics, effect sizes, Holm-adjusted values, and significance flags have already been checked without mismatches.
+1. [x] Compare all 27 raw p-values and Holm-adjusted p-values against the committed validated CSV; no mismatches. The 27-row count, descriptive means, absolute changes, Wilcoxon statistics, effect sizes, Holm-adjusted values, and significance flags have been checked without mismatches.
 2. Perform a clean, non-LLM notebook audit and confirm the analysis path is consistent with the canonical script; do not rerun LLM cells.
 3. Confirm the Kaggle benchmark's data-use/redistribution terms and document the fact that the 20 questions came from the training split, not a held-out test set.
 4. Finish exact package/runtime and metric-model documentation; review the newly added related-work section against the primary sources.
@@ -85,4 +85,4 @@ Do not claim:
 
 ## Recommended next stage
 
-The framing, 27-test family count, and timing terminology have now been corrected in the core manuscript and documentation. A canonical script has been run against the frozen CSV (240 rows, 27 tests, one Holm-significant result). Cross-artifact checks found no mismatches in baseline/noisy means, absolute changes, Wilcoxon statistics, rank-biserial effects, or the Holm correction applied to the stored p-values. The remaining steps are a final raw p-value comparison, non-LLM notebook audit, confirmation of data-use terms, completion of methods/provenance details, literature review, and a fresh PDF build. A candidate-pool perturbation experiment is a separate optional study if the original retrieval-robustness question is still a goal; it is not needed to honestly submit this narrower appended-context study.
+The framing, 27-test family count, and timing terminology have now been corrected in the core manuscript and documentation. A canonical script has been run against the frozen CSV (240 rows, 27 tests, one Holm-significant result). Cross-artifact checks found no mismatches in baseline/noisy means, absolute changes, Wilcoxon statistics, rank-biserial effects, or the Holm correction applied to the stored p-values. The remaining steps are a clean non-LLM notebook/runtime audit, confirmation of data-use terms, completion of methods/provenance details, final review of related-work coverage, and a fresh PDF build. A candidate-pool perturbation experiment is a separate optional study if the original retrieval-robustness question is still a goal; it is not needed to honestly submit this narrower appended-context study.
