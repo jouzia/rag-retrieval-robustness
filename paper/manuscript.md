@@ -7,7 +7,7 @@
 
 ## Abstract
 
-Retrieval-Augmented Generation (RAG) systems depend on retrieval to supply evidence to downstream language generation. Irrelevant text appended to an already-retrieved context may affect downstream answer quality and the measured answer-generation call. This study evaluates BM25, dense, and hybrid retrieval across 20 questions and four appended-context distractor conditions (0, 1, 2, and 4 chunks), with a fixed top-k of five. The primary experiment contains 240 method-condition observations. The experiment appends distractor chunks to each method's already-retrieved top-five context; answer quality is assessed using token-level F1 and semantic similarity; and measured latency covers the answer-generation call. Each non-zero noise condition is compared with its matched baseline using paired Wilcoxon signed-rank tests, with Holm correction across 27 comparisons.
+Retrieval-Augmented Generation (RAG) systems depend on retrieval to supply evidence to downstream language generation. Irrelevant text appended to an already-retrieved context may affect downstream answer quality and the measured answer-generation call. This study evaluates BM25, dense, and hybrid retrieval across 20 questions and four appended-context distractor conditions (0, 1, 2, and 4 chunks), with a fixed top-k of five. The primary experiment contains 240 method-condition observations. The experiment appends distractor chunks to each method's already-retrieved top-five context; answer quality is assessed using token-level F1 and semantic similarity; and measured latency covers the answer-generation call. Each non-zero appended-distractor condition is compared with its matched baseline using paired Wilcoxon signed-rank tests, with Holm correction across 27 comparisons.
 
 Because distractors are appended after retrieval, unchanged top-five rankings are guaranteed by construction and do not provide evidence of retrieval robustness. The only comparison reported as statistically significant after Holm correction is generation-call latency for the dense method at four appended distractors: mean latency rises from 0.405087 s to 0.595432 s (+46.99%; adjusted p = 0.045628; rank-biserial correlation = 0.761905; n = 20). No answer-quality comparison remains significant after correction. The experiment therefore concerns downstream context augmentation, not whether retrieval rankings resist distractors.
 
@@ -42,7 +42,7 @@ This design does not test retrieval-ranking robustness or whether a distractor c
 
 The primary experiment crosses 20 questions sampled from the benchmark's training split (`train.sample(20, random_state=42)`) with three retrieval methods (BM25, dense, hybrid) and four appended-distractor levels (0, 1, 2, 4), yielding 20 observations per method-condition cell and 240 observations overall. These are not a held-out test set. The top-k retrieval limit is five. Distractor sampling uses seed 42. Each noisy result is paired with the corresponding zero-noise result for the same question and retrieval method.
 
-The saved dataset records noise ratios of 0.0000, 0.1667, 0.2857, and 0.4444, corresponding to appended-distractor counts divided by the total context chunk count (5 + distractors), for total context sizes of 5, 6, 7, and 9 chunks. These describe appended-context expansion, not perturbation rates of a searchable retrieval corpus.
+The saved dataset records appended-context ratios of 0.0000, 0.1667, 0.2857, and 0.4444, corresponding to appended-distractor counts divided by the total context chunk count (5 + distractors), for total context sizes of 5, 6, 7, and 9 chunks. These describe appended-context expansion, not perturbation rates of a searchable retrieval corpus.
 
 ### 3.2 Retrieval methods
 
@@ -70,7 +70,7 @@ Each non-zero noise condition is paired with the zero-noise baseline for the sam
 
 ## 4. Results
 
-The primary experiment contains 240 observations. The inferential family comprises 27 planned paired comparisons (3 methods × 3 metrics × 3 non-zero noise contrasts), corrected jointly using Holm's step-down procedure.
+The primary appended-context experiment contains 240 observations. The inferential family comprises 27 planned paired comparisons (3 methods × 3 metrics × 3 non-zero noise contrasts), corrected jointly using Holm's step-down procedure.
 
 ### 4.1 Retrieval-set accounting limitation
 
@@ -82,7 +82,7 @@ The figure is retained only to make this construction property transparent. It i
 
 ### 4.2 Generation-call latency
 
-![Mean latency by distractor level](../figures/fig_latency.svg)
+![Mean generation-call latency by appended-distractor level](../figures/fig_latency.svg)
 
 The supplied summary gives the following mean latency values:
 
@@ -94,7 +94,7 @@ The supplied summary gives the following mean latency values:
 
 Relative changes are calculated from the displayed rounded means, so they may differ slightly from calculations using unrounded observations.
 
-The only comparison reported as surviving Holm correction is the dense-method pipeline's generation-call latency at four appended distractors:
+The only comparison that survives Holm correction in the saved validated table is the dense-method pipeline's generation-call latency at four appended distractors:
 
 | Statistic | Value |
 |---|---:|
@@ -202,4 +202,4 @@ Before submitting to a journal or conference, record and publish:
 
 ## Data and code availability
 
-The executable notebook is hosted at [Kaggle](https://www.kaggle.com/code/shaikjouziaafreenh/rag-retrieval-robustness-study). The repository's results directory is intended to contain the CSV outputs used for the reported tables. The manuscript should be considered an artifact-reconciled draft until a clean notebook rerun confirms all committed outputs.
+The executable notebook is hosted at [Kaggle](https://www.kaggle.com/code/shaikjouziaafreenh/rag-retrieval-robustness-study), and the repository contains the frozen raw CSV, validated statistical tables, and a canonical script for recomputing the 27 tests without LLM/API calls. The manuscript should be considered an artifact-reconciled draft until the non-LLM notebook path is checked in a clean environment. The notebook does not pin dependency versions, so the original runtime cannot yet be reconstructed exactly from the saved artifact.
