@@ -45,8 +45,8 @@ Consequently:
 
 1. Complete a final raw p-value row-by-row comparison between the canonical script output and `results/statistical_analysis_validated.csv`. All other checked numerical fields and the Holm correction match.
 2. Run a clean, non-LLM notebook audit; do not rerun the 240 LLM evaluations.
-3. Complete the methods record: corpus/question provenance and license, exact retriever and hybrid-fusion implementation, package/runtime versions, embedding and semantic-similarity model details, and timing controls.
-4. Expand the literature review with directly relevant work on RAG context noise, distractors, and evaluation methodology.
+3. Complete the methods record: corpus/question provenance and license, exact retriever and hybrid-fusion implementation, package/runtime versions, embedding and semantic-similarity model details, and timing controls. The notebook samples 20 questions from the Kaggle benchmark training split, not the held-out test set; verify the competition's redistribution terms before any wider data release.
+4. Verify the related-work section against the cited primary papers and expand the literature review as needed. A preliminary set of directly relevant 2024–2025 papers has now been added.
 5. Generate a fresh PDF from the revised manuscript and inspect figures, references, page breaks, and metadata.
 6. Optionally, if the original retrieval-ranking robustness question remains a goal, design a separate candidate-pool perturbation experiment. It is not required to describe the existing experiment honestly and must not be conflated with these frozen results.
 
