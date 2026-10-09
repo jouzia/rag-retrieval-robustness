@@ -2,7 +2,7 @@
 
 ## Current status
 
-**Not yet publication-ready. Notebook audit found a research-design mismatch and a statistical-family count error. See [audit findings](AUDIT_FINDINGS_2026-10-08.md).**
+**Not yet publication-ready.** The original scope/count errors have been corrected in the core manuscript and notebook text. Remaining blockers are source-data terms, final raw p-value comparison, clean non-LLM reproducibility verification, and a fresh inspected PDF. See [audit findings](AUDIT_FINDINGS_2026-10-08.md).
 
 ### Completed
 
@@ -25,7 +25,8 @@
 - [x] Exploratory hard-distractor experiment kept separate
 - [x] Reproducibility limitations explicitly documented
 - [x] Citation metadata present
-- [x] License present
+- [x] Repository license present
+- [ ] Confirm source benchmark data redistribution terms
 - [ ] Regenerate current PDF from the revised manuscript and inspect pagination/figures
 
 ## Confirmed primary finding
@@ -46,10 +47,11 @@ No answer-quality comparison remains significant after correction.
 
 ## Remaining blockers before a submission-ready package
 
-1. Compare every row of the freshly recomputed statistical CSV against the committed validated CSV, including rounding/tolerance.
-2. Perform a clean, non-LLM notebook audit and confirm the executable analysis path is consistent with the canonical script.
-3. Document unresolved implementation/corpus/runtime provenance and add relevant literature coverage.
-4. Generate and inspect a fresh PDF from the revised manuscript.
+1. Finish a raw p-value row-by-row comparison against the committed validated CSV. The 27-row count, descriptive means, absolute changes, Wilcoxon statistics, effect sizes, Holm-adjusted values, and significance flags have already been checked without mismatches.
+2. Perform a clean, non-LLM notebook audit and confirm the analysis path is consistent with the canonical script; do not rerun LLM cells.
+3. Confirm the Kaggle benchmark's data-use/redistribution terms and document the fact that the 20 questions came from the training split, not a held-out test set.
+4. Finish exact package/runtime and metric-model documentation; review the newly added related-work section against the primary sources.
+5. Generate and inspect a fresh PDF from the revised manuscript.
 
 A clean environment run is still required before claiming full computational reproducibility.
 
@@ -59,7 +61,7 @@ The clean rerun should document:
 2. Package versions.
 3. Hardware/runtime environment.
 4. Exact embedding model identifier/version.
-5. Corpus provenance and license.
+5. Corpus provenance and license (source dataset terms are still unconfirmed).
 6. Question/reference-answer provenance.
 7. BM25, dense, and hybrid implementation details.
 8. Hybrid fusion method and parameters.
@@ -83,4 +85,4 @@ Do not claim:
 
 ## Recommended next stage
 
-The framing, 27-test family count, and timing terminology have now been corrected in the core manuscript and documentation. A canonical script has been run against the frozen CSV (240 rows, 27 tests, one Holm-significant result). Cross-artifact checks found no mismatches in baseline/noisy means, absolute changes, Wilcoxon statistics, rank-biserial effects, or the Holm correction applied to the stored p-values. The remaining steps are a full row-by-row artifact comparison, non-LLM notebook audit, complete methods/provenance and literature review, and a fresh PDF build. A candidate-pool perturbation experiment is a separate optional study if the original retrieval-robustness question is still a goal; it is not needed to honestly submit this narrower appended-context study.
+The framing, 27-test family count, and timing terminology have now been corrected in the core manuscript and documentation. A canonical script has been run against the frozen CSV (240 rows, 27 tests, one Holm-significant result). Cross-artifact checks found no mismatches in baseline/noisy means, absolute changes, Wilcoxon statistics, rank-biserial effects, or the Holm correction applied to the stored p-values. The remaining steps are a final raw p-value comparison, non-LLM notebook audit, confirmation of data-use terms, completion of methods/provenance details, literature review, and a fresh PDF build. A candidate-pool perturbation experiment is a separate optional study if the original retrieval-robustness question is still a goal; it is not needed to honestly submit this narrower appended-context study.
