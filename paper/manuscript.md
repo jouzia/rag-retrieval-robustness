@@ -21,6 +21,12 @@ Sparse lexical retrieval such as BM25 ranks documents using term statistics. Den
 
 This study evaluates whether appending 0, 1, 2, or 4 distractor chunks after the original top-five retrieval changes answer-quality metrics or measured generation-call latency. Because retrieval is not rerun after injection, top-five contamination and preservation are construction diagnostics, not experimental outcomes.
 
+### 1.1 Related work and scope distinction
+
+Prior work has examined how irrelevant or misleading context affects retrieval-augmented generation. Shen et al. evaluate whether language models can answer robustly when retrieved passages are distracting or irrelevant [6]. Pan et al. study credibility-aware generation under noisy context [7], while NoMIRACL provides a multilingual benchmark for evaluating model behavior when retrieved passages are relevant or non-relevant [8]. Other work studies low-level document perturbations that can disrupt a RAG pipeline [9] and characterizes hard distracting passages that are more than merely unrelated text [10]. These studies make clear that context quality, distractor difficulty, and the stage at which noise is introduced are important design choices.
+
+The present experiment is narrower than those retrieval-robustness and noisy-context studies. Its distractors are sampled and appended **after** the original top-five retrieval, so it does not evaluate whether distractors alter ranking or enter through retrieval. Its defensible contribution is a small, implementation-specific pilot of answer-quality metrics and generation-call latency under appended-context expansion. Given the 20-question sample, single generation setup, and unresolved corpus/provenance details, the results should be treated as exploratory rather than as a new general benchmark or evidence of retriever robustness.
+
 ## 2. Research question and hypotheses
 
 **RQ1:** Under a fixed original top-five retrieval result, how does appending increasing numbers of distractor chunks affect generated-answer quality and generation-call latency across BM25-, dense-, and hybrid-retrieval pipelines?
@@ -44,7 +50,7 @@ The saved dataset records noise ratios of 0.0000, 0.1667, 0.2857, and 0.4444. Th
 - **Dense retrieval:** embedding-based semantic retrieval.
 - **Hybrid retrieval:** combination of lexical and semantic retrieval signals.
 
-The manuscript describes these method families. Exact implementation details (model identifiers, embedding model, hybrid fusion method, corpus provenance, and software versions) should be documented from the executable notebook before a camera-ready or journal submission.
+BM25 uses `rank_bm25` with lowercased whitespace tokenization. Dense retrieval uses FAISS `IndexFlatIP` over the provided corpus embeddings, with `sentence-transformers/all-MiniLM-L6-v2` used to encode query embeddings in the notebook. Hybrid retrieval uses min-max normalized BM25 and dense scores with an alpha-weighted combination (the notebook's default is alpha = 0.5). The corpus and train/test files are loaded from the Kaggle competition input `agent-eval-part-i-grounded-rag-benchmark`. The data's redistribution terms, precise embedding provenance, package versions, and exact hybrid fusion implementation/version still require confirmation before submission.
 
 ### 3.3 Distractor construction
 
@@ -162,7 +168,7 @@ The conclusion is deliberately scoped: under this particular corpus, implementat
 ## 9. Reproducibility checklist
 
 Before submitting to a journal or conference, record and publish:
-- dataset/corpus source and license;
+- dataset/corpus source and license (the notebook loads the Agent Eval Part I Grounded RAG Benchmark from Kaggle; redistribution terms still need confirmation);
 - question and reference-answer provenance;
 - exact sparse, dense, and hybrid implementation details;
 - embedding model and model version;
@@ -181,6 +187,16 @@ Before submitting to a journal or conference, record and publish:
 3. Karpukhin, V. et al. (2020). Dense Passage Retrieval for Open-Domain Question Answering. *Proceedings of EMNLP 2020*, 6769–6781.
 4. Wilcoxon, F. (1945). Individual Comparisons by Ranking Methods. *Biometrics Bulletin*, 1(6), 80–83.
 5. Holm, S. (1979). A Simple Sequentially Rejective Multiple Test Procedure. *Scandinavian Journal of Statistics*, 6(2), 65–70.
+
+6. Shen, X., Blloshmi, R., Zhu, D., Pei, J., & Zhang, W. (2024). Assessing “Implicit” Retrieval Robustness of Large Language Models. *Proceedings of EMNLP 2024*, 8988–9003. https://doi.org/10.18653/v1/2024.emnlp-main.507
+
+7. Pan, R., Cao, B., Lin, H., Han, X., Zheng, J., Wang, S., Cai, X., & Sun, L. (2024). Not All Contexts Are Equal: Teaching LLMs Credibility-aware Generation. *Proceedings of EMNLP 2024*, 19844–19863. https://doi.org/10.18653/v1/2024.emnlp-main.1109
+
+8. Thakur, N. et al. (2024). “Knowing When You Don’t Know”: A Multilingual Relevance Assessment Dataset for Robust Retrieval-Augmented Generation. *Findings of EMNLP 2024*. https://doi.org/10.18653/v1/2024.findings-emnlp.730
+
+9. Cho, S., Jeong, S., Seo, J., Hwang, T., & Park, J. C. (2024). Typos that Broke the RAG’s Back: Genetic Attack on RAG Pipeline by Simulating Documents in the Wild via Low-level Perturbations. *Findings of EMNLP 2024*, 2826–2844. https://doi.org/10.18653/v1/2024.findings-emnlp.161
+
+10. Amiraz, C., Cuconasu, F., Filice, S., & Karnin, Z. (2025). The Distracting Effect: Understanding Irrelevant Passages in RAG. *Proceedings of ACL 2025*, 18228–18258. https://doi.org/10.18653/v1/2025.acl-long.892
 
 ## Data and code availability
 
