@@ -6,7 +6,7 @@ Scope: saved notebook, frozen 240-row CSV, validated statistics, manuscript clai
 
 ## Executive finding
 
-**The core manuscript and notebook wording have now been corrected to describe the actual appended-context experiment.** The frozen data and statistical recomputation are available, but publication preparation is still blocked by full artifact-to-artifact comparison, clean non-LLM notebook verification, incomplete method/provenance reporting, literature coverage, and the need for a fresh inspected PDF.
+**The core manuscript and notebook wording have now been corrected to describe the actual appended-context experiment.** The frozen data and statistical recomputation are available, but publication preparation is still blocked by clean non-LLM notebook verification, incomplete method/provenance reporting, a final literature audit, and the need for a fresh inspected PDF.
 
 ## Finding 1 — Statistical family is 27 comparisons, not 36
 
@@ -45,11 +45,11 @@ Consequently:
 
 1. [x] Compare all 27 raw p-values and Holm-adjusted p-values between the canonical recomputation and `results/statistical_analysis_validated.csv`; no mismatches. All other checked numerical fields also match.
 2. Run a clean, non-LLM notebook/runtime audit; do not rerun the 240 LLM evaluations. Static inspection confirms the notebook JSON parses and the corrected narrative contains no stale primary-result figures, but a clean runtime execution is not yet certified.
-3. Complete the methods record: corpus/question provenance and license, exact retriever and hybrid-fusion implementation, package/runtime versions, embedding and semantic-similarity model details, and timing controls. The notebook samples 20 questions from the Kaggle benchmark training split, not the held-out test set; verify the competition's redistribution terms before any wider data release.
+3. Complete the methods record: exact retriever and hybrid-fusion implementation, package/runtime versions, embedding and semantic-similarity model details, and timing controls. The Kaggle data page lists CC BY 4.0; verify that separately bundled artifacts are covered and preserve attribution. The notebook samples 20 questions from the training split, not the held-out test set.
 4. Verify the related-work section against the cited primary papers and expand the literature review as needed. A preliminary set of directly relevant 2024–2025 papers has now been added.
 5. Generate a fresh PDF from the revised manuscript and inspect figures, references, page breaks, and metadata.
 6. Optionally, if the original retrieval-ranking robustness question remains a goal, design a separate candidate-pool perturbation experiment. It is not required to describe the existing experiment honestly and must not be conflated with these frozen results.
 
 ## Publication status
 
-**Not yet publication-ready.** The original framing/count errors have been corrected in the core artifacts, and the frozen-data analysis script has been run. Submission remains blocked by the validation tasks listed above. The current result must not be submitted as evidence that the retrievers themselves are robust to distractors. No claim of peer review, acceptance, or DOI is warranted.
+**Not yet publication-ready.** The original framing/count errors have been corrected in the core artifacts, and the statistical artifacts have been reconciled. Submission remains blocked by a clean non-LLM runtime audit, complete methods/provenance, final literature review, and a fresh inspected PDF. The current result must not be submitted as evidence that the retrievers themselves are robust to distractors. No claim of peer review, acceptance, or DOI is warranted.
