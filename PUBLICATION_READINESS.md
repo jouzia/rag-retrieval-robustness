@@ -16,6 +16,8 @@
 - [x] Holm correction across the 27-test family
 - [x] Paired rank-biserial effect sizes
 - [x] Validated primary result reconciled with raw CSV
+- [x] Canonical Python script added to recompute all 27 tests without LLM/API calls
+- [x] Canonical script executed against frozen CSV: 240 rows, 27 tests, one Holm-significant comparison
 - [x] Validated Results section
 - [x] Statistical CSV artifacts
 - [x] Publication vector figures
@@ -44,9 +46,9 @@ No answer-quality comparison remains significant after correction.
 
 ## Remaining blockers before a submission-ready package
 
-1. Recompute all 27 statistical comparisons from the frozen CSV with a committed canonical analysis script and compare all rows against the validated CSV.
-2. Audit notebook execution/output consistency without rerunning the 240 LLM calls.
-3. Finish manuscript and README terminology consistency, including figures and citation metadata.
+1. Compare every row of the freshly recomputed statistical CSV against the committed validated CSV, including rounding/tolerance.
+2. Perform a clean, non-LLM notebook audit and confirm the executable analysis path is consistent with the canonical script.
+3. Document unresolved implementation/corpus/runtime provenance and add relevant literature coverage.
 4. Generate and inspect a fresh PDF from the revised manuscript.
 
 A clean environment run is still required before claiming full computational reproducibility.
@@ -81,4 +83,4 @@ Do not claim:
 
 ## Recommended next stage
 
-The framing, 27-test family count, and timing terminology have now been corrected in the core manuscript and documentation. The next steps are a reproducible statistical-output check, a non-LLM notebook audit, figure/metadata cleanup, and a fresh PDF build. A candidate-pool perturbation experiment is a separate optional study if the original retrieval-robustness question is still a goal; it is not needed to honestly submit this narrower appended-context study.
+The framing, 27-test family count, and timing terminology have now been corrected in the core manuscript and documentation. A canonical script has been run against the frozen CSV (240 rows, 27 tests, one Holm-significant result). The remaining steps are a full row-by-row artifact comparison, non-LLM notebook audit, complete methods/provenance and literature review, and a fresh PDF build. A candidate-pool perturbation experiment is a separate optional study if the original retrieval-robustness question is still a goal; it is not needed to honestly submit this narrower appended-context study.
