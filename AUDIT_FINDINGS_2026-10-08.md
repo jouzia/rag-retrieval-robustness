@@ -41,7 +41,7 @@ To avoid silently bypassing the integrity check, a diagnostic run recomputed the
 
 Source-level inspection found:
 - 91 notebook cells;
-- 39 code cells with saved execution counts in the static-audit snapshot;
+- 49 code cells with saved execution counts in the static-audit snapshot;
 - Papermill metadata with `exception: true`;
 - saved cell 39 raising `AssertionError: Expected 240 rows, found 15`;
 - package-install cells 6, 11, and 25;
