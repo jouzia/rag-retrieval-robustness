@@ -7,7 +7,7 @@
 
 This repository evaluates how distractor chunks appended after original top-five retrieval affect answer-quality metrics and measured generation-call latency in BM25-, dense-, and hybrid-retrieval pipelines.
 
-> **Scope note:** Findings apply only to the tested corpus, implementation, distractor construction, top-k setting, and noise levels. They do not establish universal robustness. See the limitations in the manuscript and validation record.
+> **Scope note:** Findings apply only to the tested corpus, implementation, distractor construction, top-k setting, and noise levels. They do not establish universal robustness. See the limitations in the manuscript and validation record. The older top-level PDF titled *Evaluating Retrieval Robustness in RAG Systems Under Increasing Distractor Noise* predates the corrected study framing; do not cite it as the current manuscript. The current source of record is `paper/manuscript.md` until a replacement PDF is regenerated and reviewed.
 
 ## Research question
 
@@ -40,6 +40,8 @@ This repository evaluates how distractor chunks appended after original top-five
 - [Validated Results section](paper/RESULTS_validated.md)
 - [Canonical 27-test recomputation script](scripts/recompute_primary_statistics.py)
 - [Static notebook safety audit](scripts/audit_notebook_static.py)
+- [Recomputed-vs-validated comparison check](scripts/verify_recomputed_statistics.py)
+- [Automated non-LLM verification workflow](.github/workflows/non-llm-reproducibility.yml) (static audit + frozen-CSV statistical recomputation; does not run notebook cells or LLM calls)
 - [Validated statistical analysis](results/statistical_analysis_validated.csv)
 - [Validated descriptive summary](results/descriptive_summary_validated.csv)
 - [Validated retrieval-stability summary](results/retrieval_stability_validated.csv)
@@ -69,9 +71,9 @@ This repository evaluates how distractor chunks appended after original top-five
 
 ## Reproducibility and artifact status
 
-The raw primary CSV is frozen and validated for data integrity. The statistical family contains 27 paired comparisons. The canonical script verifies the frozen CSV SHA-256, recomputes the paired Wilcoxon tests and Holm correction without LLM/API calls, and writes a fresh statistical CSV: See AUDIT_FINDINGS_2026-10-08.md for the design limitation: appended distractors do not test retrieval ranking robustness. A clean notebook rerun is still required for a full computational-reproducibility claim; until that rerun is completed, the repository should be described as artifact-reconciled rather than fully computationally reproduced.
+The raw primary CSV is frozen and validated for data integrity. The statistical family contains 27 paired comparisons. The canonical script verifies the frozen CSV SHA-256 and recomputes the paired Wilcoxon tests and Holm correction without LLM/API calls. GitHub Actions now provides a clean Linux environment for the static notebook audit, recomputation, and comparison against the committed validated table; inspect the workflow result before describing this verification as passing. This check does not execute the notebook or rerun the LLM evaluation. See AUDIT_FINDINGS_2026-10-08.md for the design limitation: appended distractors do not test retrieval-ranking robustness. Until the remaining method/provenance and artifact review is complete, describe the repository as artifact-reconciled rather than fully computationally reproduced.
 
-Example from the repository root: `python scripts/recompute_primary_statistics.py results/retrieval_noise_results.csv --output results/statistical_analysis_recomputed.csv`. Exact model identifiers, corpus provenance, package versions, hardware, and timing controls should be documented from the notebook/runtime. The saved timer surrounds `generate_rag_answer`; do not label the metric isolated retrieval latency. Do not treat a GitHub commit or release as evidence of peer review or publication. No DOI is claimed unless a Zenodo deposit is completed.
+Example from the repository root: `python scripts/audit_notebook_static.py`, followed by `python scripts/recompute_primary_statistics.py results/retrieval_noise_results.csv --output results/statistical_analysis_recomputed.csv` and `python scripts/verify_recomputed_statistics.py results/statistical_analysis_recomputed.csv results/statistical_analysis_validated.csv`. Exact model identifiers, corpus provenance, package versions, hardware, and timing controls should be documented from the notebook/runtime. The saved timer surrounds `generate_rag_answer`; do not label the metric isolated retrieval latency. Do not treat a GitHub commit or release as evidence of peer review or publication. No DOI is claimed unless a Zenodo deposit is completed.
 
 ## Related work
 
