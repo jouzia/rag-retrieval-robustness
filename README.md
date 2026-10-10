@@ -73,6 +73,10 @@ The raw primary CSV is frozen and validated for data integrity. The statistical 
 
 Example from the repository root: `python scripts/recompute_primary_statistics.py results/retrieval_noise_results.csv --output results/statistical_analysis_recomputed.csv`. Exact model identifiers, corpus provenance, package versions, hardware, and timing controls should be documented from the notebook/runtime. The saved timer surrounds `generate_rag_answer`; do not label the metric isolated retrieval latency. Do not treat a GitHub commit or release as evidence of peer review or publication. No DOI is claimed unless a Zenodo deposit is completed.
 
+## Related work
+
+A directly relevant study is Cuconasu et al. (2025), “Do RAG Systems Really Suffer From Positional Bias?”, *EMNLP 2025*. It examines distracting passages and positional effects across three benchmarks. Its findings motivate careful separation between post-retrieval context augmentation (the scope of this repository) and candidate-pool perturbation that reruns retrieval. [Official ACL Anthology record](https://aclanthology.org/2025.emnlp-main.1422/).
+
 ## Citation
 
 See [CITATION.cff](CITATION.cff). Until a DOI is assigned, cite the repository URL and access date.
