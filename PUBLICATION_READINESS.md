@@ -1,94 +1,61 @@
 # Publication Readiness — Research 1
 
-## Current status
+**Audit reviewed:** 2026-10-10  
+**Current status: NOT SUBMISSION-READY.** The primary statistical artifacts are reconciled, but the repository has not yet passed a clean local non-LLM verification and the methods/provenance record is incomplete.
 
-**Not yet submission-ready.** The original scope/count errors have been corrected and the statistical tables reconciled. The saved notebook has now undergone a source-level static scan (91 cells; no obsolete primary-result patterns found; Groq/API and package-install cells identified). Remaining blockers are a locally executed audit-script run, clean non-LLM runtime verification, complete methods/provenance, and final literature review against the primary sources. See [audit findings](AUDIT_FINDINGS_2026-10-08.md).
+## Completed and supported
 
-### Completed
+- [x] Frozen primary dataset: 240 observations; 13 columns.
+- [x] Dataset integrity checks: no missing values, duplicate rows, or duplicate experiment keys; 20 observations per method × noise cell.
+- [x] Frozen CSV SHA-256 recorded in `VALIDATION.md` and checked by the canonical script.
+- [x] Corrected inferential family: 27 paired comparisons (3 methods × 3 non-zero distractor levels × 3 metrics), with Holm correction and paired rank-biserial effect sizes.
+- [x] Canonical recomputation script added; prior run reported 240 validated rows, 27 tests, and one comparison significant after Holm correction.
+- [x] Previously reported statistical table reconciled against all 27 recomputed comparisons without numerical mismatches.
+- [x] Notebook source inspected; static safety script added. Source-level inspection found 91 cells and identified package-install/API-related cells without executing them.
+- [x] Manuscript, README, results, and audit findings reframed around **appended-context effects**, not retrieval-ranking robustness.
+- [x] Latency correctly described as the timed `generate_rag_answer` call, not isolated retrieval latency.
+- [x] The training-split origin of the 20 questions is disclosed; the sample is not held out.
+- [x] Related-work citations on distracting/noisy RAG context added.
+- [x] Figures, validated results, and manuscript draft exist in the repository or have been documented as local draft artifacts.
 
-- [x] Frozen primary dataset: 240 observations
-- [x] Dataset integrity validation
-- [x] No missing values
-- [x] No duplicate experiment keys
-- [x] 20 observations per method × noise cell
-- [x] Confirmed zero intrusion / 100% preservation are construction artifacts and documented them as such (not evidence of robustness)
-- [x] 27 planned paired statistical comparisons
-- [x] Holm correction across the 27-test family
-- [x] Paired rank-biserial effect sizes
-- [x] Validated primary result reconciled with raw CSV
-- [x] Canonical Python script added to recompute all 27 tests without LLM/API calls
-- [x] Canonical script executed against frozen CSV: 240 rows, 27 tests, one Holm-significant comparison
-- [x] Added a static notebook audit script to identify Groq/API and package-install cells without executing them
-- [x] Notebook JSON parses; final summary text is consistent with the appended-context scope
-- [x] Validated Results section
-- [x] Statistical CSV artifacts
-- [x] Publication vector figures
-- [x] Manuscript reframed around appended-context effects and synchronized with validated statistics
-- [x] Exploratory hard-distractor experiment kept separate
-- [x] Reproducibility limitations explicitly documented
-- [x] Citation metadata present
-- [x] Repository license present
-- [x] Confirm Kaggle benchmark dataset page lists CC BY 4.0; verify separate bundled artifacts and attribution before release
-- [x] Generate a revised 5-page PDF draft and visually inspect pagination, chart, tables, and page breaks (local export; not yet committed to the repository)
+## Confirmed interpretation
 
-## Contribution and publication-strength assessment
+The study retrieves the original top five documents first, then appends distractors to the generation context. Therefore, zero intrusion into the retrieved top five and 100% top-five preservation are consequences of the construction, not evidence of retrieval robustness.
 
-The current dataset is best positioned as an **exploratory technical report/pilot**, not yet a strong peer-reviewed contribution. The 20 questions were sampled from the benchmark training split, the sample is small, the answer-quality findings are null after correction, and directly related work on distracting/noisy RAG context already exists. A credible paper targeting retrieval robustness needs a separately versioned candidate-pool perturbation experiment with a held-out query set, explicit distractor construction, retrieval-ranking metrics, and a clearly articulated contribution beyond prior noisy-context evaluations.
+The only comparison reported as significant after the 27-test Holm correction is dense-method **generation-call latency** at four appended distractors: 0.405087 s to 0.595432 s (+46.99%; adjusted p = 0.045628; rank-biserial correlation = 0.761905; n = 20). No answer-quality comparison remains significant after correction. This result is close to the 0.05 threshold and may reflect model-service/runtime variability; it needs cautious interpretation and replication.
 
-## Confirmed primary finding
+The defensible current scope is an **exploratory appended-context pilot/technical report**, not a retrieval-robustness benchmark and not yet a peer-review-ready paper.
 
-Generation-call latency for the dense-method pipeline at four appended distractors is the only comparison that remains significant after Holm correction:
+## Remaining blockers
 
-- 0 distractors: 0.405087 s
-- 4 distractors: 0.595432 s
-- Absolute increase: 0.190345 s
-- Relative increase: 46.99%
-- Wilcoxon W: 25
-- Raw p: 0.001690
-- Holm-adjusted p: 0.045628
-- Paired rank-biserial correlation: 0.761905
-- n = 20
+- [ ] **Run the static audit script locally** and save its actual stdout log. A previous source-level scan is not equivalent to executing the script.
+- [ ] **Run clean, non-LLM verification locally**: verify the frozen CSV hash and rerun the canonical statistical recomputation; compare the output against `results/statistical_analysis_validated.csv`. Do not execute notebook cells that call external APIs and do not rerun the 240 LLM evaluations.
+- [ ] **Record exact runtime and dependency versions** for the original experiment where recoverable. The saved notebook does not pin the full environment, so some historical versions may not be recoverable exactly.
+- [ ] **Complete method/provenance documentation**: corpus files and source, reference-answer provenance, embedding model/revision, corpus-embedding provenance, hybrid fusion implementation and parameters, distractor sampling details, latency controls/caching/warm-up, and metric implementations.
+- [ ] **Verify license coverage for every redistributed artifact**, including separately bundled embeddings or files. The benchmark page is listed as CC BY 4.0, but do not assume that this automatically covers separately sourced artifacts; preserve attribution.
+- [ ] **Finish source-level literature verification** for every reference and ensure claims match the cited primary papers.
+- [ ] **Regenerate and inspect the PDF from the current manuscript source** after the final text and reference audit; the earlier inspected PDF was a draft and should not be represented as final.
+- [ ] **Freeze and archive a release** only after the above checks pass. A DOI, if minted by an archive, identifies the archived artifact but does not imply peer review or acceptance.
 
-No answer-quality comparison remains significant after correction.
+## Safe local verification procedure
 
-## Remaining blockers before a submission-ready package
+From the repository root in a clean Python environment with the script dependencies installed:
 
-1. [x] Compare all 27 raw p-values and Holm-adjusted p-values against the committed validated CSV; no mismatches. The 27-row count, descriptive means, absolute changes, Wilcoxon statistics, effect sizes, Holm-adjusted values, and significance flags have been checked without mismatches.
-2. [ ] Run `python scripts/audit_notebook_static.py` in a local clone and record its output. A source-level scan of the fetched notebook found 91 cells (39 code cells with saved execution counts), flagged package-install cells 6, 11, and 25; Groq/API-related cells 26, 27, 28, 30, and 33; found no stale primary-result patterns; and confirmed the prominent Run All warning. The exact Python script was not run locally because this execution environment could not resolve `github.com`; a clean non-LLM notebook runtime check remains separate. Do not rerun LLM cells.
-3. [x] Confirm the Kaggle benchmark data page lists CC BY 4.0. Before release, verify any separately bundled artifacts and preserve attribution. The 20 questions came from the training split, not a held-out test set.
-4. [x] Add Cuconasu et al. (EMNLP 2025) on distractors and positional effects to the related-work section using the official ACL Anthology record. Finish exact package/runtime and metric-model documentation; a source-level review confirms semantic similarity uses `sentence-transformers/all-MiniLM-L6-v2` embeddings normalized by Sentence Transformers and cosine similarity via scikit-learn, but exact package/runtime versions are not recorded.
-5. [x] Generate and visually inspect the revised PDF draft; regenerate after any further manuscript edits.
+```bash
+python scripts/audit_notebook_static.py
+python scripts/recompute_primary_statistics.py results/retrieval_noise_results.csv --output results/statistical_analysis_recomputed.csv
+```
 
-A clean environment run is still required before claiming full computational reproducibility. The static audit script is a guardrail only; it does not execute or certify the notebook.
+Expected invariant checks: the static audit should parse the notebook and list potentially risky cells without executing them; the recomputation should verify the frozen CSV SHA-256, validate 240 rows, produce 27 paired tests, and report the significant comparison(s). Then compare the recomputed CSV with `results/statistical_analysis_validated.csv`. Preserve the stdout, Python version, dependency versions, and comparison result in a dated audit log. Do not use notebook “Run All” and do not call the LLM/API cells.
 
-The clean rerun should document:
+If the frozen CSV hash check fails, stop and investigate; do not use `--skip-hash-check` to claim reproduction of the published result.
 
-1. Exact Python/runtime version.
-2. Package versions.
-3. Hardware/runtime environment.
-4. Exact embedding model identifier/version.
-5. Corpus provenance and license (Kaggle dataset page lists CC BY 4.0; confirm any separate bundled artifacts and attribution).
-6. Question/reference-answer provenance.
-7. BM25, dense, and hybrid implementation details.
-8. Hybrid fusion method and parameters.
-9. Distractor generation algorithm and seed.
-10. Exact latency timing boundary, warm-up, and caching policy.
-11. Metric implementation and semantic-similarity model.
-12. Output checksums and comparison against the frozen CSV.
+## Optional follow-up experiment (separate scope)
 
-**Important:** Do not rerun the LLM evaluation merely to satisfy this checklist. The completed 240-row raw result set is frozen and was independently validated. A clean reproducibility run should reuse the saved raw outputs where appropriate and verify the analysis pipeline without generating new LLM observations.
+A genuine retrieval-ranking robustness experiment is **not required to finish this narrower report**. It would require injecting distractors into the searchable candidate corpus before retrieval, rerunning each retriever, and evaluating on held-out queries with ranking metrics. Keep it as a separately versioned follow-up rather than implying the current study answers that question.
 
-## Publication claims
+## Submission claims to avoid
 
-Until the clean rerun is completed, describe the repository as **artifact-reconciled** rather than fully computationally reproduced.
+Do not claim universal RAG robustness, universal dense-retrieval latency sensitivity, superiority of one retrieval method, full computational reproducibility before the clean check, peer review/publication acceptance, or a DOI that has not actually been minted.
 
-Do not claim:
-- universal RAG robustness;
-- universal dense-retrieval latency sensitivity;
-- superiority of one retrieval method over another;
-- peer review or publication;
-- a DOI unless a repository such as Zenodo has actually minted one.
-
-## Recommended next stage
-
-The framing, 27-test family count, timing terminology, and a directly relevant EMNLP 2025 related-work citation have now been corrected in the core manuscript and documentation. The current study remains an exploratory appended-context evaluation, not evidence of retriever robustness. A canonical script has been run against the frozen CSV (240 rows, 27 tests, one Holm-significant result). Cross-artifact checks found no mismatches in baseline/noisy means, absolute changes, Wilcoxon statistics, rank-biserial effects, or the Holm correction applied to the stored p-values. The remaining steps are a clean non-LLM notebook/runtime audit, final verification of bundled-artifact license coverage, completion of methods/provenance details, and final review of related-work coverage. The concise three-page v1.2 PDF draft was generated and visually inspected after the related-work edit; it remains a local draft and is not a submission-ready package. A candidate-pool perturbation experiment is a separate optional study if the original retrieval-robustness question is still a goal; it is not needed to honestly submit this narrower appended-context study.
+**Next milestone:** complete the local non-LLM verification and provenance checklist. No new LLM evaluations are needed for this milestone.
