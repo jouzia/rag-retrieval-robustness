@@ -21,7 +21,7 @@ import pandas as pd
 from scipy.stats import rankdata, wilcoxon
 from statsmodels.stats.multitest import multipletests
 
-EXPECTED_SHA256 = "6f52a5bc2c5b871beb9340f5c7c12d6eefdbb8bb71b41e566998271047fa1756"
+EXPECTED_SHA256 = "1e666b0b81608dcf3a6995f4c203dd3078a941768a38c627ae801ed0501d653b"
 METHODS = ["bm25", "dense", "hybrid"]
 NOISE_LEVELS = [1, 2, 4]
 METRICS = ["token_f1", "semantic_similarity", "latency_seconds"]
