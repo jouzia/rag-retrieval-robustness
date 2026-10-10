@@ -202,19 +202,42 @@ def build_story(markdown: str, body_font: str, bold_font: str, mono_font: str) -
             i += 1
             continue
 
-        if re.match(r"^[-*]\s+", line) or re.match(r"^\d+\.\s+", line):
-            ordered = bool(re.match(r"^\d+\.\s+", line))
+        if re.match(r"^\d+\.\s+", line):
+            # Preserve source numbering even when Markdown has blank lines
+            # between list items (notably the numbered reference list).
+            while i < len(lines):
+                candidate = lines[i].strip()
+                if not candidate:
+                    next_index = i
+                    while next_index < len(lines) and not lines[next_index].strip():
+                        next_index += 1
+                    if next_index < len(lines) and re.match(r"^\d+\.\s+", lines[next_index].strip()):
+                        i = next_index
+                        continue
+                    i = next_index
+                    break
+                match = re.match(r"^(\d+)\.\s+(.*)$", candidate)
+                if not match:
+                    break
+                story.append(Paragraph(
+                    f"<b>{match.group(1)}.</b> {inline_markup(match.group(2), mono_font)}",
+                    base["PaperList"]
+                ))
+                i += 1
+            continue
+
+        if re.match(r"^[-*]\s+", line):
             items = []
             while i < len(lines):
                 candidate = lines[i].strip()
-                match = re.match(r"^(?:[-*]|\d+\.)\s+(.*)$", candidate)
+                match = re.match(r"^[-*]\s+(.*)$", candidate)
                 if not match:
                     break
                 items.append(ListItem(Paragraph(inline_markup(match.group(1), mono_font), base["PaperList"]), leftIndent=9))
                 i += 1
             story.append(ListFlowable(
-                items, bulletType="1" if ordered else "bullet", start="1",
-                leftIndent=13, bulletFontName=body_font, bulletFontSize=7, spaceAfter=4
+                items, bulletType="bullet", leftIndent=13,
+                bulletFontName=body_font, bulletFontSize=7, spaceAfter=4
             ))
             continue
 
