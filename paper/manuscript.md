@@ -40,7 +40,7 @@ This design does not test retrieval-ranking robustness or whether a distractor c
 
 ### 3.1 Design
 
-The primary experiment crosses 20 questions sampled from the benchmark's training split (`train.sample(20, random_state=42)`) with three retrieval methods (BM25, dense, hybrid) and four appended-distractor levels (0, 1, 2, 4), yielding 20 observations per method-condition cell and 240 observations overall. These are not a held-out test set. The top-k retrieval limit is five. Distractor sampling uses seed 42. Each noisy result is paired with the corresponding zero-noise result for the same question and retrieval method.
+The primary experiment crosses 20 questions sampled from the benchmark's training split (`train.sample(20, random_state=42)`) with three retrieval methods (BM25, dense, hybrid) and four appended-distractor levels (0, 1, 2, 4), yielding 20 observations per method-condition cell and 240 observations overall. These questions were selected by dataset order rather than random sampling and are not a held-out test set. The top-k retrieval limit is five. Seed 42 controls distractor selection, not query selection. Each noisy result is paired with the corresponding zero-noise result for the same question and retrieval method.
 
 The saved dataset records appended-context ratios of 0.0000, 0.1667, 0.2857, and 0.4444, corresponding to appended-distractor counts divided by the total context chunk count (5 + distractors), for total context sizes of 5, 6, 7, and 9 chunks. These describe appended-context expansion, not perturbation rates of a searchable retrieval corpus.
 
