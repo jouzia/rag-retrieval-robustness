@@ -47,6 +47,25 @@ jobs:
           assert "retrieval-ranking robustness" in text, "Scope disclaimer missing"
           PY
 
+      - name: Render page previews for visual QA
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils
+          mkdir -p audit-logs
+          pdfinfo paper/manuscript-draft.pdf | tee audit-logs/pdfinfo.txt
+          pdftoppm -png -r 80 paper/manuscript-draft.pdf audit-logs/page
+
+      - name: Upload PDF and page previews
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: manuscript-pdf-visual-review
+          path: |
+            paper/manuscript-draft.pdf
+            audit-logs/
+          if-no-files-found: warn
+          retention-days: 30
+
       - name: Commit updated draft PDF
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
