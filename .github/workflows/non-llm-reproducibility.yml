@@ -43,8 +43,8 @@ jobs:
             sha256sum results/retrieval_noise_results.csv
             python -c "from pathlib import Path; import hashlib; b=Path('results/retrieval_noise_results.csv').read_bytes(); lf=b.replace(bytes([13,10]),bytes([10])); crlf=lf.replace(bytes([10]),bytes([13,10])); print(f'bytes={len(b)} CRLF={b.count(bytes([13,10]))} LF={b.count(bytes([10]))} BOM={b.startswith(bytes([239,187,191]))}'); print(f'SHA256_LF={hashlib.sha256(lf).hexdigest()}'); print(f'SHA256_CRLF_NORMALIZED={hashlib.sha256(crlf).hexdigest()}')"
             echo
-            echo "DIAGNOSTIC ONLY: recompute current committed CSV despite checksum mismatch; acceptance requires full table comparison below."
-            python scripts/recompute_primary_statistics.py results/retrieval_noise_results.csv --skip-hash-check --output audit-logs/statistical_analysis_recomputed.csv
+            echo "Recompute statistics from the committed CSV; the canonical script enforces the committed-file SHA-256 (no LLM/API calls):"
+            python scripts/recompute_primary_statistics.py results/retrieval_noise_results.csv --output audit-logs/statistical_analysis_recomputed.csv
             echo
             echo "Compare recomputed values against committed validated results:"
             python scripts/verify_recomputed_statistics.py audit-logs/statistical_analysis_recomputed.csv results/statistical_analysis_validated.csv
