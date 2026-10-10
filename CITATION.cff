@@ -1,9 +1,18 @@
 cff-version: 1.2.0
-message: "If you use this research, please cite it as below."
+message: "If you use this research, please cite the repository and its current manuscript."
 authors:
   - family-names: "Afreen H"
     given-names: "Shaik Jouzia"
 title: "Effects of Appended Distractor Context on RAG Answer Quality and Generation Latency"
-version: "1.0.0"
-date-released: "2026-10-01"
+abstract: >-
+  Exploratory evaluation of answer-quality metrics and generation-call latency
+  when distractor chunks are appended after an already retrieved top-five
+  context in BM25, dense, and hybrid retrieval pipelines. This is not a
+  retrieval-ranking robustness evaluation.
+keywords:
+  - retrieval-augmented generation
+  - appended context
+  - distractor noise
+  - answer quality
+  - generation latency
 url: "https://github.com/jouzia/rag-retrieval-robustness"
