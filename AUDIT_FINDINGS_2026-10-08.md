@@ -8,7 +8,7 @@ Scope: committed notebook, primary CSV, validated statistics, manuscript claims,
 
 The statistical table was recomputed from the currently committed 240-row CSV in a clean GitHub Actions Linux environment. The strict checksum-enforcing workflow passed: the committed-file SHA-256 check, static notebook audit, 27-test recomputation, and comparison against the validated table all succeeded. A separate workflow now renders a draft PDF from the current manuscript source.
 
-The work is **not submission-ready**. The saved notebook's Papermill metadata records `exception: true`; cell 39 fails with `AssertionError: Expected 240 rows, found 15`. The static audit does not execute the notebook, and the new CI workflow deliberately avoids all notebook/API/LLM execution.
+The current artifact package is reconciled and the v1.3 draft PDF has been rendered and visually inspected. The work is still **not submission-ready**: the saved notebook's Papermill metadata records `exception: true`; cell 39 fails with `AssertionError: Expected 240 rows, found 15`. The static audit does not execute the notebook, and the CI workflow deliberately avoids all notebook/API/LLM execution.
 
 ## Finding 1 — Correct inferential family: 27 comparisons
 
@@ -35,7 +35,7 @@ This ordering-based query selection is a limitation and should be disclosed; do 
 
 An earlier validation record and the canonical script used SHA-256 `6f52a5bc2c5b871beb9340f5c7c12d6eefdbb8bb71b41e566998271047fa1756`, but that digest did not match the bytes currently committed in GitHub. The committed file's SHA-256 is `1e666b0b81608dcf3a6995f4c203dd3078a941768a38c627ae801ed0501d653b`. The mismatch was not explained by line-ending normalization; the cause of the old digest discrepancy remains unknown.
 
-To avoid silently bypassing the integrity check, a diagnostic run recomputed the current committed CSV with hash enforcement temporarily bypassed **for investigation only**. It validated 240 rows and 27 tests, then matched the committed validated statistical table across all nine numeric fields and significance flags. The canonical script has now been anchored to the current committed-file hash, and the workflow has been restored to strict hash enforcement. The strict hash-enforcing workflow subsequently passed on commit `83729e269acf9a73fed9ab4ec6acd27e27c8d551`: https://github.com/jouzia/rag-retrieval-robustness/actions/runs/38057021489. See `VALIDATION.md` for the full disclosure.
+To avoid silently bypassing the integrity check, a diagnostic run recomputed the current committed CSV with hash enforcement temporarily bypassed **for investigation only**. It validated 240 rows and 27 tests, then matched the committed validated statistical table across all nine numeric fields and significance flags. The canonical script has now been anchored to the current committed-file hash, and the workflow has been restored to strict hash enforcement. The strict hash-enforcing workflow passed; the latest passing run is https://github.com/jouzia/rag-retrieval-robustness/actions/runs/38057455760. See `VALIDATION.md` for the full disclosure.
 
 ## Finding 5 — Saved notebook is not a clean end-to-end execution
 
@@ -94,7 +94,7 @@ These papers establish the relevance of noisy and distracting contexts but do no
 1. Confirm the latest strict hash-enforcing GitHub Actions workflow passes and retain its log/artifact.
 2. Verify license coverage for every bundled artifact, especially corpus embeddings; do not assume the benchmark license automatically covers separately sourced assets.
 3. Complete or explicitly mark unavailable original package/model/runtime provenance.
-4. Finish the automated draft-PDF render from the corrected manuscript and visually inspect it. The existing top-level PDF has an older title/framing and is superseded.
+4. [x] Rendered Manuscript v1.3 as an 8-page draft PDF and visually inspected the page previews. The current PDF is `paper/manuscript-draft.pdf`; the existing top-level PDF has older framing and is superseded.
 5. Freeze a clearly labelled draft release only after the above checks. Do not claim peer review, acceptance, universal retrieval robustness, or a DOI that has not been minted.
 
 A separate candidate-pool perturbation experiment with held-out queries and ranking metrics is an optional follow-up. It is not required to report the current appended-context study honestly.
