@@ -1,0 +1,57 @@
+name: Non-LLM reproducibility checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-frozen-artifacts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install analysis dependencies
+        run: python -m pip install --upgrade pip numpy pandas scipy statsmodels
+
+      - name: Run static notebook safety audit and frozen-data checks
+        shell: bash
+        run: |
+          mkdir -p audit-logs
+          {
+            echo "Python:"
+            python --version
+            echo
+            echo "Dependency versions:"
+            python -m pip freeze
+            echo
+            echo "Static notebook audit (does not execute notebook cells):"
+            python scripts/audit_notebook_static.py
+            echo
+            echo "Recompute statistics from frozen CSV (no LLM/API calls):"
+            python scripts/recompute_primary_statistics.py results/retrieval_noise_results.csv --output audit-logs/statistical_analysis_recomputed.csv
+            echo
+            echo "Compare recomputed values against committed validated results:"
+            python scripts/verify_recomputed_statistics.py audit-logs/statistical_analysis_recomputed.csv results/statistical_analysis_validated.csv
+          } 2>&1 | tee audit-logs/non-llm-reproducibility.log
+
+      - name: Upload audit log and recomputed table
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: non-llm-reproducibility-audit
+          path: audit-logs/
+          if-no-files-found: warn
+          retention-days: 30
