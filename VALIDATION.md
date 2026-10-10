@@ -3,7 +3,7 @@
 ## Scope
 
 This validation re-analyzes the frozen 240-row primary experiment:
-20 questions sampled from the benchmark training split (`train.sample(20, random_state=42)`) × 3 retrieval methods × 4 appended-context distractor levels (0, 1, 2, 4), original retrieval top-k = 5. The query set is neither randomly sampled nor held out; it consists of the first 20 training-split records. Seed 42 is used for distractor selection, not query sampling.
+20 questions (`q_0001`–`q_0020`) taken from the first 20 records of the benchmark training split, matching the primary construction cell (`train.iloc[:20]`), × 3 retrieval methods × 4 appended-context distractor levels (0, 1, 2, 4), original retrieval top-k = 5. The query set is neither randomly sampled nor held out. Seed 42 is used for distractor selection, not query sampling.
 
 The recovered CSV is the authoritative raw dataset. No LLM evaluations were rerun.
 
