@@ -5,9 +5,11 @@
 This validation re-analyzes the frozen 240-row primary experiment:
 20 questions (`q_0001`–`q_0020`) taken from the first 20 records of the benchmark training split, matching the primary construction cell (`train.iloc[:20]`), × 3 retrieval methods × 4 appended-context distractor levels (0, 1, 2, 4), original retrieval top-k = 5. The query set is neither randomly sampled nor held out. Seed 42 is used for distractor selection, not query sampling.
 
-The recovered CSV is the authoritative raw dataset. No LLM evaluations were rerun.
+The committed CSV is the current analysis input. No LLM evaluations were rerun.
 
-**SHA-256:** `6f52a5bc2c5b871beb9340f5c7c12d6eefdbb8bb71b41e566998271047fa1756`
+**Current committed-file SHA-256:** `1e666b0b81608dcf3a6995f4c203dd3078a941768a38c627ae801ed0501d653b`
+
+**Checksum provenance note:** an earlier version of this validation recorded `6f52a5bc2c5b871beb9340f5c7c12d6eefdbb8bb71b41e566998271047fa1756`, but that digest does not match the bytes currently committed in GitHub. The reason for the discrepancy could not be established. A clean GitHub Actions run recomputed the 27 comparisons from the current committed CSV and matched the committed validated table across all nine numeric columns and the significance flags. The canonical script now anchors integrity to the current committed file hash. This is a transparent re-baselining of the repository artifact, not a claim that its bytes are identical to the earlier locally recovered file.
 
 ## Integrity checks
 
@@ -58,3 +60,10 @@ The timer was verified in notebook code to surround `generate_rag_answer`, so th
 ## Version reconciliation
 
 An earlier analysis artifact used a different latency baseline/noise-4 value. Re-analysis of the recovered raw CSV gives **0.405087 s → 0.595432 s**, not the earlier values. The repository should treat this validation and the frozen raw CSV as authoritative.
+
+
+## Notebook execution-state limitation
+
+A source-level inspection of the committed notebook JSON found 91 cells, 49 cells with saved execution counts, and Papermill metadata with `exception: true`. Saved cell 39 contains an `AssertionError`: it loaded 15 rows where it expected 240. This means the saved notebook execution is incomplete and must not be presented as a successful clean end-to-end run. The current 240-row CSV and statistical outputs were validated separately by the non-LLM recomputation workflow; that workflow deliberately does not execute notebook cells or call the LLM API.
+
+The notebook metadata records Python 3.12.13, but package versions for the original run are not pinned. A current clean analysis environment can reproduce the statistical table from the committed CSV, but it does not reconstruct the original retrieval/generation environment or prove that the full notebook runs end to end.
