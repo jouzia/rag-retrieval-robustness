@@ -9,13 +9,14 @@
 - [x] Dataset structure checked: no missing values in required analysis fields, no duplicate experiment keys, and 20 rows per method × distractor cell.
 - [x] Correct inferential family: 27 paired comparisons (3 methods × 3 non-zero distractor levels × 3 metrics), Holm correction, paired rank-biserial effects.
 - [x] Recomputed all 27 tests from the committed CSV in a clean GitHub Actions Linux environment; all nine numeric columns and the Holm-significance flags matched the committed validated statistical table within explicit numeric tolerances.
-- [x] Strict hash-enforcing GitHub Actions run passed on commit `83729e269acf9a73fed9ab4ec6acd27e27c8d551`: static audit, committed-file SHA-256 check, 240-row/27-test recomputation, and full comparison against the validated statistical table all passed without LLM/API calls. [Run log](https://github.com/jouzia/rag-retrieval-robustness/actions/runs/38057021489).
+- [x] Latest strict hash-enforcing GitHub Actions run passed: static audit, committed-file SHA-256 check, 240-row/27-test recomputation, and full comparison against the validated statistical table all passed without LLM/API calls. [Run log](https://github.com/jouzia/rag-retrieval-robustness/actions/runs/38057455760).
 - [x] Static notebook audit ran successfully in CI: 91 cells; 49 code cells with saved execution counts; package-install cells 6, 11, and 25; Groq/API-related cells 26, 27, 28, 30, and 33; no obsolete primary-result wording detected by the audit patterns; prominent warning against Run All found.
 - [x] Core manuscript and README now describe appended-context effects, not retrieval-ranking robustness.
 - [x] Query-selection provenance corrected: the saved primary construction cell uses `train.iloc[:20]`, and the committed CSV contains question IDs `q_0001`–`q_0020`. The queries were selected by dataset order, not random sampling, and are not held out. Seed 42 controls distractor selection.
 - [x] Timing boundary and metric implementation documented from saved notebook source: Groq model ID `openai/gpt-oss-20b`, temperature 0; token-F1 normalization; semantic similarity with `sentence-transformers/all-MiniLM-L6-v2`; latency timer surrounds the generation call.
 - [x] Embedding provenance recovered from the benchmark's `embedding_model_info.txt`: corpus embeddings use `sentence-transformers/all-MiniLM-L6-v2`, 384 dimensions, normalized, batch size 64, generated offline.
 - [x] License checked against the [Kaggle competition data page](https://www.kaggle.com/competitions/agent-eval-part-i-grounded-rag-benchmark/data), which lists the included corpus embeddings and metadata under CC BY 4.0; the [Hugging Face model card](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) lists Apache-2.0 for the model.
+- [x] Rendered the corrected Manuscript v1.3 into an 8-page draft PDF, verified title/scope/page count programmatically, and visually reviewed page previews. References are grouped together; the final page contains the final reference entries and the data/code availability note.
 - [x] Related-work metadata checked against official ACL Anthology records for the key RAG distractor and positional-bias papers.
 
 ## Integrity and notebook caveats
@@ -66,4 +67,4 @@ A genuine retrieval-ranking robustness experiment is not required to finish this
 
 Do not claim universal RAG robustness, universal dense-retrieval latency sensitivity, superiority of one retrieval method, successful end-to-end notebook reproduction, peer review/publication acceptance, or a DOI that has not actually been minted.
 
-**Next milestone:** confirm the strict CI rerun passes, complete the embedding/license provenance checks, and replace the superseded PDF with a freshly rendered manuscript draft. No new LLM evaluations are needed.
+**Next milestone:** decide whether to keep this as an exploratory technical report or design a stronger follow-up with held-out queries, more questions, controlled repeated latency measurements, and a genuine candidate-pool perturbation experiment. No new LLM evaluations are needed to preserve the current validated artifact package.
