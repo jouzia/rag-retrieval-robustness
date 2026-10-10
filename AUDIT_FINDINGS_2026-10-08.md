@@ -91,9 +91,9 @@ These papers establish the relevance of noisy and distracting contexts but do no
 
 ## Remaining work before submission
 
-1. Confirm the latest strict hash-enforcing GitHub Actions workflow passes and retain its log/artifact.
-2. Verify license coverage for every bundled artifact, especially corpus embeddings; do not assume the benchmark license automatically covers separately sourced assets.
-3. Complete or explicitly mark unavailable original package/model/runtime provenance.
+1. [x] Strict hash-enforcing GitHub Actions verification passed; retained run log/artifact: https://github.com/jouzia/rag-retrieval-robustness/actions/runs/38057455760.
+2. [x] Verified the Kaggle competition files, including the supplied embeddings and metadata, under CC BY 4.0, and the Hugging Face model card under Apache-2.0. Confirm before release that no additional separately sourced assets are redistributed.
+3. Original package versions, exact model-serving snapshot/revision, precise host hardware, and warm-up/caching controls remain unavailable in the saved notebook and must remain explicit limitations.
 4. [x] Rendered Manuscript v1.3 as an 8-page draft PDF and visually inspected the page previews. The current PDF is `paper/manuscript-draft.pdf`; the existing top-level PDF has older framing and is superseded.
 5. Freeze a clearly labelled draft release only after the above checks. Do not claim peer review, acceptance, universal retrieval robustness, or a DOI that has not been minted.
 
