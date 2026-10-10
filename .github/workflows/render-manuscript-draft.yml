@@ -1,0 +1,62 @@
+name: Render manuscript draft PDF
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "paper/manuscript.md"
+      - "figures/**"
+      - "scripts/render_manuscript_pdf.py"
+      - ".github/workflows/render-manuscript-draft.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install PDF rendering dependencies
+        run: python -m pip install --upgrade pip reportlab svglib pypdf
+
+      - name: Render PDF and verify content
+        run: |
+          python scripts/render_manuscript_pdf.py
+          python - <<'PY'
+          from pathlib import Path
+          from pypdf import PdfReader
+
+          path = Path("paper/manuscript-draft.pdf")
+          reader = PdfReader(str(path))
+          text = "\n".join(page.extract_text() or "" for page in reader.pages)
+          print(f"PDF pages: {len(reader.pages)}")
+          print(f"PDF bytes: {path.stat().st_size}")
+          assert len(reader.pages) >= 3, "PDF unexpectedly short"
+          assert "Effects of Appended Distractor Context" in text, "Current title missing"
+          assert "DRAFT" in text, "Draft label missing"
+          assert "retrieval-ranking robustness" in text, "Scope disclaimer missing"
+          PY
+
+      - name: Commit updated draft PDF
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add paper/manuscript-draft.pdf
+          if git diff --cached --quiet; then
+            echo "Rendered PDF is already up to date."
+          else
+            git commit -m "Render current manuscript draft PDF"
+            git push
+          fi
