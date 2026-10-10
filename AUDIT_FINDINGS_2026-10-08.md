@@ -1,6 +1,6 @@
 # Reproducibility and Design Audit — Research 1
 
-Audit updated: 2026-10-09  
+Audit updated: 2026-10-10  
 Repository: https://github.com/jouzia/rag-retrieval-robustness  
 Scope: saved notebook, frozen 240-row CSV, validated statistics, manuscript claims.
 
@@ -46,9 +46,9 @@ Consequently:
 ### Still required before submission
 
 1. [x] Compare all 27 raw p-values and Holm-adjusted p-values between the canonical recomputation and `results/statistical_analysis_validated.csv`; no mismatches. All other checked numerical fields also match.
-2. Run `python scripts/audit_notebook_static.py` in a local clone and record its output. Static inspection confirms the notebook JSON parses and the corrected narrative contains no stale primary-result figures, but a clean runtime execution is not yet certified. Do not rerun the 240 LLM evaluations.
+2. A source-level static scan of the fetched notebook JSON found 91 cells, 39 code cells with saved execution counts, package-install cells 6/11/25, Groq/API-related cells 26/27/28/30/33, no stale primary-result patterns, and a prominent Run All warning. The exact Python audit script was not run locally because the execution environment could not resolve github.com; run it in a local clone for an auditable stdout log. This is not a clean runtime test. Do not rerun the 240 LLM evaluations.
 3. Complete the methods record: exact retriever and hybrid-fusion implementation, package/runtime versions, embedding and semantic-similarity model details, and timing controls. The Kaggle data page lists CC BY 4.0; verify that separately bundled artifacts are covered and preserve attribution. The notebook samples 20 questions from the training split, not the held-out test set.
-4. Verify the related-work section against the cited primary papers and expand the literature review as needed. A preliminary set of directly relevant 2024–2025 papers has now been added.
+4. [x] Add Cuconasu et al. (2025), “Do RAG Systems Really Suffer From Positional Bias?”, using the official ACL Anthology record. The paper provides directly relevant context on distractors in real retrieval rankings; its findings are not treated as results from this study.
 5. [x] Generate and visually inspect a revised five-page PDF draft, including the latency chart, tables, references, and page breaks. Regenerate it if further manuscript edits are made.
 6. Optionally, if the original retrieval-ranking robustness question remains a goal, design a separate candidate-pool perturbation experiment. It is not required to describe the existing experiment honestly and must not be conflated with these frozen results.
 
