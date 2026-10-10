@@ -39,6 +39,10 @@ jobs:
             echo "Static notebook audit (does not execute notebook cells):"
             python scripts/audit_notebook_static.py
             echo
+            echo "Frozen CSV byte-level diagnostics:"
+            sha256sum results/retrieval_noise_results.csv
+            python -c "from pathlib import Path; b=Path('results/retrieval_noise_results.csv').read_bytes(); print(f'bytes={len(b)} CRLF={b.count(bytes([13,10]))} LF={b.count(bytes([10]))} BOM={b.startswith(bytes([239,187,191]))}')"
+            echo
             echo "Recompute statistics from frozen CSV (no LLM/API calls):"
             python scripts/recompute_primary_statistics.py results/retrieval_noise_results.csv --output audit-logs/statistical_analysis_recomputed.csv
             echo
