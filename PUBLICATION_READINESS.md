@@ -1,7 +1,7 @@
 # Publication Readiness — Research 1
 
 **Audit reviewed:** 2026-10-10  
-**Current status: NOT SUBMISSION-READY.** The statistical table has been independently recomputed from the committed 240-row CSV and matches the committed validated table. The strict checksum-enforcing CI rerun is in progress after the repository checksum was reconciled. The saved notebook itself is not a successful clean end-to-end run.
+**Current status: NOT SUBMISSION-READY.** The committed statistical artifacts pass the strict clean-environment verification, and the Manuscript v1.3 draft PDF has been rendered and visually reviewed. The saved notebook itself is not a successful clean end-to-end run.
 
 ## Completed and supported
 
@@ -39,12 +39,11 @@ The defensible current scope is an **exploratory appended-context pilot/technica
 
 ## Remaining blockers
 
-- [ ] Confirm the latest strict hash-enforcing GitHub Actions run passes and archive its log/artifact. [Workflow runs](https://github.com/jouzia/rag-retrieval-robustness/actions/workflows/non-llm-reproducibility.yml)
-- [ ] Record the exact Hugging Face model revision and original dependency versions if recoverable; the model name is known, but the revision/package lock is not present in the notebook.
-- [ ] Recover or explicitly mark unavailable the original package versions, exact model-serving revision, and hardware/runtime details. The notebook metadata reports Python 3.12.13, but the original dependencies are not pinned.
-- [ ] Verify the license terms for each separately sourced or bundled artifact, especially precomputed embeddings; the benchmark page's CC BY 4.0 listing should not automatically be assumed to cover every artifact.
-- [ ] Finish source-level reference checks and make sure every citation is directly relevant to the specific claim it supports.
-- [ ] Finish automated rendering of `paper/manuscript-draft.pdf` from the current manuscript source and visually inspect the generated pages. The top-level PDF still has the older title/framing and is explicitly superseded; do not use it as the current paper.
+- [x] Confirmed the strict hash-enforcing GitHub Actions run passes and retained the audit artifact/log. [Passing run](https://github.com/jouzia/rag-retrieval-robustness/actions/runs/38057455760)
+- [ ] Original package versions and exact model-serving/revision identifiers are not recorded in the saved notebook. Treat them as an explicit reproducibility limitation unless an archived environment or provider record can be recovered.
+- [x] Verified the Kaggle competition files, including supplied corpus embeddings and metadata, under CC BY 4.0 and the Hugging Face embedding model card under Apache-2.0. Before release, confirm no additional separately sourced assets are redistributed.
+- [x] Completed the source-level check of the key RAG distractor/positional-bias references.
+- [x] Rendered and visually reviewed `paper/manuscript-draft.pdf` from Manuscript v1.3. The top-level legacy PDF has older title/framing and is explicitly superseded; do not cite it as the current paper.
 - [ ] After the manuscript/PDF and provenance checks are complete, freeze a clearly labelled draft release. A release or DOI does not imply peer review or acceptance.
 
 ## Safe verification commands
