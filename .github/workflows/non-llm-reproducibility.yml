@@ -3,6 +3,14 @@ name: Non-LLM reproducibility checks
 on:
   push:
     branches: [main]
+    paths:
+      - "scripts/recompute_primary_statistics.py"
+      - "scripts/verify_recomputed_statistics.py"
+      - "scripts/audit_notebook_static.py"
+      - "results/retrieval_noise_results.csv"
+      - "results/statistical_analysis_validated.csv"
+      - "notebook/rag-retrieval-robustness-study.ipynb"
+      - ".github/workflows/non-llm-reproducibility.yml"
   pull_request:
   workflow_dispatch:
 
