@@ -2,56 +2,99 @@
 
 Audit updated: 2026-10-10  
 Repository: https://github.com/jouzia/rag-retrieval-robustness  
-Scope: saved notebook, frozen 240-row CSV, validated statistics, manuscript claims.
+Scope: committed notebook, primary CSV, validated statistics, manuscript claims, provenance, and publication readiness.
 
 ## Executive finding
 
-**The core manuscript and notebook wording have now been corrected to describe the actual appended-context experiment.** The frozen data and statistical recomputation are available, but publication preparation is still blocked by clean non-LLM notebook verification, incomplete method/provenance reporting, a final literature audit, and final literature review.
+The statistical table can be recomputed from the currently committed 240-row CSV in a clean GitHub Actions Linux environment, and the recomputed 27 comparisons match the committed validated table across all numeric fields and Holm-significance flags. A strict checksum-enforcing workflow has been added.
 
-## Finding 1 — Statistical family is 27 comparisons, not 36
+The work is **not submission-ready**. The saved notebook's Papermill metadata records `exception: true`; cell 39 fails with `AssertionError: Expected 240 rows, found 15`. The static audit does not execute the notebook, and the new CI workflow deliberately avoids all notebook/API/LLM execution.
 
-The design described in the notebook and result CSV contains 3 retrieval methods, 3 non-zero noise contrasts (1, 2, 4 versus baseline), and 3 metrics (Token F1, semantic similarity, latency). Therefore the family contains **3 × 3 × 3 = 27 paired tests**, not 36. The validated statistical CSV contains 27 rows. The manuscript, README, validation record, citation metadata, and notebook have since been revised to use the corrected scope and count. A canonical script now recomputes the 27 tests from the frozen CSV without making LLM/API calls.
+## Finding 1 — Correct inferential family: 27 comparisons
 
-## Finding 2 — The construction does not test whether distractors displace retrieved top-k documents
+The primary design contains 3 retrieval methods, 3 non-zero distractor contrasts (1, 2, 4 versus baseline), and 3 metrics. The family is therefore **3 × 3 × 3 = 27 paired tests**, not 36. Holm correction is applied jointly to the 27 p-values. A clean CI diagnostic recomputation produced 27 rows, one Holm-significant contrast, and matched the committed validated table across nine numeric columns and the significance flag.
 
-In the saved notebook's experiment-construction cell, each retrieval method first obtains its top five results from the original corpus. The code then creates context_ids by appending noise_ids to retrieved_ids. The generation experiment therefore tests the effect of adding distractor chunks to downstream context; it does not add distractors to the retrieval candidate corpus and rerun retrieval.
+## Finding 2 — The study tests appended context, not retrieval-ranking robustness
+
+The saved primary construction cell first retrieves five chunks from the original corpus, then appends sampled distractor chunks to the context passed to the generator. Retrieval is not rerun against a perturbed candidate corpus.
 
 Consequently:
-- Zero distractor intrusion into the original top-five and 100% preservation of that top-five are guaranteed by construction rather than empirical evidence of retriever robustness.
-- These statistics cannot support the manuscript's claim that BM25, dense, and hybrid rankings resisted distractor noise.
-- The existing experiment is better described as RAG answer-quality and generation-call latency under appended context distractors. The notebook code confirms that the timer starts immediately before and stops immediately after `generate_rag_answer`, so it measures the answer-generation function call, not isolated retrieval.
+- Zero intrusion into the original top-five and 100% top-five preservation are construction properties, not evidence of retriever robustness.
+- The experiment does not test whether distractors displace relevant chunks or change retrieval rankings.
+- The timer surrounds `generate_rag_answer`, so the measured latency is generation-call latency, not isolated retrieval latency.
 
-## What remains valid
+The appropriate title and scope are **Effects of Appended Distractor Context on RAG Answer Quality and Generation Latency**.
 
-- The frozen CSV has 240 rows; previous integrity checks report no missing values or duplicate experiment keys.
-- Paired descriptive and inferential calculations can be reported for the 27-test family, provided the analysis script and outputs are reconciled.
-- The dense latency contrast in the frozen artifact is 0.405087 s versus 0.595432 s (+46.99%), raw p = 0.0016899, Holm-adjusted p = 0.0456276, rank-biserial correlation = 0.761905, n = 20. The timer was subsequently verified to surround `generate_rag_answer`; therefore this is generation-call latency, not isolated retrieval latency, and it may reflect model-service variability.
+## Finding 3 — Query-selection provenance was misstated in earlier documentation
 
-## Corrective work status
+The saved primary construction cell uses `research_questions = train.iloc[:20].copy()`, not `train.sample(20, random_state=42)`. The committed CSV contains 20 distinct IDs, `q_0001` through `q_0020`, each repeated across the method/noise design. The primary queries are therefore the first 20 records in dataset order, not a random sample and not a held-out set. Seed 42 is used for distractor selection. README, validation, manuscript, and publication-readiness documentation have been corrected to reflect this.
 
-### Completed in the repository
+This ordering-based query selection is a limitation and should be disclosed; do not describe the query sample as randomized.
 
-- [x] Corrected the comparison family to 27 tests.
-- [x] Reframed the manuscript, README, validated results, and notebook around appended-context effects.
-- [x] Relabeled latency as generation-call latency and documented the verified timer boundary.
-- [x] Reclassified zero intrusion / 100% top-five preservation as construction diagnostics.
-- [x] Updated the citation title and figure labels.
-- [x] Added `scripts/recompute_primary_statistics.py`, which verifies the frozen CSV checksum and recomputes the 27 paired tests without LLM/API calls.
-- [x] Executed the canonical script against the frozen CSV: 240 rows validated, 27 tests produced, one comparison remained significant after Holm correction.
-- [x] Cross-checked all 27 rows for baseline/noisy means, absolute changes, Wilcoxon statistics, and rank-biserial effects; no mismatches found.
-- [x] Recomputed Holm-adjusted p-values from the stored 27 raw p-values; all 27 adjusted values and significance flags match the validated artifact.
-- [x] Added `scripts/audit_notebook_static.py` to flag notebook cells that may install packages or call external APIs without executing them.
-- [x] Notebook JSON parses; updated final summary cells no longer have stale saved outputs.
+## Finding 4 — CSV checksum discrepancy and resolution
 
-### Still required before submission
+An earlier validation record and the canonical script used SHA-256 `6f52a5bc2c5b871beb9340f5c7c12d6eefdbb8bb71b41e566998271047fa1756`, but that digest did not match the bytes currently committed in GitHub. The committed file's SHA-256 is `1e666b0b81608dcf3a6995f4c203dd3078a941768a38c627ae801ed0501d653b`. The mismatch was not explained by line-ending normalization; the cause of the old digest discrepancy remains unknown.
 
-1. [x] Compare all 27 raw p-values and Holm-adjusted p-values between the canonical recomputation and `results/statistical_analysis_validated.csv`; no mismatches. All other checked numerical fields also match.
-2. A source-level static scan of the fetched notebook JSON found 91 cells, 39 code cells with saved execution counts, package-install cells 6/11/25, Groq/API-related cells 26/27/28/30/33, no stale primary-result patterns, and a prominent Run All warning. The exact Python audit script was not run locally because the execution environment could not resolve github.com; run it in a local clone for an auditable stdout log. This is not a clean runtime test. Do not rerun the 240 LLM evaluations.
-3. Complete the methods record: exact retriever and hybrid-fusion implementation, package/runtime versions, embedding and semantic-similarity model details, and timing controls. The Kaggle data page lists CC BY 4.0; verify that separately bundled artifacts are covered and preserve attribution. The notebook samples 20 questions from the training split, not the held-out test set.
-4. [x] Add Cuconasu et al. (2025), “Do RAG Systems Really Suffer From Positional Bias?”, using the official ACL Anthology record. The paper provides directly relevant context on distractors in real retrieval rankings; its findings are not treated as results from this study.
-5. [x] Generate and visually inspect a concise three-page v1.2 PDF draft after the related-work edit. It is a local draft, not a submission-ready package or a committed release asset.
-6. Optionally, if the original retrieval-ranking robustness question remains a goal, design a separate candidate-pool perturbation experiment. It is not required to describe the existing experiment honestly and must not be conflated with these frozen results.
+To avoid silently bypassing the integrity check, a diagnostic run recomputed the current committed CSV with hash enforcement temporarily bypassed **for investigation only**. It validated 240 rows and 27 tests, then matched the committed validated statistical table across all nine numeric fields and significance flags. The canonical script has now been anchored to the current committed-file hash, and the workflow has been restored to strict hash enforcement. Confirm the latest strict workflow run passes before treating this step as closed. See `VALIDATION.md` for the full disclosure.
 
-## Publication status
+## Finding 5 — Saved notebook is not a clean end-to-end execution
 
-**Not yet publication-ready.** The original framing/count errors have been corrected in the core artifacts, and the statistical artifacts have been reconciled. Submission remains blocked by a clean non-LLM runtime audit, complete methods/provenance, and final literature review. The updated three-page v1.2 PDF is an inspected local draft, not a final submission package or a committed release asset. The current result must not be submitted as evidence that the retrievers themselves are robust to distractors. No claim of peer review, acceptance, or DOI is warranted.
+Source-level inspection found:
+- 91 notebook cells;
+- 39 code cells with saved execution counts in the static-audit snapshot;
+- Papermill metadata with `exception: true`;
+- saved cell 39 raising `AssertionError: Expected 240 rows, found 15`;
+- package-install cells 6, 11, and 25;
+- Groq/API-related cells 26, 27, 28, 30, and 33;
+- no obsolete primary-result wording found by the static audit's specific patterns; and
+- a prominent warning against “Run All”.
+
+The static audit only identifies risks; it does not certify notebook execution. Do not run the notebook's LLM cells merely to complete the artifact audit.
+
+## Finding 6 — Confirmed statistical result and interpretation boundary
+
+The only comparison remaining significant after Holm correction is generation-call latency for the dense-method pipeline at four appended distractors:
+- baseline mean: 0.405087 s;
+- noise-4 mean: 0.595432 s;
+- absolute change: +0.190345 s;
+- relative change: +46.99%;
+- raw p: 0.001690;
+- Holm-adjusted p: 0.045628;
+- paired rank-biserial correlation: 0.761905;
+- n = 20.
+
+No Token F1 or semantic-similarity comparison remains significant after correction. This single result is close to alpha = 0.05 and may reflect model-service/runtime variability. It should be described as exploratory and replicated before stronger claims.
+
+## Method details recoverable from the notebook
+
+- BM25: `rank_bm25`, lowercased whitespace tokenization.
+- Dense retrieval: FAISS `IndexFlatIP`; query embeddings use `sentence-transformers/all-MiniLM-L6-v2` and normalized embeddings.
+- Hybrid retrieval: separately min-max-normalized BM25 and dense score arrays, combined as `(1 - alpha) * bm25_norm + alpha * dense_norm`, with `alpha = 0.5`.
+- Generation: Groq API model identifier `openai/gpt-oss-20b`, `temperature=0`.
+- Token F1: lowercase text, replace characters outside `[a-z0-9_]` with spaces, split on whitespace, then calculate overlap-based F1.
+- Semantic similarity: normalized `all-MiniLM-L6-v2` embeddings and cosine similarity via Sentence Transformers and scikit-learn.
+- Latency: wall-clock `time.time()` around the `generate_rag_answer` call.
+
+Still unresolved: provenance/revision for the precomputed corpus embeddings, original dependency versions, exact model-serving snapshot, hardware/runtime details, warm-up/caching controls, and the license coverage of separately bundled artifacts.
+
+## Literature audit
+
+The key related-work entries were checked against official ACL Anthology records:
+- Shen et al. (EMNLP 2024), “Assessing ‘Implicit’ Retrieval Robustness of Large Language Models”: https://aclanthology.org/2024.emnlp-main.507/
+- Pan et al. (EMNLP 2024), “Not All Contexts Are Equal: Teaching LLMs Credibility-aware Generation”: https://aclanthology.org/2024.emnlp-main.1109/
+- NoMIRACL (Findings of EMNLP 2024): https://aclanthology.org/2024.findings-emnlp.730/
+- Cho et al. (Findings of EMNLP 2024), “Typos that Broke the RAG’s Back”: https://aclanthology.org/2024.findings-emnlp.161/
+- Amiraz et al. (ACL 2025), “The Distracting Effect”: https://aclanthology.org/2025.acl-long.892/
+- Cuconasu et al. (EMNLP 2025), “Do RAG Systems Really Suffer From Positional Bias?”: https://aclanthology.org/2025.emnlp-main.1422/
+
+These papers establish the relevance of noisy and distracting contexts but do not validate the present experiment's results. The current experiment remains narrower because it appends distractors after retrieval.
+
+## Remaining work before submission
+
+1. Confirm the latest strict hash-enforcing GitHub Actions workflow passes and retain its log/artifact.
+2. Verify license coverage for every bundled artifact, especially corpus embeddings; do not assume the benchmark license automatically covers separately sourced assets.
+3. Complete or explicitly mark unavailable original package/model/runtime provenance.
+4. Regenerate the PDF from the corrected manuscript and visually inspect it. The existing top-level PDF has an older title/framing and is superseded.
+5. Freeze a clearly labelled draft release only after the above checks. Do not claim peer review, acceptance, universal retrieval robustness, or a DOI that has not been minted.
+
+A separate candidate-pool perturbation experiment with held-out queries and ranking metrics is an optional follow-up. It is not required to report the current appended-context study honestly.
