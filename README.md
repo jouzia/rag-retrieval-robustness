@@ -17,7 +17,7 @@ This repository evaluates how distractor chunks appended after original top-five
 
 | Parameter | Configuration |
 |---|---|
-| Questions | 20 sampled from the benchmark training split (not held out) |
+| Questions | First 20 records from the benchmark training split (`q_0001`–`q_0020`); not randomly sampled or held out |
 | Retrieval methods | BM25, dense, hybrid |
 | Distractor levels | 0, 1, 2, 4 |
 | Top-k | 5 |
@@ -29,7 +29,7 @@ This repository evaluates how distractor chunks appended after original top-five
 
 ## Main findings from validated result artifacts
 
-- The frozen 240-row primary CSV was independently revalidated for integrity. This is an appended-context experiment: distractors are appended after the original top-five retrieval, and the measured latency surrounds answer generation rather than retrieval. The 20 questions were sampled from the benchmark training split with seed 42; this is not a held-out evaluation. Confirm competition data terms before redistributing source data or derived examples. Important design caveat: distractors were appended after top-five retrieval, so zero intrusion and 100% preservation are guaranteed by construction and do not demonstrate retrieval robustness.
+- The frozen 240-row primary CSV was independently revalidated for integrity. This is an appended-context experiment: distractors are appended after the original top-five retrieval, and the measured latency surrounds answer generation rather than retrieval. The 20 questions in the committed primary CSV are `q_0001`–`q_0020`, matching the first-20-record construction in the saved notebook; they were not randomly sampled or held out. Seed 42 applies to distractor selection, not query sampling. Confirm competition data terms before redistributing source data or derived examples. Important design caveat: distractors were appended after top-five retrieval, so zero intrusion and 100% preservation are guaranteed by construction and do not demonstrate retrieval robustness.
 - No Token F1 or semantic-similarity comparison remained significant after Holm correction.
 - The dense-method context at four appended distractors was the only contrast with significant measured generation-call latency after correction: 0.405087 s to 0.595432 s (+46.99%), Holm-adjusted p = 0.045628, rank-biserial correlation = 0.761905 (n = 20). The timer surrounds answer generation, not isolated retrieval.
 - No LLM evaluations were rerun during validation.
