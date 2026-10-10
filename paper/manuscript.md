@@ -3,7 +3,7 @@
 **Author:** Shaik Jouzia Afreen H  
 **Research area:** Retrieval-Augmented Generation (RAG), information retrieval, natural language processing  
 **Study type:** Controlled computational evaluation  
-**Version:** Manuscript v1.1 (artifact-reconciled draft; not yet submission-ready)
+**Version:** Manuscript v1.2 (artifact-reconciled draft; not yet submission-ready)
 
 ## Abstract
 
@@ -23,7 +23,7 @@ This study evaluates whether appending 0, 1, 2, or 4 distractor chunks after the
 
 ### 1.1 Related work and scope distinction
 
-Prior work has examined how irrelevant or misleading context affects retrieval-augmented generation. Shen et al. evaluate whether language models can answer robustly when retrieved passages are distracting or irrelevant [6]. Pan et al. study credibility-aware generation under noisy context [7], while NoMIRACL provides a multilingual benchmark for evaluating model behavior when retrieved passages are relevant or non-relevant [8]. Other work studies low-level document perturbations that can disrupt a RAG pipeline [9] and characterizes hard distracting passages that are more than merely unrelated text [10]. These studies make clear that context quality, distractor difficulty, and the stage at which noise is introduced are important design choices.
+Prior work has examined how irrelevant or misleading context affects retrieval-augmented generation. Shen et al. evaluate whether language models can answer robustly when retrieved passages are distracting or irrelevant [6]. Pan et al. study credibility-aware generation under noisy context [7], while NoMIRACL provides a multilingual benchmark for evaluating model behavior when retrieved passages are relevant or non-relevant [8]. Other work studies low-level document perturbations that can disrupt a RAG pipeline [9] and characterizes hard distracting passages that are more than merely unrelated text [10]. Cuconasu et al. [12] examine distracting passages and positional effects in retrieved contexts across three benchmarks; they report that highly distracting passages frequently appear near the top of real retrieval rankings and that passage-reordering strategies did not outperform random shuffling. This reinforces the need to distinguish controlled post-retrieval context addition from perturbing the candidate corpus and rerunning retrieval. These studies make clear that context quality, distractor difficulty, and the stage at which noise is introduced are important design choices.
 
 The present experiment is narrower than those retrieval-robustness and noisy-context studies. Its distractors are sampled and appended **after** the original top-five retrieval, so it does not evaluate whether distractors alter ranking or enter through retrieval. Its defensible contribution is a small, implementation-specific pilot of answer-quality metrics and generation-call latency under appended-context expansion. Given the 20-question sample, single generation setup, and unresolved corpus/provenance details, the results should be treated as exploratory rather than as a new general benchmark or evidence of retriever robustness.
 
@@ -199,6 +199,8 @@ Before submitting to a journal or conference, record and publish:
 10. Amiraz, C., Cuconasu, F., Filice, S., & Karnin, Z. (2025). The Distracting Effect: Understanding Irrelevant Passages in RAG. *Proceedings of ACL 2025*, 18228–18258. https://doi.org/10.18653/v1/2025.acl-long.892
 
 11. Seelam, S. (2026). *Agent Eval Part I: Grounded RAG Benchmark*. Kaggle competition. https://www.kaggle.com/competitions/agent-eval-part-i-grounded-rag-benchmark
+
+12. Cuconasu, F., Filice, S., Horowitz, G., Maarek, Y., & Silvestri, F. (2025). Do RAG Systems Really Suffer From Positional Bias? *Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing*, 28022–28036. https://doi.org/10.18653/v1/2025.emnlp-main.1422
 
 ## Data and code availability
 
