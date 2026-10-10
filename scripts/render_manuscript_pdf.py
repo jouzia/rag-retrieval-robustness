@@ -187,6 +187,8 @@ def build_story(markdown: str, body_font: str, bold_font: str, mono_font: str) -
         heading = re.match(r"^(#{1,3})\s+(.*)$", line)
         if heading:
             level, title = len(heading.group(1)), heading.group(2)
+            if level == 2 and title.strip().lower() == "references":
+                story.append(PageBreak())
             if level == 1 and first_heading:
                 story.append(Paragraph(inline_markup(title, mono_font), base["PaperTitle"]))
                 first_heading = False
