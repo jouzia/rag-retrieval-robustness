@@ -6,7 +6,7 @@ Scope: committed notebook, primary CSV, validated statistics, manuscript claims,
 
 ## Executive finding
 
-The statistical table can be recomputed from the currently committed 240-row CSV in a clean GitHub Actions Linux environment, and the recomputed 27 comparisons match the committed validated table across all numeric fields and Holm-significance flags. A strict checksum-enforcing workflow has been added.
+The statistical table was recomputed from the currently committed 240-row CSV in a clean GitHub Actions Linux environment. The strict checksum-enforcing workflow passed: the committed-file SHA-256 check, static notebook audit, 27-test recomputation, and comparison against the validated table all succeeded. A separate workflow now renders a draft PDF from the current manuscript source.
 
 The work is **not submission-ready**. The saved notebook's Papermill metadata records `exception: true`; cell 39 fails with `AssertionError: Expected 240 rows, found 15`. The static audit does not execute the notebook, and the new CI workflow deliberately avoids all notebook/API/LLM execution.
 
@@ -35,7 +35,7 @@ This ordering-based query selection is a limitation and should be disclosed; do 
 
 An earlier validation record and the canonical script used SHA-256 `6f52a5bc2c5b871beb9340f5c7c12d6eefdbb8bb71b41e566998271047fa1756`, but that digest did not match the bytes currently committed in GitHub. The committed file's SHA-256 is `1e666b0b81608dcf3a6995f4c203dd3078a941768a38c627ae801ed0501d653b`. The mismatch was not explained by line-ending normalization; the cause of the old digest discrepancy remains unknown.
 
-To avoid silently bypassing the integrity check, a diagnostic run recomputed the current committed CSV with hash enforcement temporarily bypassed **for investigation only**. It validated 240 rows and 27 tests, then matched the committed validated statistical table across all nine numeric fields and significance flags. The canonical script has now been anchored to the current committed-file hash, and the workflow has been restored to strict hash enforcement. Confirm the latest strict workflow run passes before treating this step as closed. See `VALIDATION.md` for the full disclosure.
+To avoid silently bypassing the integrity check, a diagnostic run recomputed the current committed CSV with hash enforcement temporarily bypassed **for investigation only**. It validated 240 rows and 27 tests, then matched the committed validated statistical table across all nine numeric fields and significance flags. The canonical script has now been anchored to the current committed-file hash, and the workflow has been restored to strict hash enforcement. The strict hash-enforcing workflow subsequently passed on commit `83729e269acf9a73fed9ab4ec6acd27e27c8d551`: https://github.com/jouzia/rag-retrieval-robustness/actions/runs/38057021489. See `VALIDATION.md` for the full disclosure.
 
 ## Finding 5 — Saved notebook is not a clean end-to-end execution
 
@@ -68,14 +68,14 @@ No Token F1 or semantic-similarity comparison remains significant after correcti
 ## Method details recoverable from the notebook
 
 - BM25: `rank_bm25`, lowercased whitespace tokenization.
-- Dense retrieval: FAISS `IndexFlatIP`; query embeddings use `sentence-transformers/all-MiniLM-L6-v2` and normalized embeddings.
+- Dense retrieval: FAISS `IndexFlatIP`; query embeddings use `sentence-transformers/all-MiniLM-L6-v2` and normalized embeddings. The benchmark's `embedding_model_info.txt` identifies the supplied corpus embeddings as the same model, 384-dimensional, normalized, batch size 64, generated offline.
 - Hybrid retrieval: separately min-max-normalized BM25 and dense score arrays, combined as `(1 - alpha) * bm25_norm + alpha * dense_norm`, with `alpha = 0.5`.
 - Generation: Groq API model identifier `openai/gpt-oss-20b`, `temperature=0`.
 - Token F1: lowercase text, replace characters outside `[a-z0-9_]` with spaces, split on whitespace, then calculate overlap-based F1.
 - Semantic similarity: normalized `all-MiniLM-L6-v2` embeddings and cosine similarity via Sentence Transformers and scikit-learn.
 - Latency: wall-clock `time.time()` around the `generate_rag_answer` call.
 
-Still unresolved: provenance/revision for the precomputed corpus embeddings, original dependency versions, exact model-serving snapshot, hardware/runtime details, warm-up/caching controls, and the license coverage of separately bundled artifacts.
+Still unresolved: exact model revision, original dependency versions, exact model-serving snapshot, precise host hardware, and warm-up/caching controls. The Kaggle data page lists the competition files (including embeddings and embedding metadata) under CC BY 4.0, and the Hugging Face model card lists Apache-2.0 for `all-MiniLM-L6-v2`; confirm there are no additional separately sourced artifacts before release.
 
 ## Literature audit
 
@@ -94,7 +94,7 @@ These papers establish the relevance of noisy and distracting contexts but do no
 1. Confirm the latest strict hash-enforcing GitHub Actions workflow passes and retain its log/artifact.
 2. Verify license coverage for every bundled artifact, especially corpus embeddings; do not assume the benchmark license automatically covers separately sourced assets.
 3. Complete or explicitly mark unavailable original package/model/runtime provenance.
-4. Regenerate the PDF from the corrected manuscript and visually inspect it. The existing top-level PDF has an older title/framing and is superseded.
+4. Finish the automated draft-PDF render from the corrected manuscript and visually inspect it. The existing top-level PDF has an older title/framing and is superseded.
 5. Freeze a clearly labelled draft release only after the above checks. Do not claim peer review, acceptance, universal retrieval robustness, or a DOI that has not been minted.
 
 A separate candidate-pool perturbation experiment with held-out queries and ranking metrics is an optional follow-up. It is not required to report the current appended-context study honestly.
