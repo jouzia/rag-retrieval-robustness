@@ -3,7 +3,7 @@
 ## Scope
 
 This validation re-analyzes the frozen 240-row primary experiment:
-20 questions sampled from the benchmark training split (`train.sample(20, random_state=42)`) × 3 retrieval methods × 4 appended-context distractor levels (0, 1, 2, 4), original retrieval top-k = 5. The 20-question sample is not a held-out test set.
+20 questions sampled from the benchmark training split (`train.sample(20, random_state=42)`) × 3 retrieval methods × 4 appended-context distractor levels (0, 1, 2, 4), original retrieval top-k = 5. The query set is neither randomly sampled nor held out; it consists of the first 20 training-split records. Seed 42 is used for distractor selection, not query sampling.
 
 The recovered CSV is the authoritative raw dataset. No LLM evaluations were rerun.
 
@@ -51,7 +51,7 @@ No token-F1 or semantic-similarity comparison remained significant after Holm co
 
 Important design qualification: the notebook retrieves the original top-five first and appends distractor chunks afterward. Therefore, zero intrusion and 100% preservation are guaranteed by construction and do not demonstrate retrieval robustness. The current experiment evaluates appended context, not perturbed retrieval ranking.
 
-This should not be generalized to arbitrary distractor distributions, corpora, retrievers, top-k values, or RAG pipelines. The 20 questions were sampled from the training split rather than a held-out test set. The answer-quality metrics also do not show a statistically significant degradation under the tested random-noise conditions after multiplicity correction.
+This should not be generalized to arbitrary distractor distributions, corpora, retrievers, top-k values, or RAG pipelines. The 20 questions are the first 20 training-split records (`q_0001`–`q_0020`), not a random sample or held-out test set. The answer-quality metrics also do not show a statistically significant degradation under the tested random-noise conditions after multiplicity correction.
 
 The timer was verified in notebook code to surround `generate_rag_answer`, so this is generation-call latency, not isolated retrieval latency. It may include external model-service/runtime variability and cannot be attributed solely to retrieval.
 
