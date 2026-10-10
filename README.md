@@ -22,7 +22,7 @@ This repository evaluates how distractor chunks appended after original top-five
 | Distractor levels | 0, 1, 2, 4 |
 | Top-k | 5 |
 | Total observations | 240 |
-| Sampling seed | 42 |
+| Distractor-selection seed | 42 |
 | Tests | Paired Wilcoxon signed-rank |
 | Multiple comparisons | Holm correction across 27 planned comparisons |
 | Effect size | Rank-biserial correlation |
