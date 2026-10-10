@@ -50,7 +50,7 @@ The saved dataset records appended-context ratios of 0.0000, 0.1667, 0.2857, and
 - **Dense retrieval:** embedding-based semantic retrieval.
 - **Hybrid retrieval:** combination of lexical and semantic retrieval signals.
 
-BM25 uses `rank_bm25` with lowercased whitespace tokenization. Dense retrieval uses FAISS `IndexFlatIP` over the provided corpus embeddings, with `sentence-transformers/all-MiniLM-L6-v2` used to encode query embeddings in the notebook. Hybrid retrieval uses min-max normalized BM25 and dense scores with an alpha-weighted combination (the notebook's default is alpha = 0.5). The corpus and train/test files are loaded from the [Agent Eval Part I: Grounded RAG Benchmark competition](https://www.kaggle.com/competitions/agent-eval-part-i-grounded-rag-benchmark) [11]. The competition describes `train.csv` as the practice set and `test.csv` as the evaluation set; this study samples from the practice/training split. The Kaggle data page lists the benchmark dataset under the Creative Commons Attribution 4.0 International (CC BY 4.0) license [11]. This permits reuse with attribution subject to the license terms; retain the benchmark citation and check that any separately downloaded embeddings or other bundled artifacts are covered by the same terms. Precise embedding provenance, package versions, and the exact hybrid fusion implementation/version still require confirmation before submission.
+BM25 uses `rank_bm25` with lowercased whitespace tokenization. Dense retrieval uses FAISS `IndexFlatIP` over the corpus embeddings supplied to the notebook; query embeddings are encoded with `sentence-transformers/all-MiniLM-L6-v2` and normalized. The provenance/model used to create the corpus embeddings is not identified in the saved notebook and remains unresolved. Hybrid retrieval min-max normalizes the BM25 and dense score arrays separately and combines them as `(1 - alpha) * bm25_norm + alpha * dense_norm`, with `alpha = 0.5` for the primary experiment. The corpus and train/test files are loaded from the [Agent Eval Part I: Grounded RAG Benchmark competition](https://www.kaggle.com/competitions/agent-eval-part-i-grounded-rag-benchmark) [11]. The competition describes `train.csv` as the practice set and `test.csv` as the evaluation set; this study uses the first 20 rows of the practice/training split, not a random sample. The Kaggle data page lists the benchmark dataset under the Creative Commons Attribution 4.0 International (CC BY 4.0) license [11]. This permits reuse with attribution subject to the license terms; retain the benchmark citation and check that any separately downloaded embeddings or other bundled artifacts are covered by the same terms. Original package versions and the provenance/revision of corpus embeddings remain unrecorded.
 
 ### 3.3 Distractor construction
 
@@ -58,9 +58,10 @@ The pipeline first retrieves five documents from the original corpus. It then sa
 
 ### 3.4 Outcomes
 
-- **Token F1:** token-level overlap between generated and reference answers.
-- **Semantic similarity:** semantic correspondence between generated and reference answers, as implemented in the notebook.
-- **Generation-call latency:** elapsed time measured around the `generate_rag_answer` function call. It is not isolated retrieval latency and may include model-service and runtime variability.
+- **Token F1:** token-level overlap between generated and reference answers after lowercasing, replacing every character outside `[a-z0-9_]` with a space, and splitting on whitespace. This normalization removes non-ASCII letters and punctuation.
+- **Semantic similarity:** cosine similarity between normalized embeddings from `sentence-transformers/all-MiniLM-L6-v2`, implemented with Sentence Transformers and scikit-learn.
+- **Answer generation:** the notebook calls the Groq API with model identifier `openai/gpt-oss-20b` and `temperature = 0`. The exact Groq SDK version and model revision/serving snapshot are not pinned in the saved notebook.
+- **Generation-call latency:** elapsed wall-clock time measured with `time.time()` immediately before and after the `generate_rag_answer` call. It is not isolated retrieval latency and may include model-service/runtime variability. The saved notebook does not document controlled warm-up, caching, repeated timing runs, or service-side variance controls.
 
 Top-five contamination and preservation are reported only as construction diagnostics: because distractors are appended after retrieval, zero intrusion and 100% preservation are guaranteed by design.
 
