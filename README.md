@@ -41,6 +41,7 @@ This repository evaluates how distractor chunks appended after original top-five
 - [Canonical 27-test recomputation script](scripts/recompute_primary_statistics.py)
 - [Static notebook safety audit](scripts/audit_notebook_static.py)
 - [Recomputed-vs-validated comparison check](scripts/verify_recomputed_statistics.py)
+- [Automated manuscript PDF rendering workflow](.github/workflows/render-manuscript-draft.yml)
 - [Automated non-LLM verification workflow](.github/workflows/non-llm-reproducibility.yml) (static audit + frozen-CSV statistical recomputation; does not run notebook cells or LLM calls)
 - [Validated statistical analysis](results/statistical_analysis_validated.csv)
 - [Validated descriptive summary](results/descriptive_summary_validated.csv)
@@ -53,7 +54,9 @@ This repository evaluates how distractor chunks appended after original top-five
 
 ## Repository map
 
-- [Full manuscript draft](paper/manuscript.md)
+- [Current rendered manuscript draft PDF (not submission-ready)](paper/manuscript-draft.pdf)
+- [Full manuscript source](paper/manuscript.md)
+- [PDF rendering script](scripts/render_manuscript_pdf.py)
 - [Validated Results source](paper/RESULTS_validated.md)
 - [Saved Kaggle notebook (.ipynb)](notebook/rag-retrieval-robustness-study.ipynb)
 - [Primary 240-row experiment CSV](results/retrieval_noise_results.csv)
