@@ -72,10 +72,25 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cp paper/manuscript-draft.pdf /tmp/manuscript-draft.pdf
           git add paper/manuscript-draft.pdf
           if git diff --cached --quiet; then
             echo "Rendered PDF is already up to date."
           else
             git commit -m "Render current manuscript draft PDF"
-            git push
+            git fetch origin main
+            if ! git rebase origin/main; then
+              echo "Concurrent main-branch update detected; re-rendered PDF will be reapplied on latest main."
+              git rebase --abort || true
+              git fetch origin main
+              git reset --hard origin/main
+              cp /tmp/manuscript-draft.pdf paper/manuscript-draft.pdf
+              git add paper/manuscript-draft.pdf
+              if git diff --cached --quiet; then
+                echo "Latest main already contains the same rendered PDF."
+                exit 0
+              fi
+              git commit -m "Render current manuscript draft PDF"
+            fi
+            git push origin main
           fi
