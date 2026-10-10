@@ -3,7 +3,7 @@
 **Author:** Shaik Jouzia Afreen H  
 **Research area:** Retrieval-Augmented Generation (RAG), information retrieval, natural language processing  
 **Study type:** Controlled computational evaluation  
-**Version:** Manuscript v1.2 (artifact-reconciled draft; not yet submission-ready)
+**Version:** Manuscript v1.3 (artifact-reconciled draft; not yet submission-ready)
 
 ## Abstract
 
