@@ -137,12 +137,12 @@ def build_story(markdown: str, body_font: str, bold_font: str, mono_font: str) -
         leading=11.5, textColor=colors.HexColor("#35445B"), spaceBefore=6, spaceAfter=3, keepWithNext=True
     ))
     base.add(ParagraphStyle(
-        "PaperBody", parent=base["BodyText"], fontName=body_font, fontSize=8.3,
-        leading=11.5, alignment=TA_JUSTIFY, spaceAfter=4.5, allowWidows=0, allowOrphans=0
+        "PaperBody", parent=base["BodyText"], fontName=body_font, fontSize=8.1,
+        leading=10.9, alignment=TA_JUSTIFY, spaceAfter=3.8, allowWidows=0, allowOrphans=0
     ))
     base.add(ParagraphStyle(
-        "PaperList", parent=base["BodyText"], fontName=body_font, fontSize=8.1,
-        leading=10.8, leftIndent=10, firstLineIndent=-7, spaceAfter=2.8
+        "PaperList", parent=base["BodyText"], fontName=body_font, fontSize=7.6,
+        leading=9.3, leftIndent=10, firstLineIndent=-7, spaceAfter=1.8
     ))
     base.add(ParagraphStyle(
         "PaperCaption", parent=base["BodyText"], fontName=body_font, fontSize=7.2,
@@ -187,8 +187,6 @@ def build_story(markdown: str, body_font: str, bold_font: str, mono_font: str) -
         heading = re.match(r"^(#{1,3})\s+(.*)$", line)
         if heading:
             level, title = len(heading.group(1)), heading.group(2)
-            if level == 2 and title.strip().lower() == "references":
-                story.append(PageBreak())
             if level == 1 and first_heading:
                 story.append(Paragraph(inline_markup(title, mono_font), base["PaperTitle"]))
                 first_heading = False
