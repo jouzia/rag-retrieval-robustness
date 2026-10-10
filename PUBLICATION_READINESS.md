@@ -2,7 +2,7 @@
 
 ## Current status
 
-**Not yet publication-ready.** The original scope/count errors have been corrected and the statistical tables reconciled. Remaining blockers are clean non-LLM reproducibility verification, complete methods/provenance, and final literature review against the primary sources. See [audit findings](AUDIT_FINDINGS_2026-10-08.md).
+**Not yet submission-ready.** The original scope/count errors have been corrected and the statistical tables reconciled. The saved notebook has now undergone a source-level static scan (91 cells; no obsolete primary-result patterns found; Groq/API and package-install cells identified). Remaining blockers are a locally executed audit-script run, clean non-LLM runtime verification, complete methods/provenance, and final literature review against the primary sources. See [audit findings](AUDIT_FINDINGS_2026-10-08.md).
 
 ### Completed
 
@@ -54,9 +54,9 @@ No answer-quality comparison remains significant after correction.
 ## Remaining blockers before a submission-ready package
 
 1. [x] Compare all 27 raw p-values and Holm-adjusted p-values against the committed validated CSV; no mismatches. The 27-row count, descriptive means, absolute changes, Wilcoxon statistics, effect sizes, Holm-adjusted values, and significance flags have been checked without mismatches.
-2. [ ] Run `python scripts/audit_notebook_static.py` in a local clone and record its output. A clean non-LLM notebook runtime check remains separate; do not rerun LLM cells.
+2. [ ] Run `python scripts/audit_notebook_static.py` in a local clone and record its output. A source-level scan of the fetched notebook found 91 cells (39 code cells with saved execution counts), flagged package-install cells 6, 11, and 25; Groq/API-related cells 26, 27, 28, 30, and 33; found no stale primary-result patterns; and confirmed the prominent Run All warning. The exact Python script was not run locally because this execution environment could not resolve `github.com`; a clean non-LLM notebook runtime check remains separate. Do not rerun LLM cells.
 3. [x] Confirm the Kaggle benchmark data page lists CC BY 4.0. Before release, verify any separately bundled artifacts and preserve attribution. The 20 questions came from the training split, not a held-out test set.
-4. Finish exact package/runtime and metric-model documentation; review the newly added related-work section against the primary sources.
+4. [x] Add Cuconasu et al. (EMNLP 2025) on distractors and positional effects to the related-work section using the official ACL Anthology record. Finish exact package/runtime and metric-model documentation; a source-level review confirms semantic similarity uses `sentence-transformers/all-MiniLM-L6-v2` embeddings normalized by Sentence Transformers and cosine similarity via scikit-learn, but exact package/runtime versions are not recorded.
 5. [x] Generate and visually inspect the revised PDF draft; regenerate after any further manuscript edits.
 
 A clean environment run is still required before claiming full computational reproducibility. The static audit script is a guardrail only; it does not execute or certify the notebook.
@@ -91,4 +91,4 @@ Do not claim:
 
 ## Recommended next stage
 
-The framing, 27-test family count, and timing terminology have now been corrected in the core manuscript and documentation. The current study remains an exploratory appended-context evaluation, not evidence of retriever robustness. A canonical script has been run against the frozen CSV (240 rows, 27 tests, one Holm-significant result). Cross-artifact checks found no mismatches in baseline/noisy means, absolute changes, Wilcoxon statistics, rank-biserial effects, or the Holm correction applied to the stored p-values. The remaining steps are a clean non-LLM notebook/runtime audit, final verification of bundled-artifact license coverage, completion of methods/provenance details, and final review of related-work coverage. The current PDF draft was generated and visually inspected, but should be regenerated after any manuscript edits. A candidate-pool perturbation experiment is a separate optional study if the original retrieval-robustness question is still a goal; it is not needed to honestly submit this narrower appended-context study.
+The framing, 27-test family count, timing terminology, and a directly relevant EMNLP 2025 related-work citation have now been corrected in the core manuscript and documentation. The current study remains an exploratory appended-context evaluation, not evidence of retriever robustness. A canonical script has been run against the frozen CSV (240 rows, 27 tests, one Holm-significant result). Cross-artifact checks found no mismatches in baseline/noisy means, absolute changes, Wilcoxon statistics, rank-biserial effects, or the Holm correction applied to the stored p-values. The remaining steps are a clean non-LLM notebook/runtime audit, final verification of bundled-artifact license coverage, completion of methods/provenance details, and final review of related-work coverage. The current PDF draft was generated and visually inspected, but should be regenerated after any manuscript edits. A candidate-pool perturbation experiment is a separate optional study if the original retrieval-robustness question is still a goal; it is not needed to honestly submit this narrower appended-context study.
